@@ -87,6 +87,7 @@ module.exports = class TokoKirimBarangReturnManager extends BaseManager {
                             spkDoc.packingList = generateCode(modulePackingList);
                             PlSPK = spkDoc.packingList;
                             spkDoc.isDraft = false;
+                            spkDoc.isDistributed = true;
                             spkDoc.isReceived = false;
                             spkDoc.reference = validTransferOutDoc.code;
                             var password = (generateCode(("0" + date.getDate()).slice(-2))).split('/').join('');
@@ -275,4 +276,4 @@ module.exports = class TokoKirimBarangReturnManager extends BaseManager {
                 });
         });
     }
-}; 
+};

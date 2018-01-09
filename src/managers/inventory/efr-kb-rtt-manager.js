@@ -147,6 +147,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                                         packingList1 = spkDocGdg.packingList;
                                         spkDocGdg.isDraft = false;
                                         spkDocGdg.isReceived = true;
+                                        spkDocGdg.isDistributed = true;
                                         spkDocGdg.reference = rtt.code;
                                         var date = new Date();
                                         var passwordGdg = (generateCode(("0" + date.getDate()).slice(-2))).split('/').join('');
@@ -181,6 +182,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                                         PlSPK = spkDoc.packingList;
                                         spkDoc.isDraft = false;
                                         spkDoc.isReceived = false;
+                                        spkDoc.isDistributed = true;
                                         spkDoc.reference = rtt.code;
                                         var password = (generateCode(("0" + date.getDate()).slice(-2))).split('/').join('');
                                         spkDoc.password = password;
@@ -434,6 +436,3 @@ module.exports = class TokoTransferStokManager extends BaseManager {
         });
     }
 };
-
-
-

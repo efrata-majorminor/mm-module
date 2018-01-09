@@ -88,6 +88,7 @@ module.exports = class ReturnKeUnitManager extends BaseManager {
                             PlSPK = spkDoc.packingList;
                             spkDoc.isDraft = false;
                             spkDoc.isReceived = false;
+                            spkDoc.isDistributed = true;
                             spkDoc.reference = validTransferOutDoc.code;
                             var password = (generateCode(("0" + date.getDate()).slice(-2))).split('/').join('');
                             spkDoc.password = password;
@@ -108,7 +109,7 @@ module.exports = class ReturnKeUnitManager extends BaseManager {
                                             validEkspedisiDoc = ekspedisiDoc;
                                             validEkspedisiDoc = new ExpeditionDoc(validEkspedisiDoc);
                                             validEkspedisiDoc.weight = 1;
-                                            for(var item of spkResult.items){
+                                            for (var item of spkResult.items) {
                                                 item.sendQuantity = item.quantity || 0;
                                             }
                                             validEkspedisiDoc.spkDocuments.push(spkResult);
@@ -303,4 +304,4 @@ module.exports = class ReturnKeUnitManager extends BaseManager {
 
         });
     }
-}; 
+};
