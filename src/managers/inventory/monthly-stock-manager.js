@@ -146,8 +146,8 @@ module.exports = class MonthlyStockManager extends BaseManager {
                     _id: 1,
                     storageName: "$storageName",
                     quantity: "$quantity",
-                    hpp: { $multiply: ["$quantity", "$hpp"] },
-                    sale: { $multiply: ["$quantity", "$sale"] }
+                    hpp: { $multiply: ["$quantity", parseFloat("$hpp")] },
+                    sale: { $multiply: ["$quantity", parseFloat("$sale")] }
                 }
             },
             {
@@ -230,8 +230,8 @@ module.exports = class MonthlyStockManager extends BaseManager {
                     itemCode: "$_id.itemCode",
                     itemName: "$itemName",
                     quantity: "$quantity",
-                    totalHPP: { $multiply: ["$quantity", "$hpp"] },
-                    totalSale: { $multiply: ["$quantity", "$sale"] }
+                    totalHPP: { $multiply: ["$quantity", parseFloat("$hpp")] },
+                    totalSale: { $multiply: ["$quantity", parseFloat("$sale")] }
                 }
             },
             { $match: { quantity: { $ne: 0 } } }
