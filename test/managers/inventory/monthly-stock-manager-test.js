@@ -190,11 +190,25 @@ it("#11. should success when get first and last locale date of the month", funct
     }
 });
 
-var earliestStocks;
+var earliestStocks = [
+    {
+        _id: { storageCode: 'ST-BJB' },
+        storageName: 'Pusat - Finished Goods[UT]',
+        quantity: 12967,
+        hpp: NaN,
+        sale: NaN
+    },
+    {
+        _id: { storageCode: 'UT-FNG' },
+        storageName: 'Finishing[UT]',
+        quantity: 1225,
+        hpp: NaN,
+        sale: NaN
+    }
+];
 it("#12. should success when get earliest current stocks of particular month", function (done) {
     manager._getCurrentStocks(stockDate.firstDay)
         .then(data => {
-            earliestStocks = data;
             data.should.be.Array();
             data.forEach(stock => {
                 stock._id.should.have.property('storageCode');
@@ -215,11 +229,39 @@ it("#12. should success when get earliest current stocks of particular month", f
         });
 });
 
-var latestStocks;
+var latestStocks = [
+    {
+        _id: { storageCode: 'UT-ACC' },
+        storageName: 'Accessories[UT]',
+        quantity: 20,
+        hpp: NaN,
+        sale: NaN
+    },
+    {
+        _id: { storageCode: 'UT-BJB' },
+        storageName: 'Pusat - Finished Goods[UT]',
+        quantity: 1315,
+        hpp: NaN,
+        sale: NaN
+    },
+    {
+        _id: { storageCode: 'ST-BJB' },
+        storageName: 'Pusat - Finished Goods[UT]',
+        quantity: 12967,
+        hpp: NaN,
+        sale: NaN
+    },
+    {
+        _id: { storageCode: 'UT-FNG' },
+        storageName: 'Finishing[UT]',
+        quantity: 1225,
+        hpp: NaN,
+        sale: NaN
+    }
+];
 it("#13. should success when get latest current stocks of particular month", function (done) {
     manager._getCurrentStocks(stockDate.lastDay)
         .then(data => {
-            latestStocks = data;
             data.should.be.Array();
             data.forEach(stock => {
                 stock._id.should.have.property('storageCode');
@@ -240,7 +282,7 @@ it("#13. should success when get latest current stocks of particular month", fun
         });
 });
 
-it("#14. should success when get combine earliest and latest stock of particular month", function (done) {
+it("#14. should success when get combine earliest and latest stock of particular month with similar early and latest stocks", function (done) {
     try {
         let data = manager._combineStocks(earliestStocks, latestStocks);
         data.should.be.Array();
