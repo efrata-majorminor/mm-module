@@ -112,7 +112,12 @@ module.exports = {
             ArticleTypeManager: require('./src/managers/master/article/article-type-manager')
         },
         ExpeditionServiceManager: require('./src/managers/master/expedition-service-manager'),
-        DesignTrackingReasonManager: require('./src/managers/master/design-tracking-reason-manager')
+        DesignTrackingReasonManager: require('./src/managers/master/design-tracking-reason-manager'),
+        BudgetManager: require('./src/managers/master/budget-manager'),
+        CategoryManager: require('./src/managers/master/category-manager'),
+        CurrencyManager: require('./src/managers/master/currency-manager'),
+        ProductManager: require('./src/managers/master/product-manager'),
+        UomManager: require('./src/managers/master/uom-manager')
     },
     sales: {
         SalesManager: require('./src/managers/sales/sales-manager'),
@@ -141,6 +146,11 @@ module.exports = {
         DesignTrackingStageManager: require('./src/managers/manufacture/design-tracking-stage-manager'),
         DesignTrackingDesignManager: require('./src/managers/manufacture/design-tracking-design-manager'),
         DesignTrackingActivityManager: require('./src/managers/manufacture/design-tracking-activity-manager')
+    },
+
+    purchasing: {
+        PurchasingRequestManager: require('./src/managers/purchasing/purchase-request-manager'),
+        PurchasingOrderManager: require('./src/managers/purchasing/purchase-order-manager')
     }
 
 }

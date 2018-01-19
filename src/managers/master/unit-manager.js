@@ -4,9 +4,9 @@ var ObjectId = require("mongodb").ObjectId;
 
 require("mongodb-toolkit");
 
-var DLModels = require('bateeq-models');
-var map = DLModels.map;
-var Unit = DLModels.master.Unit;
+var BateeqModels = require('bateeq-models');
+var map = BateeqModels.map;
+var Unit = BateeqModels.master.Unit;
 var BaseManager = require('module-toolkit').BaseManager; 
 var DivisionManager = require('./division-manager');
 

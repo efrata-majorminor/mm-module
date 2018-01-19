@@ -32,7 +32,8 @@
     "mssql": "^3.3.0",
     "pdfmake": "^0.1.18",
     "sha1": "^1.1.1",
-    "should": "^10.0.0"
+    "should": "^10.0.0",
+    "dl-i18n": "git+https://github.com/danliris/dl-i18n.git"
   },
   "devDependencies": {
     "coveralls": "^2.11.15",
