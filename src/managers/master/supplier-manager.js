@@ -2,7 +2,7 @@
 
 // external deps 
 var ObjectId = require('mongodb').ObjectId;
-
+var i18n = require('dl-i18n');
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
@@ -15,79 +15,188 @@ var Supplier = BateeqModels.master.Supplier;
 module.exports = class SupplierManager extends BaseManager {
     constructor(db, user) {
         super(db, user);
-        this.collection = this.db.use(map.master.Supplier);
+        this.collection = this.db.collection(map.master.Supplier);
     }
 
     _getQuery(paging) {
-        var basicFilter = {
+        var _default = {
             _deleted: false
-        }, keywordFilter = {};
-
-        var query = {};
+        },
+            pagingFilter = paging.filter || {},
+            keywordFilter = {},
+            query = {};
 
         if (paging.keyword) {
             var regex = new RegExp(paging.keyword, "i");
-            var filterCode = {
-                'code': {
-                    '$regex': regex
+            var codeFilter = {
+                "code": {
+                    "$regex": regex
                 }
             };
-            var filterName = {
-                'name': {
-                    '$regex': regex
+            var nameFilter = {
+                "name": {
+                    "$regex": regex
                 }
             };
-
-            keywordFilter = {
-                '$or': [filterCode, filterName]
-            };
+            keywordFilter["$or"] = [codeFilter, nameFilter];
         }
-        query = { '$and': [basicFilter, paging.filter, keywordFilter] };
+        query["$and"] = [_default, keywordFilter, pagingFilter];
         return query;
     }
 
     _validate(supplier) {
         var errors = {};
-        return new Promise((resolve, reject) => {
-            var valid = new Supplier(supplier);
-            // 1. begin: Declare promises.
-            var getsupplier = this.collection.singleOrDefault({
-                "$and": [{
-                    _id: {
-                        '$ne': new ObjectId(valid._id)
-                    }
-                }, {
-                    code: valid.code
-                }]
+        var valid = supplier;
+        // 1. begin: Declare promises.
+        var getSupplierPromise = this.collection.singleOrDefault({
+            _id: {
+                "$ne": new ObjectId(valid._id)
+            },
+            code: valid.code,
+            _deleted: false
+        });
+
+        // 2. begin: Validation.
+        return Promise.all([getSupplierPromise])
+            .then(results => {
+                var _supplier = results[0];
+
+                if (!valid.code || valid.code == "")
+                    errors["code"] = i18n.__("Supplier.code.isRequired:%s is required", i18n.__("Supplier.code._:Code")); //"Kode harus diisi ";
+                else if (_supplier) {
+                    errors["code"] = i18n.__("Supplier.code.isExists:%s is required", i18n.__("Supplier.code._:Code")); //"Kode sudah ada";
+                }
+
+                if (!valid.name || valid.name == "")
+                    errors["name"] = i18n.__("Supplier.name.isExists:%s is required", i18n.__("Supplier.name._:Name")); //"Nama harus diisi";
+
+                if (!valid.import)
+                    valid.import = false;
+
+                // 2c. begin: check if data has any error, reject if it has.
+                if (Object.getOwnPropertyNames(errors).length > 0) {
+                    var ValidationError = require("module-toolkit").ValidationError;
+                    return Promise.reject(new ValidationError("data does not pass validation", errors));
+                }
+
+                valid = new Supplier(supplier);
+                valid.stamp(this.user.username, "manager");
+                return Promise.resolve(valid);
             });
-            // 1. end: Declare promises.
+    }
 
-            // 2. begin: Validation.
-            Promise.all([getsupplier])
-                .then(results => {
-                    var _supplier = results[0];
+    getSupplier() {
+        return new Promise((resolve, reject) => {
+            var query = {
+                _deleted: false
+            };
 
-                    if (!valid.code || valid.code == '')
-                        errors["code"] = "code is required";
-                    else if (_supplier) {
-                        errors["code"] = "code already exists";
-                    }
-
-                    if (!valid.name || valid.name == '')
-                        errors["name"] = "name is required";
-
-                    // 2c. begin: check if data has any error, reject if it has.
-                    for (var prop in errors) {
-                        var ValidationError = require('module-toolkit').ValidationError;
-                        reject(new ValidationError('data does not pass validation', errors));
-                    }
-
-                    valid.stamp(this.user.username, 'manager');
-                    resolve(valid);
+            this.collection
+                .where(query)
+                .execute()
+                .then(divisions => {
+                    resolve(divisions);
                 })
                 .catch(e => {
                     reject(e);
-                })
+                });
         });
     }
-};
+
+    insert(dataFile) {
+        return new Promise((resolve, reject) => {
+            var supplier;
+            this.getSupplier()
+                .then(results => {
+                    supplier = results.data;
+                    var data = [];
+                    if (dataFile != "") {
+                        for (var i = 1; i < dataFile.length; i++) {
+                            data.push({
+                                "code": dataFile[i][0].trim(),
+                                "name": dataFile[i][1].trim(),
+                                "address": dataFile[i][2].trim(),
+                                "contact": dataFile[i][3].trim(),
+                                "PIC": dataFile[i][4].trim(),
+                                "import": dataFile[i][5].trim(),
+                                "NPWP": dataFile[i][6].trim(),
+                                "serialNumber": dataFile[i][7].trim()
+                            });
+                        }
+                    }
+                    var dataError = [], errorMessage;
+                    for (var i = 0; i < data.length; i++) {
+                        errorMessage = "";
+                        if (data[i]["code"] === "" || data[i]["code"] === undefined) {
+                            errorMessage = errorMessage + "Kode tidak boleh kosong, ";
+                        }
+                        if (data[i]["name"] === "" || data[i]["name"] === undefined) {
+                            errorMessage = errorMessage + "Nama tidak boleh kosong, ";
+                        }
+                        if (data[i]["import"] === "" || data[i]["import"] === undefined) {
+                            errorMessage = errorMessage + "Import tidak boleh kosong, ";
+                        } else if ((data[i]["import"]).toString() !== "TRUE" && (data[i]["import"]).toString() !== "FALSE") {
+                            errorMessage = errorMessage + "Import harus diisi dengan true atau false, ";
+                        }
+                        for (var j = 0; j < supplier.length; j++) {
+                            if (supplier[j]["code"] === data[i]["code"]) {
+                                errorMessage = errorMessage + "Kode tidak boleh duplikat";
+                            }
+                        }
+                        if (errorMessage !== "") {
+                            dataError.push({ "code": data[i]["code"], "name": data[i]["name"], "address": data[i]["address"], "contact": data[i]["contact"], "PIC": data[i]["PIC"], "import": data[i]["import"], "NPWP": data[i]["NPWP"], "serialNumber": data[i]["serialNumber"], "Error": errorMessage });
+                        }
+                    }
+                    if (dataError.length === 0) {
+                        var newSupplier = [];
+                        for (var i = 0; i < data.length; i++) {
+                            if ((data[i]["import"]).toString() === "TRUE") {
+                                data[i]["import"] = true;
+                            }
+                            if ((data[i]["import"]).toString() === "FALSE") {
+                                data[i]["import"] = false;
+                            }
+                            var valid = new Supplier(data[i]);
+                            var now = new Date();
+                            valid.stamp(this.user.username, 'manager');
+                            valid._createdDate = now;
+                            this.collection.insert(valid)
+                                .then(id => {
+                                    this.getSingleById(id)
+                                        .then(resultItem => {
+                                            newSupplier.push(resultItem)
+                                            resolve(newSupplier);
+                                        })
+                                        .catch(e => {
+                                            reject(e);
+                                        });
+                                })
+                                .catch(e => {
+                                    reject(e);
+                                });
+                        }
+                    } else {
+                        resolve(dataError);
+                    }
+                })
+        })
+    }
+
+    _createIndexes() {
+        var dateIndex = {
+            name: `ix_${map.master.Supplier}__updatedDate`,
+            key: {
+                _updatedDate: -1
+            }
+        };
+
+        var codeIndex = {
+            name: `ix_${map.master.Supplier}_code`,
+            key: {
+                code: 1
+            }
+        };
+
+        return this.collection.createIndexes([dateIndex, codeIndex]);
+    }
+}

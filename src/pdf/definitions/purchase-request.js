@@ -191,19 +191,19 @@ module.exports = function (purchaseRequest, offset) {
     ];
 
     var thead2 = [{
-        text: 'BAGIAN ANGGARAN',
-        style: 'tableHeader'
-    }, {
-        text: 'ACC MENGETAHUI',
-        style: 'tableHeader'
-    }, {
-        text: 'BAGIAN PEMBELIAN',
+        text: 'YANG MEMERLUKAN',
         style: 'tableHeader'
     }, {
         text: 'KEPALA BAGIAN',
         style: 'tableHeader'
     }, {
-        text: 'YANG MEMERLUKAN',
+        text: 'BAGIAN PEMBELIAN',
+        style: 'tableHeader'
+    }, {
+        text: 'ACC MENGETAHUI',
+        style: 'tableHeader'
+    }, {
+        text: 'BAGIAN ANGGARAN',
         style: 'tableHeader'
     }];
 
