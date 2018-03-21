@@ -61,4 +61,12 @@ describe('#bateeq-module', function (done) {
     test('@MANAGERS/MANUFACTURE/DESIGN-TRACKING-STAGE-MANAGER', './managers/manufacture/design-tracking-stage');
     test('@MANAGERS/MANUFACTURE/DESIGN-TRACKING-DESIGN-MANAGER', './managers/manufacture/design-tracking-design');
     test('@MANAGERS/MANUFACTURE/DESIGN-TRACKING-ACTIVITY-MANAGER', './managers/manufacture/design-tracking-activity');
+
+    //Purchasing
+    test('@PURCHASING/PURCHASE REQUEST', './managers/purchasing/purchase-request');
+    test('@PURCHASING/PURCHASE-ORDER', './managers/purchasing/purchase-order');
+    test('@PURCHASING/PURCHASE-ORDER-EXTERNAL', './managers/purchasing/purchase-order-external');
+    test('@PURCHASING/DELIVERY-ORDER', './managers/purchasing/delivery-order');
+    test('@PURCHASING/UNIT-RECEIPT-NOTE', './managers/purchasing/unit-receipt-note');
+    test('@PURCHASING/UNIT-PAYMENT-ORDER', './managers/purchasing/unit-payment-order');
 })

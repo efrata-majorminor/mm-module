@@ -1,21 +1,20 @@
-'use strict';
+"use strict"
 
-// external deps 
-var ObjectId = require('mongodb').ObjectId;
-var i18n = require('dl-i18n');
-// internal deps
-require('mongodb-toolkit');
-var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
+var ObjectId = require("mongodb").ObjectId;
+
+require("mongodb-toolkit");
+
+var BateeqModels = require("bateeq-models");
 var map = BateeqModels.map;
+var Category = BateeqModels.master.Category;
+var BaseManager = require("module-toolkit").BaseManager;
+var i18n = require("dl-i18n");
 
-var Supplier = BateeqModels.master.Supplier;
+module.exports = class CategoryManager extends BaseManager {
 
-
-module.exports = class SupplierManager extends BaseManager {
     constructor(db, user) {
         super(db, user);
-        this.collection = this.db.collection(map.master.Supplier);
+        this.collection = this.db.use(map.master.Category);
     }
 
     _getQuery(paging) {
@@ -44,48 +43,43 @@ module.exports = class SupplierManager extends BaseManager {
         return query;
     }
 
-    _validate(supplier) {
+    _validate(category) {
         var errors = {};
-        var valid = supplier;
+        var valid = category;
         // 1. begin: Declare promises.
-        var getSupplierPromise = this.collection.singleOrDefault({
+        var getcategoryPromise = this.collection.singleOrDefault({
             _id: {
-                "$ne": new ObjectId(valid._id)
+                '$ne': new ObjectId(valid._id)
             },
             code: valid.code,
             _deleted: false
         });
 
         // 2. begin: Validation.
-        return Promise.all([getSupplierPromise])
+        return Promise.all([getcategoryPromise])
             .then(results => {
-                var _supplier = results[0];
+                var _category = results[0];
 
                 if (!valid.code || valid.code == "")
-                    errors["code"] = i18n.__("Supplier.code.isRequired:%s is required", i18n.__("Supplier.code._:Code")); //"Kode harus diisi ";
-                else if (_supplier) {
-                    errors["code"] = i18n.__("Supplier.code.isExists:%s is required", i18n.__("Supplier.code._:Code")); //"Kode sudah ada";
+                    errors["code"] = i18n.__("Category.code.isRequired:%s is required", i18n.__("Category.code._:Code")); //"Code Kategori Tidak Boleh Kosong";
+                else if (_category) {
+                    errors["code"] = i18n.__("Category.code.isExists:%s is already exists", i18n.__("Category.code._:Code")); //"Code Kategori sudah terdaftar";
                 }
-
                 if (!valid.name || valid.name == "")
-                    errors["name"] = i18n.__("Supplier.name.isExists:%s is required", i18n.__("Supplier.name._:Name")); //"Nama harus diisi";
+                    errors["name"] = i18n.__("Category.name.isRequired:%s is required", i18n.__("Category.name._:Name")); //"Nama Harus diisi";
 
-                if (!valid.import)
-                    valid.import = false;
-
-                // 2c. begin: check if data has any error, reject if it has.
                 if (Object.getOwnPropertyNames(errors).length > 0) {
                     var ValidationError = require("module-toolkit").ValidationError;
                     return Promise.reject(new ValidationError("data does not pass validation", errors));
                 }
 
-                valid = new Supplier(supplier);
+                valid = new Category(category);
                 valid.stamp(this.user.username, "manager");
                 return Promise.resolve(valid);
             });
     }
 
-    getSupplier() {
+    getCategory() {
         return new Promise((resolve, reject) => {
             var query = {
                 _deleted: false
@@ -94,8 +88,8 @@ module.exports = class SupplierManager extends BaseManager {
             this.collection
                 .where(query)
                 .execute()
-                .then(divisions => {
-                    resolve(divisions);
+                .then(categories => {
+                    resolve(categories);
                 })
                 .catch(e => {
                     reject(e);
@@ -105,22 +99,18 @@ module.exports = class SupplierManager extends BaseManager {
 
     insert(dataFile) {
         return new Promise((resolve, reject) => {
-            var supplier;
-            this.getSupplier()
+            var category;
+            this.getCategory()
                 .then(results => {
-                    supplier = results.data;
+                    category = results.data;
                     var data = [];
                     if (dataFile != "") {
                         for (var i = 1; i < dataFile.length; i++) {
                             data.push({
                                 "code": dataFile[i][0].trim(),
                                 "name": dataFile[i][1].trim(),
-                                "address": dataFile[i][2].trim(),
-                                "contact": dataFile[i][3].trim(),
-                                "PIC": dataFile[i][4].trim(),
-                                "import": dataFile[i][5].trim(),
-                                "NPWP": dataFile[i][6].trim(),
-                                "serialNumber": dataFile[i][7].trim()
+                                "codeRequirement": dataFile[i][2].trim(),
+                                
                             });
                         }
                     }
@@ -133,39 +123,32 @@ module.exports = class SupplierManager extends BaseManager {
                         if (data[i]["name"] === "" || data[i]["name"] === undefined) {
                             errorMessage = errorMessage + "Nama tidak boleh kosong, ";
                         }
-                        if (data[i]["import"] === "" || data[i]["import"] === undefined) {
-                            errorMessage = errorMessage + "Import tidak boleh kosong, ";
-                        } else if ((data[i]["import"]).toString() !== "TRUE" && (data[i]["import"]).toString() !== "FALSE") {
-                            errorMessage = errorMessage + "Import harus diisi dengan true atau false, ";
-                        }
-                        for (var j = 0; j < supplier.length; j++) {
-                            if (supplier[j]["code"] === data[i]["code"]) {
-                                errorMessage = errorMessage + "Kode tidak boleh duplikat";
+                        for (var j = 0; j < category.length; j++) {
+                            if (category[j]["code"] === data[i]["code"]) {
+                                errorMessage = errorMessage + "Kode tidak boleh duplikat, ";
+                            }
+                            if (category[j]["name"] === data[i]["name"]) {
+                                errorMessage = errorMessage + "Nama tidak boleh duplikat";
                             }
                         }
                         if (errorMessage !== "") {
-                            dataError.push({ "code": data[i]["code"], "name": data[i]["name"], "address": data[i]["address"], "contact": data[i]["contact"], "PIC": data[i]["PIC"], "import": data[i]["import"], "NPWP": data[i]["NPWP"], "serialNumber": data[i]["serialNumber"], "Error": errorMessage });
+                            dataError.push({ "code": data[i]["code"], "name": data[i]["name"], "codeRequirement": data[i]["codeRequirement"], "Error": errorMessage });
                         }
                     }
                     if (dataError.length === 0) {
-                        var newSupplier = [];
+                        var newCategory = [];
                         for (var i = 0; i < data.length; i++) {
-                            if ((data[i]["import"]).toString() === "TRUE") {
-                                data[i]["import"] = true;
-                            }
-                            if ((data[i]["import"]).toString() === "FALSE") {
-                                data[i]["import"] = false;
-                            }
-                            var valid = new Supplier(data[i]);
+                            var valid = new Category(data[i]);
                             var now = new Date();
+                            j += 1;
                             valid.stamp(this.user.username, 'manager');
                             valid._createdDate = now;
                             this.collection.insert(valid)
                                 .then(id => {
                                     this.getSingleById(id)
                                         .then(resultItem => {
-                                            newSupplier.push(resultItem)
-                                            resolve(newSupplier);
+                                            newCategory.push(resultItem)
+                                            resolve(newCategory);
                                         })
                                         .catch(e => {
                                             reject(e);
@@ -184,19 +167,20 @@ module.exports = class SupplierManager extends BaseManager {
 
     _createIndexes() {
         var dateIndex = {
-            name: `ix_${map.master.Supplier}__updatedDate`,
+            name: `ix_${map.master.Category}__updatedDate`,
             key: {
                 _updatedDate: -1
             }
-        };
+        }
 
         var codeIndex = {
-            name: `ix_${map.master.Supplier}_code`,
+            name: `ix_${map.master.Category}_code`,
             key: {
                 code: 1
             }
-        };
+        }
 
         return this.collection.createIndexes([dateIndex, codeIndex]);
     }
+
 }

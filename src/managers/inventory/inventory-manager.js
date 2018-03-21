@@ -11,7 +11,6 @@ var BaseManager = require('module-toolkit').BaseManager;
 var Inventory = BateeqModels.inventory.Inventory;
 var InventoryMovement = BateeqModels.inventory.InventoryMovement;
 
-
 module.exports = class InventoryManager extends BaseManager {
     constructor(db, user) {
         super(db, user);
@@ -23,6 +22,9 @@ module.exports = class InventoryManager extends BaseManager {
 
         var ItemManager = require('../master/item-manager');
         this.itemManager = new ItemManager(db, user);
+
+        var ProductManager = require('../master/product-manager');
+        this.productManager = new ProductManager(db, user);
 
         var InventoryMovementManager = require('./inventory-movement-manager');
         this.inventoryMovementManager = new InventoryMovementManager(db, user);
@@ -274,6 +276,49 @@ module.exports = class InventoryManager extends BaseManager {
         });
     }
 
+    getProductInventory(storageId, productId) {
+        var query = {
+            '$and': [{
+                storageId: new ObjectId(storageId)
+            }, {
+                productId: new ObjectId(productId)
+            }, {
+                _deleted: false
+            }]
+        };
+
+        return new Promise((resolve, reject) => {
+            this.collection
+                .singleOrDefault(query)
+                .then(inventory => {
+                    if (inventory)
+                        resolve(inventory);
+                    else {
+                        var newInventory = new Inventory({
+                            storageId: new ObjectId(storageId),
+                            productId: new ObjectId(productId)
+                        });
+                        this.create(newInventory)
+                            .then(docId => {
+                                this.getSingleById(docId)
+                                    .then(inventory => {
+                                        resolve(inventory);
+                                    })
+                                    .catch(e => {
+                                        reject(e);
+                                    });
+                            })
+                            .catch(e => {
+                                reject(e);
+                            });
+                    }
+                })
+                .catch(e => {
+                    reject(e);
+                });
+        })
+    }
+
     getInventory(storageId, itemId) {
         var query = {
             '$and': [{
@@ -317,14 +362,64 @@ module.exports = class InventoryManager extends BaseManager {
         })
     }
 
+    outProduct(storageId, refNo, productId, quantity, remark) {
+        var absQuantity = Math.abs(quantity);
+        return this.moveProduct(storageId, refNo, 'OUT', productId, absQuantity * -1, remark);
+    }
+
     out(storageId, refNo, itemId, quantity, remark) {
         var absQuantity = Math.abs(quantity);
         return this.move(storageId, refNo, 'OUT', itemId, absQuantity * -1, remark);
     }
 
+    inProduct(storageId, refNo, productId, quantity, remark) {
+        var absQuantity = Math.abs(quantity);
+        return this.moveProduct(storageId, refNo, 'IN', productId, absQuantity, remark);
+    }
+
     in(storageId, refNo, itemId, quantity, remark) {
         var absQuantity = Math.abs(quantity);
         return this.move(storageId, refNo, 'IN', itemId, absQuantity, remark);
+    }
+
+    moveProduct(storageId, refNo, type, productId, quantity, remark) {
+        return new Promise((resolve, reject) => {
+            this.getProductInventory(storageId, productId)
+                .then(inventory => {
+                    var originQuantity = inventory.quantity;
+                    var movement = new InventoryMovement({
+                        inventoryId: inventory._id,
+                        data: new Date(),
+                        reference: refNo,
+                        type: type,
+                        storageId: inventory.storageId,
+                        productId: inventory.productId,
+                        before: originQuantity,
+                        quantity: quantity,
+                        after: originQuantity + quantity,
+                        remark: remark
+                    });
+
+                    inventory.quantity += quantity;
+
+                    var updateInventory = this.update(inventory);
+                    var createMovement = this.inventoryMovementManager.create(movement);
+
+                    Promise.all([createMovement, updateInventory])
+                        .then(results => {
+                            var movementId = results[0];
+                            var inventoryId = results[1];
+
+                            resolve(movementId);
+                        })
+                        .catch(e => {
+                            reject(e);
+                        });
+                })
+                .catch(e => {
+                    reject(e);
+                });
+        });
     }
 
     move(storageId, refNo, type, itemId, quantity, remark) {
@@ -372,8 +467,14 @@ module.exports = class InventoryManager extends BaseManager {
         return new Promise((resolve, reject) => {
             var valid = new Inventory(inventory);
             var getStorage = this.storageManager.getSingleById(inventory.storageId);
-            var getItem = this.itemManager.getSingleById(inventory.itemId);
-
+            var getItem;
+            
+            if (ObjectId.isValid(inventory.itemId)) {
+                getItem = this.itemManager.getSingleById(inventory.itemId);
+            } else if (ObjectId.isValid(inventory.productId)) {
+                getItem = this.productManager.getSingleById(inventory.productId);
+            }
+            
             Promise.all([getStorage, getItem])
                 .then(results => {
                     var storage = results[0];
@@ -388,14 +489,27 @@ module.exports = class InventoryManager extends BaseManager {
                         valid.storageId = storage._id;
                         valid.storage = storage;
                     }
-                    if (!valid.itemId || valid.itemId == '')
-                        errors["itemId"] = "itemId is required";
-                    if (!item) {
-                        errors["itemId"] = "itemId not found";
-                    }
-                    else {
-                        valid.itemId = item._id;
-                        valid.item = item;
+
+                    if (ObjectId.isValid(valid.itemId)) {
+                        if (!valid.itemId || valid.itemId == '')
+                            errors["itemId"] = "itemId is required";
+                        if (!item) {
+                            errors["itemId"] = "itemId not found";
+                        }
+                        else {
+                            valid.itemId = item._id;
+                            valid.item = item;
+                        }
+                    } else {
+                        if (!valid.productId || valid.productId == '')
+                            errors["productId"] = "productId is required";
+                        if (!item) {
+                            errors["productId"] = "product not found";
+                        }
+                        else {
+                            valid.productId = item._id;
+                            valid.product = item;
+                        }
                     }
 
                     if (valid.quantity == undefined || (valid.quantity && valid.quantity == '')) {
@@ -410,6 +524,11 @@ module.exports = class InventoryManager extends BaseManager {
                         var ValidationError = require('../../validation-error');
                         reject(new ValidationError('data does not pass validation', errors));
                     }
+
+                    if (!valid.stamp) {
+                        valid = new Inventory(valid);
+                    }
+
                     valid.stamp(this.user.username, 'manager');
                     resolve(valid)
                 })

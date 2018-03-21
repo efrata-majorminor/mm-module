@@ -124,39 +124,39 @@ it(`#06. should _deleted=true`, function(done) {
         })
 });
 
-it('#07. should error when create new data with same code', function(done) {
-    var data = Object.assign({}, createdData);
-    delete data._id;
-    manager.create(data)
-        .then(id => {
-            id.should.be.Object();
-            createdId = id;
-            done("Should not be able to create data with same code");
-        })
-        .catch(e => {
-            try {
-                e.errors.should.have.property('code');
-                done();
-            }
-            catch (e) {
-                done(e);
-            }
-        })
-});
+// it('#07. should error when create new data with same code', function(done) {
+//     var data = Object.assign({}, createdData);
+//     delete data._id;
+//     manager.create(data)
+//         .then(id => {
+//             id.should.be.Object();
+//             createdId = id;
+//             done("Should not be able to create data with same code");
+//         })
+//         .catch(e => {
+//             try {
+//                 e.errors.should.have.property('code');
+//                 done();
+//             }
+//             catch (e) {
+//                 done(e);
+//             }
+//         })
+// });
 
-it('#08. should error with property code and name ', function(done) {
-    manager.create({})
-        .then(id => {
-            done("Should not be error with property code and name");
-        })
-        .catch(e => {
-            try {
-                e.errors.should.have.property('code');
-                e.errors.should.have.property('name');
-                done();
-            }
-            catch (ex) {
-                done(ex);
-            }
-        })
-});
+// it('#08. should error with property code and name ', function(done) {
+//     manager.create({})
+//         .then(id => {
+//             done("Should not be error with property code and name");
+//         })
+//         .catch(e => {
+//             try {
+//                 e.errors.should.have.property('code');
+//                 e.errors.should.have.property('name');
+//                 done();
+//             }
+//             catch (ex) {
+//                 done(ex);
+//             }
+//         })
+// });

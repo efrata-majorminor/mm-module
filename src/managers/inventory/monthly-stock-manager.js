@@ -160,7 +160,7 @@ module.exports = class MonthlyStockManager extends BaseManager {
                 }
             }
         ]
-        let query = this.collection.aggregate(currentStocks).toArray();
+        let query = this.collection.aggregate(currentStocks, { allowDiskUse: true }).toArray();
         return query;
     }
 
@@ -238,7 +238,7 @@ module.exports = class MonthlyStockManager extends BaseManager {
             },
             { $match: { quantity: { $ne: 0 } } }
         ]
-        let query = this.collection.aggregate(currentItems).toArray();
+        let query = this.collection.aggregate(currentItems, { allowDiskUse: true }).toArray();
         return query;
     }
 
