@@ -10,14 +10,15 @@ var poExternal = require('../purchasing/purchase-order-external-data-util');
 class DeliveryOrderDataUtil {
     getNewData(dataPurchaseOrderExternal) {
         var getPoe = dataPurchaseOrderExternal ? Promise.resolve(dataPurchaseOrderExternal) : poExternal.getPosted();
+        var getSupplier = supplier.getTestData();
 
         return helper
             .getManager(DeliveryOrderManager)
             .then(manager => {
-                return Promise.all([supplier.getTestData(), getPoe])
+                return Promise.all([getSupplier, getPoe])
                     .then(results => {
-                        var poEks = results[1];
                         var dataSupplier = results[0];
+                        var poEks = results[1];
                         var poExt = poEks.items.map(poInternal => {
                             return poInternal.items.map(poItem => {
                                 return {
@@ -57,11 +58,12 @@ class DeliveryOrderDataUtil {
 
     getNewDataPoExternalIsClosed() {
         var getPoe = poExternal.getClosed();
+        var getSupplier = supplier.getTestData();
 
         return helper
             .getManager(DeliveryOrderManager)
             .then(manager => {
-                return Promise.all([supplier.getTestData(), getPoe])
+                return Promise.all([getSupplier, getPoe])
                     .then(results => {
                         var poEks = results[1];
                         var dataSupplier = results[0];

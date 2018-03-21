@@ -10,13 +10,12 @@ var budget = require("../master/budget-data-util");
 
 class PurchaseRequestDataUtil {
     getNewData() {
-        return Promise.all([unit.getTestData(), category.getTestData(), product.getTestData(), product.getTestData2(), budget.getTestData()])
+        return Promise.all([unit.getTestData(), category.getTestData(), product.getTestData(), budget.getTestData()])
             .then((results) => {
                 var unit = results[0];
                 var category = results[1];
                 var product01 = results[2];
-                var product02 = results[3];
-                var budget = results[4];
+                var budget = results[3];
 
                 var data = {
                     no: `UT/PR/${codeGenerator()}`,
@@ -36,12 +35,6 @@ class PurchaseRequestDataUtil {
                         product: product01,
                         quantity: 10,
                         uom: product01.uom,
-                        remark: ""
-                    }, {
-                        productId: product02._id,
-                        product: product02,
-                        quantity: 20,
-                        uom: product02.uom,
                         remark: ""
                     }]
                 };

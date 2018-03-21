@@ -46,11 +46,16 @@ function getBasicTest(opt) {
     var createdId;
     it("#02. should success when create new data", function (done) {
         dataUtil.getNewData()
-            .then((data) => manager.create(data))
-            .then((id) => {
-                id.should.be.Object();
-                createdId = id;
-                done();
+            .then((data) => {
+                manager.create(data)
+                    .then((id) => {
+                        id.should.be.Object();
+                        createdId = id;
+                        done();
+                    })
+                    .catch((e) => {
+                        done(e);
+                    });
             })
             .catch((e) => {
                 done(e);

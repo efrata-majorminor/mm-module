@@ -11,10 +11,17 @@ var unitReceiptNote = require('./unit-receipt-note-data-util');
 
 class UnitPaymentOrderDataUtil {
     getNewData() {
+        var getDivision = division.getTestData();
+        var getCategory = category.getTestData();
+        var getCurrency = currency.getTestData();
+        var getVat = vat.getTestData();
+        var getSupplier = supplier.getTestData();
+        var getUnitReceiptNote = unitReceiptNote.getNewTestData();
+
         return helper
             .getManager(UnitPaymentOrderManager)
             .then(manager => {
-                return Promise.all([division.getTestData(), category.getTestData(), currency.getTestData(), vat.getTestData(), supplier.getTestData(), unitReceiptNote.getNewTestData()])
+                return Promise.all([getDivision, getCategory, getCurrency, getVat, getSupplier, getUnitReceiptNote])
                     .then(results => {
                         var dataDivision = results[0];
                         var dataCategory = results[1];

@@ -13,12 +13,12 @@ var Buyer = BateeqModels.master.Buyer;
 var Supplier = BateeqModels.master.Supplier;
 
 class PurchaseOrderDataUtil {
-    getNewData(pr) {
-        var getPr = pr ? Promise.resolve(pr) : PurchaseRequest.getPostedData();
-
+    getNewData(pr) { 
         return helper
             .getManager(PurchaseOrderManager)
             .then(manager => {
+                var getPr = pr ? Promise.resolve(pr) : PurchaseRequest.getPostedData();
+
                 return Promise.all([getPr])
                     .then(results => {
                         var purchaseRequest = results[0];
@@ -67,9 +67,7 @@ class PurchaseOrderDataUtil {
                             items: poItems
                         };
                         return Promise.resolve(data);
-                    }).catch(e => {
-                        return Promise.reject(e);
-                    })
+                    });
             });
     }
 

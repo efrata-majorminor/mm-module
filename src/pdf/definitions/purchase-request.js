@@ -137,7 +137,7 @@ module.exports = function (purchaseRequest, offset) {
             text: item.product.name + '\n' + item.remark,
             style: ['size08', 'left']
         }, {
-            text: parseFloat(item.quantity).toLocaleString(locale, locale.decimal) + " " + item.product.uom.unit,
+            text: parseInt(item.quantity).toLocaleString(locale, locale.decimal) + " " + item.product.uom.unit,
             style: ['size08', 'center']
         }, {
             text: '',
@@ -199,12 +199,6 @@ module.exports = function (purchaseRequest, offset) {
     }, {
         text: 'BAGIAN PEMBELIAN',
         style: 'tableHeader'
-    }, {
-        text: 'ACC MENGETAHUI',
-        style: 'tableHeader'
-    }, {
-        text: 'BAGIAN ANGGARAN',
-        style: 'tableHeader'
     }];
 
     var tbody2 = [[{
@@ -214,7 +208,7 @@ module.exports = function (purchaseRequest, offset) {
 
     var table2 = [{
         table: {
-            widths: ['20%', '20%', '20%', '20%', '20%'],
+            widths: ['30%', '30%', '30%'],
             headerRows: 1,
             body: [].concat([thead2], tbody2)
         }

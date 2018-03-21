@@ -9,10 +9,15 @@ var storageDataUtil = require('../master/storage-manager-data-util');
 
 class UnitReceiptNoteDataUtil {
     getNewData() {
+        var getUnit = unit.getTestData();
+        var getSupplier = supplier.getTestData();
+        var getDeliveryOrder = deliveryOrder.getNewTestData();
+        var getStorage = storageDataUtil.getNewData();
+
         return helper
             .getManager(UnitReceiptNoteManager)
             .then(manager => {
-                return Promise.all([unit.getTestData(), supplier.getTestData(), deliveryOrder.getNewTestData(), storageDataUtil.getNewData()])
+                return Promise.all([getUnit, getSupplier, getDeliveryOrder, getStorage])
                     .then(results => {
                         var dataUnit = results[0];
                         var dataSupplier = results[1];

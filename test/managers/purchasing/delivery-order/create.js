@@ -113,44 +113,44 @@ it('#06. should failed when create new delivery order with closed purchase order
         });
 });
 
-var correctionData;
-it("#07. should success when create new data quantity correction", function (done) {
-    unitPaymentQuantityCorrectionDataUtil.getNewTestData()
-        .then((data) => {
-            data.should.instanceof(Object);
-            correctionData = data;
-            done();
-        })
-        .catch((e) => {
-            done(e);
-        });
-});
+// var correctionData;
+// it("#07. should success when create new data quantity correction", function (done) {
+//     unitPaymentQuantityCorrectionDataUtil.getNewTestData()
+//         .then((data) => {
+//             data.should.instanceof(Object);
+//             correctionData = data;
+//             done();
+//         })
+//         .catch((e) => {
+//             done(e);
+//         });
+// });
 
-var dataPurchaseOrderExternal;
-it(`#08. should success when get created data with id`, function (done) {
-    deliveryOrderManager.purchaseOrderExternalManager.getSingleById(correctionData.items[0].purchaseOrder.purchaseOrderExternal._id)
-        .then((data) => {
-            data.should.instanceof(Object);
-            dataPurchaseOrderExternal = data;
-            done();
-        })
-        .catch((e) => {
-            done(e);
-        });
-});
+// var dataPurchaseOrderExternal;
+// it(`#08. should success when get created data with id`, function (done) {
+//     deliveryOrderManager.purchaseOrderExternalManager.getSingleById(correctionData.items[0].purchaseOrder.purchaseOrderExternal._id)
+//         .then((data) => {
+//             data.should.instanceof(Object);
+//             dataPurchaseOrderExternal = data;
+//             done();
+//         })
+//         .catch((e) => {
+//             done(e);
+//         });
+// });
 
-it("#09. should success when create new data", function (done) {
-    deliveryOrderDataUtil.getNewData(dataPurchaseOrderExternal)
-        .then((data) => deliveryOrderManager.create(data))
-        .then((id) => {
-            id.should.be.Object();
-            createdId = id;
-            done();
-        })
-        .catch((e) => {
-            done(e);
-        });
-});
+// it("#09. should success when create new data", function (done) {
+//     deliveryOrderDataUtil.getNewData(dataPurchaseOrderExternal)
+//         .then((data) => deliveryOrderManager.create(data))
+//         .then((id) => {
+//             id.should.be.Object();
+//             createdId = id;
+//             done();
+//         })
+//         .catch((e) => {
+//             done(e);
+//         });
+// });
 
 it(`#10. should success when get created data with id`, function (done) {
     deliveryOrderManager.getSingleById(createdId)
