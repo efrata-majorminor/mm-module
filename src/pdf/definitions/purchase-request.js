@@ -137,7 +137,7 @@ module.exports = function (purchaseRequest, offset) {
             text: item.product.name + '\n' + item.remark,
             style: ['size08', 'left']
         }, {
-            text: parseInt(item.quantity).toLocaleString(locale, locale.decimal) + " " + item.product.uom.unit,
+            text: parseInt(item.quantity).toLocaleString(locale, locale.parseInt) + " " + item.product.uom.unit,
             style: ['size08', 'center']
         }, {
             text: '',
@@ -204,11 +204,11 @@ module.exports = function (purchaseRequest, offset) {
     var tbody2 = [[{
         text: " ",
         style: ['size30', 'center']
-    }, "", "", "", ""]];
+    }, "", ""]];
 
     var table2 = [{
         table: {
-            widths: ['30%', '30%', '30%'],
+            widths: ['33%', '33%', '33%'],
             headerRows: 1,
             body: [].concat([thead2], tbody2)
         }
