@@ -331,7 +331,7 @@ module.exports = function (pox, offset) {
                 }, {
                     width: '30%',
                     stack: ['Menyetujui\n\n\n\n\n', {
-                        text: 'Haenis Gunarto',
+                        text: 'Fajar Nugroho',
                         style: ['bold']
                     }],
                     style: 'center'
