@@ -73,37 +73,37 @@ module.exports = function (pox, offset) {
         text: 'PT EFRATA RETAILINDO',
         style: 'bold'
     }, {
-            columns: [{
-                width: '50%',
-                stack: [
-                    'Head Office   : ',
-                    'Kelurahan Banaran',
-                    'Kecamatan Grogol',
-                    'Sukoharjo 57193 - INDONESIA',
-                    'PO.BOX 166 Solo 57100',
-                    'Telp. (0271) 740888, 714400',
-                    'Fax. (0271) 735222, 740777'
-                ],
-                style: ['size07', 'bold']
-            }, {
-                    stack: [{
-                        text: iso,
-                        alignment: "right",
-                        style: ['size08']
-                    }, {
-                            text: `Nomor PO : ${number}`,
-                            alignment: "right",
-                            style: ['size09', 'bold']
-                        }]
-
-                }
-
-            ]
+        columns: [{
+            width: '50%',
+            stack: [
+                'Head Office   : ',
+                'Kelurahan Banaran',
+                'Kecamatan Grogol',
+                'Sukoharjo 57193 - INDONESIA',
+                'PO.BOX 166 Solo 57100',
+                'Telp. (0271) 740888, 714400',
+                'Fax. (0271) 735222, 740777'
+            ],
+            style: ['size07', 'bold']
         }, {
-            alignment: "center",
-            text: 'ORDER PEMBELIAN',
-            style: ['size09', 'bold']
-        },
+            stack: [{
+                text: iso,
+                alignment: "right",
+                style: ['size08']
+            }, {
+                text: `Nomor PO : ${number}`,
+                alignment: "right",
+                style: ['size09', 'bold']
+            }]
+
+        }
+
+        ]
+    }, {
+        alignment: "center",
+        text: 'ORDER PEMBELIAN',
+        style: ['size09', 'bold']
+    },
         '\n'
     ];
 
@@ -113,32 +113,32 @@ module.exports = function (pox, offset) {
             text: 'Kepada Yth:',
             style: ['size08']
         }, {
-                width: '*',
-                text: `${supplier}\n Attn. ${supplierAtt}\n Telp. ${supplierTel}`,
-                style: ['size08']
-            }, {
-                width: '35%',
-                stack: [
-                    `Sukoharjo, ${moment(pox.date).add(offset,'h').add(offset,'h').format(locale.date.format)} `, {
-                        text: [
-                            'Mohon', {
-                                text: ' di-fax kembali',
-                                style: 'bold'
-                            }, ' setelah\n', {
-                                text: 'ditandatangani',
-                                style: ['bold'],
-                                decoration: 'underline'
-                            }, ' dan ', {
-                                text: 'distempel ',
-                                style: ['bold'],
-                                decoration: 'underline'
-                            }, 'perusahaan.Terima Kasih.'
-                        ],
-                        style: ['size07']
-                    }
-                ],
-                style: ['size08']
-            }]
+            width: '*',
+            text: `${supplier}\n Attn. ${supplierAtt}\n Telp. ${supplierTel}`,
+            style: ['size08']
+        }, {
+            width: '35%',
+            stack: [
+                `Sukoharjo, ${moment(pox.date).add(offset, 'h').add(offset, 'h').format(locale.date.format)} `, {
+                    text: [
+                        'Mohon', {
+                            text: ' di-fax kembali',
+                            style: 'bold'
+                        }, ' setelah\n', {
+                            text: 'ditandatangani',
+                            style: ['bold'],
+                            decoration: 'underline'
+                        }, ' dan ', {
+                            text: 'distempel ',
+                            style: ['bold'],
+                            decoration: 'underline'
+                        }, 'perusahaan.Terima Kasih.'
+                    ],
+                    style: ['size07']
+                }
+            ],
+            style: ['size08']
+        }]
     }];
 
     var opening = {
@@ -167,47 +167,47 @@ module.exports = function (pox, offset) {
         text: 'NAMA DAN JENIS BARANG',
         style: ['size08', 'bold', 'center']
     }, {
-            text: 'JUMLAH',
-            style: ['size08', 'bold', 'center']
-        }, {
-            text: 'HARGA SATUAN',
-            style: ['size08', 'bold', 'center']
-        }, {
-            text: 'SUB TOTAL',
-            style: ['size08', 'bold', 'center']
-        }];
+        text: 'JUMLAH',
+        style: ['size08', 'bold', 'center']
+    }, {
+        text: 'HARGA SATUAN',
+        style: ['size08', 'bold', 'center']
+    }, {
+        text: 'SUB TOTAL',
+        style: ['size08', 'bold', 'center']
+    }];
 
     var tbody = items.map(function (item) {
         return [{
             stack: [{
                 text: item.product,
                 style: 'bold'
-            }, item.remark, item.prNo],
+            }, item.remark],
             style: ['size08']
         }, {
-                text: parseInt(item.quantity).toLocaleString(locale, locale.parseInt) + ' ' + item.uom,
-                style: ['size08', 'center']
+            text: parseInt(item.quantity).toLocaleString(locale, locale.parseInt) + ' ' + item.uom,
+            style: ['size08', 'center']
+        }, {
+            columns: [{
+                width: '30%',
+                text: `${currency}`
             }, {
-                columns: [{
-                    width: '30%',
-                    text: `${currency}`
-                }, {
-                        width: '*',
-                        text: `${parseFloat(item.price).toLocaleString(locale, locale.currency)}`,
-                        style: ['right']
-                    }],
-                style: ['size08']
+                width: '*',
+                text: `${parseFloat(item.price).toLocaleString(locale, locale.currency)}`,
+                style: ['right']
+            }],
+            style: ['size08']
+        }, {
+            columns: [{
+                width: '20%',
+                text: `${currency}`
             }, {
-                columns: [{
-                    width: '20%',
-                    text: `${currency}`
-                }, {
-                        width: '*',
-                        text: `${parseFloat(item.quantity * item.price).toLocaleString(locale, locale.currency)}`,
-                        style: ['right']
-                    }],
-                style: ['size08']
-            }];
+                width: '*',
+                text: `${parseFloat(item.quantity * item.price).toLocaleString(locale, locale.currency)}`,
+                style: ['right']
+            }],
+            style: ['size08']
+        }];
     });
 
     tbody = tbody.length > 0 ? tbody : [
@@ -236,46 +236,46 @@ module.exports = function (pox, offset) {
             style: ['size08', 'bold', 'right'],
             colSpan: 3
         }, "", "", {
-                columns: [{
-                    width: '20%',
-                    text: currency
-                }, {
-                        width: '*',
-                        text: parseFloat(sum).toLocaleString(locale, locale.currency),
-                        style: ['right']
-                    }],
-                style: ['size08']
+            columns: [{
+                width: '20%',
+                text: currency
+            }, {
+                width: '*',
+                text: parseFloat(sum).toLocaleString(locale, locale.currency),
+                style: ['right']
             }],
+            style: ['size08']
+        }],
         [{
             text: 'PPN 10%',
             style: ['size08', 'bold', 'right'],
             colSpan: 3
         }, null, null, {
-                columns: [{
-                    width: '20%',
-                    text: currency
-                }, {
-                        width: '*',
-                        text: parseFloat(vat).toLocaleString(locale, locale.currency),
-                        style: ['right']
-                    }],
-                style: ['size08']
+            columns: [{
+                width: '20%',
+                text: currency
+            }, {
+                width: '*',
+                text: parseFloat(vat).toLocaleString(locale, locale.currency),
+                style: ['right']
             }],
+            style: ['size08']
+        }],
         [{
             text: 'Grand Total',
             style: ['size08', 'bold', 'right'],
             colSpan: 3
         }, null, null, {
-                columns: [{
-                    width: '20%',
-                    text: currency
-                }, {
-                        width: '*',
-                        text: parseFloat(sum + vat).toLocaleString(locale, locale.currency),
-                        style: ['bold', 'right']
-                    }],
-                style: ['size09']
-            }]
+            columns: [{
+                width: '20%',
+                text: currency
+            }, {
+                width: '*',
+                text: parseFloat(sum + vat).toLocaleString(locale, locale.currency),
+                style: ['bold', 'right']
+            }],
+            style: ['size09']
+        }]
     ];
 
     var table = [{
@@ -294,56 +294,56 @@ module.exports = function (pox, offset) {
                         width: '40%',
                         stack: ['Ongkos Kirim', 'Pembayaran']
                     }, {
-                            width: '3%',
-                            stack: [':', ':']
-                        }, {
-                            width: '*',
-                            stack: [`Ditanggung ${pox.freightCostBy}`, `${pox.paymentMethod}, ${pox.paymentDueDays} hari setelah terima barang`]
-                        }]
-                }, {
-                        width: '20%',
-                        text: ''
+                        width: '3%',
+                        stack: [':', ':']
                     }, {
-                        width: '40%',
-                        columns: [{
-                            width: '45%',
-                            stack: ['Delivery', 'Lain-lain']
-                        }, {
-                                width: '3%',
-                                stack: [':', ':']
-                            }, {
-                                width: '*',
-                                stack: [{
-                                    text: `${moment(pox.expectedDeliveryDate).add(offset,'h').format(locale.date.format)}`,
-                                    style: ['bold']
-                                }, `${pox.remark}`]
-                            }]
+                        width: '*',
+                        stack: [`Ditanggung ${pox.freightCostBy}`, `${pox.paymentMethod}, ${pox.paymentDueDays} hari setelah terima barang`]
                     }]
+                }, {
+                    width: '20%',
+                    text: ''
+                }, {
+                    width: '40%',
+                    columns: [{
+                        width: '45%',
+                        stack: ['Delivery', 'Lain-lain']
+                    }, {
+                        width: '3%',
+                        stack: [':', ':']
+                    }, {
+                        width: '*',
+                        stack: [{
+                            text: `${moment(pox.expectedDeliveryDate).add(offset, 'h').format(locale.date.format)}`,
+                            style: ['bold']
+                        }, `${pox.remark}`]
+                    }]
+                }]
             },
                 '\n\n\n', {
-                    columns: [{
-                        width: '35%',
-                        stack: ['Pembeli\n\n\n\n\n', {
-                            text: pox._createdBy,
-                            style: ['bold']
-                        }],
-                        style: 'center'
-                    }, {
-                            width: '30%',
-                            stack: ['Menyetujui\n\n\n\n\n', {
-                                text: 'Haenis Gunarto',
-                                style: ['bold']
-                            }],
-                            style: 'center'
-                        }, {
-                            width: '35%',
-                            stack: ['Penjual\n\n\n\n\n', {
-                                text: supplier,
-                                style: ['bold']
-                            }],
-                            style: 'center'
-                        }]
-                }
+                columns: [{
+                    width: '35%',
+                    stack: ['Pembeli\n\n\n\n\n', {
+                        text: pox._createdBy,
+                        style: ['bold']
+                    }],
+                    style: 'center'
+                }, {
+                    width: '30%',
+                    stack: ['Menyetujui\n\n\n\n\n', {
+                        text: 'Haenis Gunarto',
+                        style: ['bold']
+                    }],
+                    style: 'center'
+                }, {
+                    width: '35%',
+                    stack: ['Penjual\n\n\n\n\n', {
+                        text: supplier,
+                        style: ['bold']
+                    }],
+                    style: 'center'
+                }]
+            }
             ],
             style: ['size08']
         }
