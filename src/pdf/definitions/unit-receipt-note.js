@@ -153,7 +153,7 @@ module.exports = function (unitReceiptNote, offset) {
                 text: item.product.code + " - " + item.product.name,
                 style: ['size08', 'left']
             }, {
-                text: parseInt(item.deliveredQuantity).toLocaleString(locale, locale.decimal),
+                text: parseInt(item.deliveredQuantity).toLocaleString(locale, locale.parseInt),
                 style: ['size08', 'center']
             }, {
                 text: item.deliveredUom.unit,
