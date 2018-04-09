@@ -31,7 +31,7 @@ inventoryMap.set("stock-opname-doc", require('./src/managers/inventory/stock-opn
 inventoryMap.set("stock-availability", require('./src/managers/inventory/stock-availability-manager'));
 inventoryMap.set("report-manager", require('./src/managers/inventory/report-manager'));
 inventoryMap.set("monthly-stock", require('./src/managers/inventory/monthly-stock-manager'));
-inventoryMap.set("master-discount", require('./src/managers/inventory/master/master-discount-manager'));
+inventoryMap.set("master-discount", require('./src/managers/inventory/master/discount-manager'));
 
 var merchandiserMap = new Map();
 merchandiserMap.set("efr-pk", require('./src/managers/merchandiser/efr-pk-manager'));

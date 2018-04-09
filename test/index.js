@@ -55,6 +55,7 @@ describe('#bateeq-module', function (done) {
     //inventory
     test('@MANAGERS/INVENTORY/REPORT-MANAGER', './managers/inventory/report-manager');
     test('@MANAGER/MONTHLY-STOCK-MANAGER', './managers/inventory/monthly-stock-manager-test');
+    test('@Inventory/Discount-Master', './managers/inventory/master/master-discount');
 
     // manufacture
     test('@MANAGERS/MANUFACTURE/DESIGN-TRACKING-BOARD-MANAGER', './managers/manufacture/design-tracking-board');
