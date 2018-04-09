@@ -391,7 +391,7 @@ module.exports = class FactPenjualan {
                                     discount += (discountData.discount1Nominal + discountData.discount2Nominal + discountData.fixedDiscountNominal + discountData.specialDiscountNominal);
                                     salesDiscount += discountData.specialDiscount * sale.discount / 100;
                                     return {
-                                        timekey: `'${moment(sale.date).format("L")}'`,
+                                        timekey: `'${moment(sale.date).add(7, "hours").format("YYYY-MM-DD HH:mm:ss")}'`,
                                         countdays: `'${moment(sale.date).daysInMonth()}'`,
                                         store_code: sale.store ? `'${this.getDBValidString(sale.store.code)}'` : null,
                                         hd_transaction_number: `'${this.getDBValidString(sale.code)}'`,

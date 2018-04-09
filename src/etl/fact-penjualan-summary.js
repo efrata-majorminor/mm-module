@@ -363,7 +363,7 @@ module.exports = class FactPenjualanSummary {
 
                     if (!this.isExcludedItemOnly(sale))
                         return {
-                            timekey: `'${moment(sale.date).format("L")}'`,
+                            timekey: `'${moment(sale.date).add(7, "hours").format("YYYY-MM-DD HH:mm:ss")}'`,
                             countdays: `'${moment(sale.date).daysInMonth()}'`,
                             store_code: sale.store ? `'${this.getDBValidString(sale.store.code)}'` : null,
                             hd_transaction_number: `'${this.getDBValidString(sale.code)}'`,

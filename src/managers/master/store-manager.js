@@ -59,12 +59,41 @@ module.exports = class StoreManager extends BaseManager {
                 }
             };
 
+            var filterStoreCategory = {
+                'storeCategory': {
+                    '$regex': regex
+                }
+            };
+
             keywordFilter = {
-                '$or': [filterCode, filterName]
+                '$or': [filterCode, filterName, filterStoreCategory]
             };
         }
         query = { '$and': [basicFilter, paging.filter, keywordFilter] };
         return query;
+    }
+
+    getStore(filter) {
+        return this._createIndexes()
+            .then((createIndexResults) => {
+                return new Promise((resolve, reject) => {
+                    var query = Object.assign({});
+                    query = Object.assign(query, filter);
+                    query = Object.assign(query, {
+                        _deleted: false
+                    });
+
+                    var _select = [];
+
+                    this.collection.where(query).select(_select).execute()
+                        .then((results) => {
+                            resolve(results.data);
+                        })
+                        .catch(e => {
+                            reject(e);
+                        });
+                });
+            });
     }
 
     _validate(store) {
