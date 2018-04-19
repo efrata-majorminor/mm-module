@@ -23,10 +23,10 @@ class MasterDiscountDataUtil {
 
                 var data = {
                     code : `discount/${codeGenerator()}`,
-                    discount: 10,
+                    discountOne: 10,
+                    discountTwo: 14,
                     startDate : now,
                     endDate : after,
-                    discountMapping : 'Discount 1',
                     stores : stores,
                     storeCategory : 'ALL',
                     items : items

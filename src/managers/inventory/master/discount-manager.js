@@ -27,17 +27,18 @@ module.exports = class DiscountManager extends BaseManager {
 
         if (paging.keyword) {
             var regex = new RegExp(paging.keyword, "i");
-            var filterDiscount = {
-                "discount": {
+            var filterDiscountOne = {
+                "discountOne": {
                     "$regex": regex
                 }
             };
 
-            var filterDiscountMapping = {
-                "discountMapping": {
+            var filterDiscountTwo = {
+                "discountTwo": {
                     "$regex": regex
                 }
             };
+
             var filterStoreCategory = {
                 "storeCategory": {
                     "$regex": regex
@@ -49,7 +50,7 @@ module.exports = class DiscountManager extends BaseManager {
                     "$regex": regex
                 }
             }
-            keywordFilter['$or'] = [filterDiscount, filterDiscountMapping, filterStoreCategory, filterItem];
+            keywordFilter['$or'] = [filterDiscountOne, filterDiscountTwo, filterStoreCategory, filterItem];
         }
 
         query["$and"] = [_default];
@@ -76,35 +77,42 @@ module.exports = class DiscountManager extends BaseManager {
         var valid = discount;
         var errors = {};
         var getStores = [];
-        var getDiscount = {};
+        var getDiscountOne = {};
+        var getDiscountTwo = {};
 
-        if (valid.discount) {
-            
+        if (valid.discountOne || valid.discountTwo) {
+
             if (valid.storeCategory === "ALL") {
                 getStores = this.storeManager.getStore();
             } else if (valid.stores.name === "ALL") {
-                var storeName = { 'storeCategory': valid.storeCategory, '_deleted' : false };
+                var storeName = { 'storeCategory': valid.storeCategory, '_deleted': false };
                 getStores = this.storeManager.getStore(storeName);
             } else {
                 if (valid.stores) {
-                    var storeName = { 'name': valid.stores.name, '_deleted' : false };
+                    var storeName = { 'name': valid.stores.name, '_deleted': false };
                     getStores = this.storeManager.getSingleByQuery(storeName);
                 }
             }
 
-            getDiscount = this.getDiscountByFilter({ 'discount': valid.discount, '_deleted' : false });
+            if (valid.discountOne != 0) {
+                getDiscountOne = this.getDiscountByFilter({ 'discountOne': valid.discountOne, '_deleted': false });
+            }
+
+            if (valid.discountTwo != 0) {
+                getDiscountTwo = this.getDiscountByFilter({ 'discountTwo': valid.discountTwo, '_deleted': false });
+            }
         }
 
-        return Promise.all([getStores, getDiscount])
+        return Promise.all([getStores, getDiscountOne, getDiscountTwo])
             .then(result => {
                 valid.stores = result[0];
 
                 if (result[1].length > 0 && !valid._id) {
-                    errors["discount"] = "Diskon sudah ada";
+                    errors["discountOne"] = "Diskon 1 sudah ada";
                 }
 
-                if (!valid.discount || valid.discount == 0) {
-                    errors["discount"] = "Masukkan Nilai Diskon";
+                if (result[2].length > 0 && !valid._id) {
+                    errors["discountTwo"] = "Diskon 2 sudah ada";
                 }
 
                 if (!valid.startDate || valid.startDate == '') {
