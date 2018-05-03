@@ -26,7 +26,7 @@ module.exports = class TransferInDocExtManager {
         var InventoryManager = require('./inventory-manager');
         this.inventoryManager = new InventoryManager(db, user);
 
-         var SupplierManager = require('../master/supplier-manager');
+        var SupplierManager = require('../master/supplier-manager');
         this.supplierManager = new SupplierManager(db, user);
     }
 
@@ -106,7 +106,7 @@ module.exports = class TransferInDocExtManager {
                 });
         });
     }
-    
+
     getSingleByQuery(query) {
         return new Promise((resolve, reject) => {
             this.transferInDocCollection
@@ -119,7 +119,7 @@ module.exports = class TransferInDocExtManager {
                 });
         })
     }
-    
+
     getSingleByQueryOrDefault(query) {
         return new Promise((resolve, reject) => {
             this.transferInDocCollection
@@ -138,20 +138,43 @@ module.exports = class TransferInDocExtManager {
             this._validate(transferInDoc)
                 .then(validTransferInDoc => {
                     validTransferInDoc._createdDate = new Date();
-                    var tasks = [this.transferInDocCollection.insert(validTransferInDoc)];
 
-                    for (var item of validTransferInDoc.items) {
-                        tasks.push(this.inventoryManager.in(validTransferInDoc.destinationId, validTransferInDoc.code, item.itemId, item.quantity, item.remark));
-                    }
+                    this.transferInDocCollection.insert(validTransferInDoc)
+                        .then(resultId => {
+                            var transferInDocId = resultId;
+                            var tasks = [];
 
-                    Promise.all(tasks)
-                        .then(results => {
-                            var id = results[0];
-                            resolve(id);
+                            for (var item of validTransferInDoc.items) {
+                                tasks.push(this.inventoryManager.in(validTransferInDoc.destinationId, validTransferInDoc.code, item.itemId, item.quantity, item.remark));
+                            }
+
+                            Promise.all(tasks)
+                                .then(results => {
+                                    var id = transferInDocId;
+                                    resolve(id);
+                                })
+                                .catch(e => {
+                                    reject(e);
+                                })
                         })
                         .catch(e => {
                             reject(e);
-                        })
+                        });
+
+                    // var tasks = [this.transferInDocCollection.insert(validTransferInDoc)];
+
+                    // for (var item of validTransferInDoc.items) {
+                    //     tasks.push(this.inventoryManager.in(validTransferInDoc.destinationId, validTransferInDoc.code, item.itemId, item.quantity, item.remark));
+                    // }
+
+                    // Promise.all(tasks)
+                    //     .then(results => {
+                    //         var id = results[0];
+                    //         resolve(id);
+                    //     })
+                    //     .catch(e => {
+                    //         reject(e);
+                    //     })
                 })
                 .catch(e => {
                     reject(e);
@@ -194,8 +217,8 @@ module.exports = class TransferInDocExtManager {
                     reject(e);
                 })
         });
-    } 
-    
+    }
+
     _validate(transferInDoc) {
         var errors = {};
         return new Promise((resolve, reject) => {
@@ -208,8 +231,8 @@ module.exports = class TransferInDocExtManager {
                         '$ne': new ObjectId(valid._id)
                     }
                 }, {
-                        code: valid.code
-                    }]
+                    code: valid.code
+                }]
             });
             // 1. end: Declare promises.
 
@@ -256,7 +279,7 @@ module.exports = class TransferInDocExtManager {
                     else {
                         valid.destinationId = destination._id;
                         valid.destination = destination;
-                    } 
+                    }
                     var items = results.slice(3, results.length)
                     // 2a. begin: Validate error on item level.
                     if (items.length > 0) {
