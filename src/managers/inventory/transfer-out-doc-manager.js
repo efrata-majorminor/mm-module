@@ -87,7 +87,7 @@ module.exports = class TransferOutDocManager {
                 });
         });
     }
-    
+
     getSingleByIdOrDefault(id) {
         return new Promise((resolve, reject) => {
             var query = {
@@ -135,20 +135,44 @@ module.exports = class TransferOutDocManager {
             this._validate(transferOutDoc)
                 .then(validTransferOutDoc => {
                     validTransferOutDoc._createdDate = new Date();
-                    var tasks = [this.transferOutDocCollection.insert(validTransferOutDoc)];
-                    
-                    for (var item of validTransferOutDoc.items) {
-                        tasks.push(this.inventoryManager.out(validTransferOutDoc.sourceId, validTransferOutDoc.code, item.itemId, item.quantity, item.remark))
-                    }
 
-                    Promise.all(tasks)
-                        .then(results => {
-                            var id = results[0];
-                            resolve(id);
+                    this.transferOutDocCollection.insert(validTransferOutDoc)
+                        .then(resultId => {
+                            var transferOutDocId = resultId;
+                            var tasks = [];
+
+                            for (var item of validTransferOutDoc.items) {
+                                tasks.push(this.inventoryManager.out(validTransferOutDoc.sourceId, validTransferOutDoc.code, item.itemId, item.quantity, item.remark));
+                            }
+
+                            Promise.all(tasks)
+                                .then(results => {
+                                    var id = transferOutDocId;
+                                    resolve(id);
+                                })
+                                .catch(e => {
+                                    reject(e);
+                                })
+
                         })
                         .catch(e => {
                             reject(e);
-                        })
+                        });
+
+                    // var tasks = [this.transferOutDocCollection.insert(validTransferOutDoc)];
+
+                    // for (var item of validTransferOutDoc.items) {
+                    //     tasks.push(this.inventoryManager.out(validTransferOutDoc.sourceId, validTransferOutDoc.code, item.itemId, item.quantity, item.remark))
+                    // }
+
+                    // Promise.all(tasks)
+                    //     .then(results => {
+                    //         var id = results[0];
+                    //         resolve(id);
+                    //     })
+                    //     .catch(e => {
+                    //         reject(e);
+                    //     })
                 })
                 .catch(e => {
                     reject(e);
@@ -192,7 +216,7 @@ module.exports = class TransferOutDocManager {
                 })
         });
     }
-   
+
     _validate(transferOutDoc) {
         var errors = {};
         return new Promise((resolve, reject) => {
@@ -205,8 +229,8 @@ module.exports = class TransferOutDocManager {
                         '$ne': new ObjectId(valid._id)
                     }
                 }, {
-                        code: valid.code
-                    }]
+                    code: valid.code
+                }]
             });
             // 1. end: Declare promises.
 
@@ -227,8 +251,8 @@ module.exports = class TransferOutDocManager {
                 .then(results => {
                     var _transferOutDoc = results[0];
                     var source = results[1];
-                    var destination = results[2]; 
-                    
+                    var destination = results[2];
+
                     if (!valid.code || valid.code == '')
                         errors["code"] = "code is required";
                     else if (_transferOutDoc) {
@@ -253,7 +277,7 @@ module.exports = class TransferOutDocManager {
                     else {
                         valid.destinationId = destination._id;
                         valid.destination = destination;
-                    } 
+                    }
                     var items = results.slice(3, results.length)
                     // 2a. begin: Validate error on item level.
                     if (items.length > 0) {
@@ -314,6 +338,6 @@ module.exports = class TransferOutDocManager {
                 .catch(e => {
                     reject(e);
                 });
-        }); 
-    } 
+        });
+    }
 }; 
