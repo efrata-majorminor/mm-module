@@ -156,7 +156,7 @@ module.exports = function (unitReceiptNote, offset) {
                 text: parseInt(item.deliveredQuantity).toLocaleString(locale, locale.parseInt),
                 style: ['size08', 'center']
             }, {
-                text: item.deliveredUom.unit,
+                text: item.deliveredUom.unit || '',
                 style: ['size08', 'center']
             }, {
                 text: item.remark || '',
