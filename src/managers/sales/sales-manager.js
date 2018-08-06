@@ -1,6 +1,7 @@
 'use strict';
 
 // external deps 
+const moment = require("moment");
 var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
@@ -85,8 +86,8 @@ module.exports = class SalesManager extends BaseManager {
             {
                 "$match": {
                     date: {
-                        $gte: new Date(dateFrom),
-                        $lte: new Date(dateTo)
+                        $gte: new Date(moment(dateFrom).startOf("day")),
+                        $lte: new Date(moment(dateTo).endOf("day"))
                     },
                     'isVoid': false
                 }
@@ -111,8 +112,8 @@ module.exports = class SalesManager extends BaseManager {
             {
                 "$match": {
                     date: {
-                        $gte: new Date(dateFrom),
-                        $lte: new Date(dateTo)
+                        $gte: new Date(moment(dateFrom).startOf("day")),
+                        $lte: new Date(moment(dateTo).endOf("day"))
                     },
                     'isVoid': false
                 }
@@ -139,8 +140,8 @@ module.exports = class SalesManager extends BaseManager {
                 {
                     $match: {
                         date: {
-                            $gte: new Date(dateFrom),
-                            $lte: new Date(dateTo)
+                            $gte: new Date(moment(dateFrom).startOf("day")),
+                            $lte: new Date(moment(dateTo).endOf("day"))
                         },
                         isVoid: false,
                         "store.salesCategory": sC,
@@ -253,8 +254,8 @@ module.exports = class SalesManager extends BaseManager {
                 {
                     "$match": {
                         date: {
-                            $gte: new Date(dateFrom),
-                            $lte: new Date(dateTo)
+                            $gte: new Date(moment(dateFrom).startOf("day")),
+                            $lte: new Date(moment(dateTo).endOf("day"))
                         },
                         'isVoid': false
                     }
@@ -307,8 +308,8 @@ module.exports = class SalesManager extends BaseManager {
                 {
                     "$match": {
                         date: {
-                            $gte: new Date(dateFrom),
-                            $lte: new Date(dateTo)
+                            $gte: new Date(moment(dateFrom).startOf("day")),
+                            $lte: new Date(moment(dateTo).endOf("day"))
                         },
                         'isVoid': false
                     }
