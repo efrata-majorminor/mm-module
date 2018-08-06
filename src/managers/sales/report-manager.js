@@ -1,6 +1,7 @@
 'use strict';
 
 // external deps 
+const moment = require("moment");
 var ObjectId = require('mongodb').ObjectId;
 
 var BaseManager = require('module-toolkit').BaseManager;
@@ -20,8 +21,8 @@ module.exports = class ReportManager extends BaseManager {
             {
                 "$match": {
                     date: {
-                        $gte: new Date(dateFrom),
-                        $lte: new Date(dateTo)
+                        $gte: new Date(moment(dateFrom).startOf("day")),
+                        $lte: new Date(moment(dateTo).endOf("day"))
                     },
                     'isVoid': false
                 }
@@ -74,8 +75,8 @@ module.exports = class ReportManager extends BaseManager {
                 {
                     "$match": {
                         date: {
-                            $gte: new Date(dateFrom),
-                            $lte: new Date(dateTo)
+                            $gte: new Date(moment(dateFrom).startOf("day")),
+                            $lte: new Date(moment(dateTo).endOf("day"))
                         },
                         'isVoid': false
                     }
@@ -125,8 +126,8 @@ module.exports = class ReportManager extends BaseManager {
                 {
                     "$match": {
                         date: {
-                            $gte: new Date(dateFrom),
-                            $lte: new Date(dateTo)
+                            $gte: new Date(moment(dateFrom).startOf("day")),
+                            $lte: new Date(moment(dateTo).endOf("day"))
                         },
                         'isVoid': false
                     }
@@ -196,8 +197,8 @@ module.exports = class ReportManager extends BaseManager {
                 {
                     "$match": {
                         date: {
-                            $gte: new Date(dateFrom),
-                            $lte: new Date(dateTo)
+                            $gte: new Date(moment(dateFrom).startOf("day")),
+                            $lte: new Date(moment(dateTo).endOf("day"))
                         },
                         'isVoid': false
                     }
@@ -268,8 +269,8 @@ module.exports = class ReportManager extends BaseManager {
                 {
                     "$match": {
                         date: {
-                            $gte: new Date(dateFrom),
-                            $lte: new Date(dateTo)
+                            $gte: new Date(moment(dateFrom).startOf("day")),
+                            $lte: new Date(moment(dateTo).endOf("day"))
                         },
                         'isVoid': false
                     }
