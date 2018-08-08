@@ -88,7 +88,7 @@ module.exports = class BankManager extends BaseManager {
                     var patternForCode = "[a-zA-Z0-9]";
 
                     if (!valid.code || valid.code == '') {
-                        errors["code"] = "Masukkan Kode 2nd version";
+                        errors["code"] = "Masukkan Kode";
                     } else if (valid.code.match(patternForCode) == null) {
                         errors["code"] = "Hanya menggunakan alphanumeric";
                     } else if (_bank) {
