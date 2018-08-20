@@ -124,7 +124,7 @@ module.exports = class DiscountManager extends BaseManager {
                     errors["endDate"] = "Masukkan Mulai Berakhir Diskon";
                 }
 
-                if (validListDiscount.length > 0) {
+                if (validListDiscount.length > 0 && !valid._id) {
                     validListDiscount.forEach(item => {
                         var validStartDiscount = moment(valid.startDate).startOf('day');
                         var validEndDiscount = moment(valid.endDate).endOf('day');
