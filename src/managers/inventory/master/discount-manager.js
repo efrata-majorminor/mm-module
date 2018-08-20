@@ -1,5 +1,6 @@
 "use strict";
 const moduleId = "M-DISC";
+const moment = require('moment');
 var ObjectId = require("mongodb").ObjectId;
 require("mongodb-toolkit");
 var BateeqModels = require("bateeq-models");
