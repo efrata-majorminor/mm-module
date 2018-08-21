@@ -1,5 +1,6 @@
 var helper = require("./../../../../helper");
 var should = require("should");
+const moment = require('moment');
 
 function getBasicTestDiscount(opt) {
 
@@ -106,9 +107,9 @@ function getBasicTestDiscount(opt) {
     });
 
     it(`#05. should success when update created data`, function (done) {
-        var todays = new Date(createdData.startDate);
-        createdData.startDate.setDate(todays.getDate() + 5);
-        createdData.setDate(todays.getDate() + 10);
+        var today = moment(new Date()).add(5,'days');
+        createdData.startDate = today;
+        createdData.endDate = today;
         console.log(createdData);
         manager.update(createdData)
             .then((id) => {
