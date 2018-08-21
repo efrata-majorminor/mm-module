@@ -106,8 +106,9 @@ function getBasicTestDiscount(opt) {
     });
 
     it(`#05. should success when update created data`, function (done) {
-        createdData.startDate = createdData.startDate.setDate(createdData.startDate.getDate() + 1);
-        createdData.endDate = createdData.endDate.setDate(createdData.endDate.getDate() + 1);
+        var todays = new Date(createdData.startDate);
+        createdData.startDate.setDate(todays.getDate() + 5);
+        createdData.setDate(todays.getDate() + 10);
         console.log(createdData);
         manager.update(createdData)
             .then((id) => {
