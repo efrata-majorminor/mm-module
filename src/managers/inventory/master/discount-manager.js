@@ -105,12 +105,12 @@ module.exports = class DiscountManager extends BaseManager {
                 valid.stores = result[0];
 
                 // Get Discount where is still available until today
-                if (result[1].length > 0 && !valid._id) {
+                if (result[1].length > 0) {
                     result[1].forEach(item => {
                         var startDiscount = moment(item.startDate).startOf('day');
                         var endDiscount = moment(item.endDate).endOf('day');
 
-                        if (todaySdate >= startDiscount && !valid._id || todaySdate <= endDiscount && valid._id) {
+                        if (todaySdate >= startDiscount && valid._id != item._id || todaySdate <= endDiscount && valid._id != item._id) {
                             validListDiscount.push(item);
                         }
                     });
