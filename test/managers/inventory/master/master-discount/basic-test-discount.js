@@ -112,7 +112,6 @@ function getBasicTestDiscount(opt) {
         var end = today.setDate(today.getDate() + 5);
         createdData.startDate = new Date(start);
         createdData.endDate = new Date(end);
-        console.log(createdData);
         manager.update(createdData)
             .then((id) => {
                 createdId.toString().should.equal(id.toString());
