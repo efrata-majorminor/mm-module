@@ -698,14 +698,14 @@ module.exports = class unitPaymentPriceCorrectionNoteManager extends BaseManager
 
     _createIndexes() {
         var dateIndex = {
-            name: `ix_${map.purchasing.collection.UnitPaymentCorrectionNote}_date`,
+            name: `ix_${map.purchasing.UnitPaymentCorrectionNote}_date`,
             key: {
                 date: -1
             }
         }
 
         var noIndex = {
-            name: `ix_${map.purchasing.collection.UnitPaymentCorrectionNote}_no`,
+            name: `ix_${map.purchasing.UnitPaymentCorrectionNote}_no`,
             key: {
                 no: 1
             },
