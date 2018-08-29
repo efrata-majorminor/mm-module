@@ -174,6 +174,7 @@ function getBasicTest(opt) {
                 //process documents
                 documents.should.have.property("data");
                 documents.data.should.be.instanceof(Array);
+                console.log(documents.data.length);
                 documents.data.length.should.not.equal(0);
                 done();
             })
