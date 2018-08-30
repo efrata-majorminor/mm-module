@@ -4,8 +4,8 @@ var options = {
     util: require("../../../data-util/purchasing/unit-payment-quantity-correction-note-data-util"),
     validator: require("bateeq-models").validator.purchasing.unitPaymentCorrectionNote,
     createDuplicate: false,
-    keys: ["no"]
+    keys: []
 };
 
-var basicTest = require("../../../basic-test-factory");
+var basicTest = require("./price-correction-test");
 basicTest(options);
