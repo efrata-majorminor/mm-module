@@ -161,7 +161,8 @@ module.exports = {
         DeliveryOrderManager: require('./src/managers/purchasing/delivery-order-manager'),
         UnitReceiptNoteManager: require('./src/managers/purchasing/unit-receipt-note-manager'),
         UnitPaymentOrderManager: require('./src/managers/purchasing/unit-payment-order-manager'),
-        UnitPaymentPriceCorrectionNoteManager: require('./src/managers/purchasing/unit-payment-price-correction-note-manager')
+        UnitPaymentPriceCorrectionNoteManager: require('./src/managers/purchasing/unit-payment-price-correction-note-manager'),
+        UnitPaymentQuantityCorrectionNoteManager: require('./src/managers/purchasing/unit-payment-quantity-correction-note-manager')
     }
 
 }
