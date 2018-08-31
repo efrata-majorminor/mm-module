@@ -70,4 +70,5 @@ describe('#bateeq-module', function (done) {
     test('@PURCHASING/DELIVERY-ORDER', './managers/purchasing/delivery-order');
     test('@PURCHASING/UNIT-RECEIPT-NOTE', './managers/purchasing/unit-receipt-note');
     test('@PURCHASING/UNIT-PAYMENT-ORDER', './managers/purchasing/unit-payment-order');
+    test('@PURCHASING/PRICE-CORRECTION', './managers/purchasing/price-correction');
 })
