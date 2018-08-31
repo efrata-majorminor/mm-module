@@ -2,7 +2,6 @@
 var ObjectId = require("mongodb").ObjectId;
 require('mongodb-toolkit');
 var BateeqModels = require('bateeq-models');
-var assert = require('assert');
 var map = BateeqModels.map;
 var i18n = require('dl-i18n');
 var PurchaseOrderManager = require('./purchase-order-manager');
