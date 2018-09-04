@@ -250,14 +250,16 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
                     for (var _item of unitPaymentQuantityCorrectionNote.items) {
                         for (var _poItem of _item.purchaseOrder.items) {
                             if (_poItem.product._id.toString() === _item.product._id.toString()) {
-                                for (var _fulfillment of _poItem.fulfillments) {
-                                    var qty = 0, priceTotal = 0, pricePerUnit = 0;
-                                    if (_item.unitReceiptNoteNo === _fulfillment.unitReceiptNoteNo && unitPaymentQuantityCorrectionNote.unitPaymentOrder.no === _fulfillment.interNoteNo) {
-                                        priceTotal = _item.quantity * _item.pricePerUnit;
-                                        pricePerUnit = _item.pricePerUnit;
-                                        _item.pricePerUnit = pricePerUnit;
-                                        _item.priceTotal = priceTotal;
-                                        break;
+                                if (_poItem.fulfillments) {
+                                    for (var _fulfillment of _poItem.fulfillments) {
+                                        var qty = 0, priceTotal = 0, pricePerUnit = 0;
+                                        if (_item.unitReceiptNoteNo === _fulfillment.unitReceiptNoteNo && unitPaymentQuantityCorrectionNote.unitPaymentOrder.no === _fulfillment.interNoteNo) {
+                                            priceTotal = _item.quantity * _item.pricePerUnit;
+                                            pricePerUnit = _item.pricePerUnit;
+                                            _item.pricePerUnit = pricePerUnit;
+                                            _item.priceTotal = priceTotal;
+                                            break;
+                                        }
                                     }
                                 }
                                 break;
@@ -516,8 +518,8 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
                                     .updateOne({
                                         _id: unitPaymentPriceCorrectionNote._id
                                     }, {
-                                        $set: unitPaymentPriceCorrectionNote
-                                    })
+                                            $set: unitPaymentPriceCorrectionNote
+                                        })
                                     .then((result) => Promise.resolve(unitPaymentPriceCorrectionNote._id));
                             })
                     })
