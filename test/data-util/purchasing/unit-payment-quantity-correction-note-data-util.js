@@ -77,8 +77,7 @@ class UnitPaymentQuantityCorrectionNoteDataUtil {
                 return this.getNewData().then((data) => {
                     return manager.create(data)
                         .then((id) => {
-                            return manager.create(data)
-                                .then((id) => manager.getSingleById(id));
+                            return manager.getSingleById(id);
                         });
                 });
             });
