@@ -1,5 +1,5 @@
 "use strict";
-const moduleId = "M-DISC";
+const moduleId = "EFR-DC";
 const moment = require('moment');
 var ObjectId = require("mongodb").ObjectId;
 require("mongodb-toolkit");

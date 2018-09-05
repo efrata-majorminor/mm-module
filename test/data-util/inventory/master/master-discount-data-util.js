@@ -29,7 +29,8 @@ class MasterDiscountDataUtil {
                     endDate : after,
                     stores : stores,
                     storeCategory : 'ALL',
-                    items : items
+                    items : items,
+                    information: "test for information"
                 };
 
                 return Promise.resolve(data);
