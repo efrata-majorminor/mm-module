@@ -352,7 +352,7 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
                     .updateOne(query, documentNumbersData, options)
                     .then((id) => {
                         if (unitPaymentQuantityCorrectionNote.unitPaymentOrder.useIncomeTax)
-                             unitPaymentQuantityCorrectionNote.returNoteNo = generateCode("returCode");
+                             unitPaymentQuantityCorrectionNote.returNoteNo = generateCode();
                         return Promise.resolve(unitPaymentQuantityCorrectionNote);
                     })
             })
