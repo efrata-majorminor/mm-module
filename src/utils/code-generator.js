@@ -9,6 +9,15 @@ module.exports = function(moduleId) {
     var now = moment();
     var begin = now.clone().startOf("month");
     var diff = now.diff(begin);
-    var code = `${hashids.encode(diff)}/${moduleId}/${now.format("MM/YYYY")}`;
+    var code = "";
+
+    if (moduleId)
+    {
+        code = `${hashids.encode(diff)}/${moduleId}/${now.format("MM/YYYY")}`;
+    } else 
+    {
+        code = `${hashids.encode(diff)}/${now.format("MM/YYYY")}`;
+    }
+    
     return code;
 }
