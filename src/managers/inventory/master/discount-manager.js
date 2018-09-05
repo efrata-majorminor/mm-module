@@ -28,6 +28,13 @@ module.exports = class DiscountManager extends BaseManager {
 
         if (paging.keyword) {
             var regex = new RegExp(paging.keyword, "i");
+
+            var filterCode = {
+                "code": {
+                    "$regex": regex
+                }
+            };
+
             var filterDiscountOne = {
                 "discountOne": {
                     "$regex": regex
@@ -51,7 +58,7 @@ module.exports = class DiscountManager extends BaseManager {
                     "$regex": regex
                 }
             }
-            keywordFilter['$or'] = [filterDiscountOne, filterDiscountTwo, filterStoreCategory, filterItem];
+            keywordFilter['$or'] = [filterCode, filterDiscountOne, filterDiscountTwo, filterStoreCategory, filterItem];
         }
 
         query["$and"] = [_default];
@@ -66,7 +73,15 @@ module.exports = class DiscountManager extends BaseManager {
             }
         };
 
-        return this.collection.createIndexes([dateIndex]);
+        var codeIndex = {
+            name: `ix_${map.inventory.master.Discount}_code`,
+            key: {
+                code: 1
+            },
+            unique: true
+        };
+
+        return this.collection.createIndexes([dateIndex, codeIndex]);
     }
 
     _beforeInsert(discount) {
