@@ -7,5 +7,5 @@ var options = {
     keys: []
 };
 
-var basicTest = require("../../../../basic-test-factory");
+var basicTest = require("./basic-test-discount");
 basicTest(options); 

@@ -2,7 +2,6 @@
 var ObjectId = require("mongodb").ObjectId;
 require('mongodb-toolkit');
 var BateeqModels = require('bateeq-models');
-var assert = require('assert');
 var map = BateeqModels.map;
 var i18n = require('dl-i18n');
 var PurchaseOrderManager = require('./purchase-order-manager');
@@ -15,6 +14,8 @@ var generateCode = require('../../utils/code-generator');
 var UnitReceiptNoteManager = require('./unit-receipt-note-manager');
 var moment = require('moment');
 
+const NUMBER_DESCRIPTION = "Nota Koreksi"
+
 module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseManager {
     constructor(db, user) {
         super(db, user);
@@ -23,29 +24,30 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
         this.purchaseOrderManager = new PurchaseOrderManager(db, user);
         this.purchaseOrderExternalManager = new PurchaseOrderExternalManager(db, user);
         this.unitReceiptNoteManager = new UnitReceiptNoteManager(db, user);
+        this.documentNumbers = this.db.collection("document-numbers");
     }
-
-    getMonitoringKoreksi(query) {
+    
+    getMonitoringKoreksi(query){
         return new Promise((resolve, reject) => {
-
-            var date = {
-                "date": {
-                    "$gte": (!query || !query.dateFrom ? (new Date("1900-01-01")) : (new Date(`${query.dateFrom} 00:00:00`))),
-                    "$lte": (!query || !query.dateTo ? (new Date()) : (new Date(`${query.dateTo} 23:59:59`)))
+           
+              var date = {
+                "date" : {
+                    "$gte" : (!query || !query.dateFrom ? (new Date("1900-01-01")) : (new Date(`${query.dateFrom} 00:00:00`))),
+                    "$lte" : (!query || !query.dateTo ? (new Date()) : (new Date(`${query.dateTo} 23:59:59`)))
                 },
-                "_deleted": false,
-                "correctionType": "Jumlah"
+                "_deleted" : false,
+                "correctionType":"Jumlah"
             };
-
-            this.collection.aggregate([
-                { "$match": date }, { "$unwind": "$items" }
-
-            ])
-
-                .toArray()
-                .then(result => {
-                    resolve(result);
-                });
+           
+        this.collection.aggregate([ 
+                {"$match" : date},{"$unwind" :"$items"}
+               
+             ])
+    
+            .toArray()
+            .then(result => {
+                resolve(result);
+            });
         });
     }
 
@@ -60,10 +62,10 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
                         '$ne': new ObjectId(valid._id)
                     }
                 }, {
-                    "no": valid.no
-                }, {
-                    _deleted: false
-                }]
+                        "no": valid.no
+                    }, {
+                        _deleted: false
+                    }]
             });
 
             var getUnitPaymentOrder = valid.unitPaymentOrder && ObjectId.isValid(valid.unitPaymentOrder._id) ? this.unitPaymentOrderManager.getSingleByIdOrDefault(valid.unitPaymentOrder._id) : Promise.resolve(null);
@@ -251,14 +253,16 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
                     for (var _item of unitPaymentQuantityCorrectionNote.items) {
                         for (var _poItem of _item.purchaseOrder.items) {
                             if (_poItem.product._id.toString() === _item.product._id.toString()) {
-                                for (var _fulfillment of _poItem.fulfillments) {
-                                    var qty = 0, priceTotal = 0, pricePerUnit = 0;
-                                    if (_item.unitReceiptNoteNo === _fulfillment.unitReceiptNoteNo && unitPaymentQuantityCorrectionNote.unitPaymentOrder.no === _fulfillment.interNoteNo) {
-                                        priceTotal = _item.quantity * _item.pricePerUnit;
-                                        pricePerUnit = _item.pricePerUnit;
-                                        _item.pricePerUnit = pricePerUnit;
-                                        _item.priceTotal = priceTotal;
-                                        break;
+                                if (_poItem.fulfillments) {
+                                    for (var _fulfillment of _poItem.fulfillments) {
+                                        var qty = 0, priceTotal = 0, pricePerUnit = 0;
+                                        if (_item.unitReceiptNoteNo === _fulfillment.unitReceiptNoteNo && unitPaymentQuantityCorrectionNote.unitPaymentOrder.no === _fulfillment.interNoteNo) {
+                                            priceTotal = _item.quantity * _item.pricePerUnit;
+                                            pricePerUnit = _item.pricePerUnit;
+                                            _item.pricePerUnit = pricePerUnit;
+                                            _item.priceTotal = priceTotal;
+                                            break;
+                                        }
                                     }
                                 }
                                 break;
@@ -285,11 +289,77 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
         });
     }
 
+    pad(number, length) {
+
+        var str = '' + number;
+        while (str.length < length) {
+            str = '0' + str;
+        }
+
+        return str;
+    }
+
     _beforeInsert(unitPaymentQuantityCorrectionNote) {
-        unitPaymentQuantityCorrectionNote.no = generateCode("correctionPrice");
-        if (unitPaymentQuantityCorrectionNote.unitPaymentOrder.useIncomeTax)
-            unitPaymentQuantityCorrectionNote.returNoteNo = generateCode("returCode");
-        return Promise.resolve(unitPaymentQuantityCorrectionNote)
+        var date= moment(unitPaymentQuantityCorrectionNote.date.setHours(unitPaymentQuantityCorrectionNote.date.getHours() +7));
+        var monthNow = date.format("MM");
+        var yearNow = parseInt(date.format("YY"));
+        var code="";
+        // var unitCode=unitPaymentQuantityCorrectionNote.unitPaymentOrder ? unitPaymentQuantityCorrectionNote.unitPaymentOrder.division.code : "";
+        if(unitPaymentQuantityCorrectionNote && unitPaymentQuantityCorrectionNote.unitPaymentOrder){
+            code= unitPaymentQuantityCorrectionNote.unitPaymentOrder.supplier.import ? "NRI" : "NRL";
+        }
+        var division="";
+        if(unitPaymentQuantityCorrectionNote.unitPaymentOrder && unitPaymentQuantityCorrectionNote.unitPaymentOrder.division){
+            if(unitPaymentQuantityCorrectionNote.unitPaymentOrder.division.name=="GARMENT"){
+                division="-G";
+            }
+            else if(unitPaymentQuantityCorrectionNote.unitPaymentOrder.division.name=="UMUM" || unitPaymentQuantityCorrectionNote.unitPaymentOrder.division.name=="SPINNING" || unitPaymentQuantityCorrectionNote.unitPaymentOrder.division.name=="FINISHING & PRINTING" || unitPaymentQuantityCorrectionNote.unitPaymentOrder.division.name=="UTILITY"|| unitPaymentQuantityCorrectionNote.unitPaymentOrder.division.name=="WEAVING"){
+                division="-T";
+            }
+        }
+        var type = code+monthNow+yearNow+division;
+        var query = { "type": type, "description": NUMBER_DESCRIPTION };
+        var fields = { "number": 1, "year": 1 };
+
+        return this.documentNumbers
+            .findOne(query, fields)
+            .then((previousDocumentNumber) => {
+
+                var number = 1;
+
+                if (!unitPaymentQuantityCorrectionNote.no) {
+                    if (previousDocumentNumber) {
+                        var oldYear = previousDocumentNumber.year;
+                        number = yearNow > oldYear ? number : previousDocumentNumber.number + 1;
+
+                        unitPaymentQuantityCorrectionNote.no = `${yearNow}-${monthNow}${division}-${code}-${this.pad(number, 4)}`;
+                    } else {
+                        unitPaymentQuantityCorrectionNote.no = `${yearNow}-${monthNow}${division}-${code}-0001`;
+                    }
+                }
+
+                var documentNumbersData = {
+                    type: type,
+                    documentNumber: unitPaymentQuantityCorrectionNote.no,
+                    number: number,
+                    year: yearNow,
+                    description: NUMBER_DESCRIPTION
+                };
+
+                var options = { "upsert": true };
+
+                return this.documentNumbers
+                    .updateOne(query, documentNumbersData, options)
+                    .then((id) => {
+                        if (unitPaymentQuantityCorrectionNote.unitPaymentOrder.useIncomeTax)
+                             unitPaymentQuantityCorrectionNote.returNoteNo = generateCode();
+                        return Promise.resolve(unitPaymentQuantityCorrectionNote);
+                    })
+            })
+        // unitPaymentQuantityCorrectionNote.no = generateCode("correctionPrice");
+        // if (unitPaymentQuantityCorrectionNote.unitPaymentOrder.useIncomeTax)
+        //     unitPaymentQuantityCorrectionNote.returNoteNo = generateCode("returCode");
+        // return Promise.resolve(unitPaymentQuantityCorrectionNote)
     }
 
     _afterInsert(id) {
@@ -525,7 +595,7 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
             })
     }
 
-    getXls(result, query) {
+    getXls(result, query){
         var xls = {};
         xls.data = [];
         xls.options = [];
@@ -534,43 +604,52 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
         var index = 0;
         var dateFormat = "DD/MM/YYYY";
 
-        for (var corqty of result.data) {
+        for(var corqty of result.data){
             index++;
             var item = {};
             item["NO"] = index;
             item["NO NOTA DEBET"] = corqty.no ? corqty.no : '';
             item["TANGGAL NOTA DEBET"] = corqty.date ? moment(new Date(corqty.date)).format(dateFormat) : '';
-            item["NO SPB"] = corqty.unitPaymentOrder ? corqty.unitPaymentOrder.no : '';
-            item["NO PO EXTERNAL"] = corqty.items.purchaseOrder.purchaseOrderExternal ? corqty.items.purchaseOrder.purchaseOrderExternal.no : '';
-            item["NO PURCHASE REQUEST"] = corqty.items.purchaseOrder.purchaseRequest ? corqty.items.purchaseOrder.purchaseRequest.no : '';
-            item["NOTA RETUR"] = corqty.returNoteNo ? corqty.returNoteNo : '';
-            item["FAKTUR PAJAK PPN"] = corqty.incomeTaxCorrectionNo ? corqty.incomeTaxCorrectionNo : '';
-            item["TANGGAL FAKTUR PAJAK PPN"] = corqty.incomeTaxCorrectionDate ? moment(new Date(corqty.incomeTaxCorrectionDate)).format(dateFormat) : '';
-            item["UNIT"] = corqty.items.purchaseOrder.unit.name ? corqty.items.purchaseOrder.unit.name : '';
-            item["KATEGORI"] = corqty.unitPaymentOrder.category ? corqty.unitPaymentOrder.category.name : '';
-            item["SUPPLIER"] = corqty.unitPaymentOrder.supplier ? corqty.unitPaymentOrder.supplier.name : '';
-            item["KODE BARANG"] = corqty.items.product ? corqty.items.product.code : '';
-            item["NAMA BARANG"] = corqty.items.product ? corqty.items.product.name : '';
+            item["NO SPB"] = corqty.unitPaymentOrder? corqty.unitPaymentOrder.no : '';
+            item["NO PO EXTERNAL"] = corqty.items.purchaseOrder.purchaseOrderExternal? corqty.items.purchaseOrder.purchaseOrderExternal.no : '';
+            item["NO PURCHASE REQUEST"] = corqty.items.purchaseOrder.purchaseRequest? corqty.items.purchaseOrder.purchaseRequest.no : '';
+            item["NOTA RETUR"] = corqty.returNoteNo? corqty.returNoteNo : '';
+            item["FAKTUR PAJAK PPN"] = corqty.incomeTaxCorrectionNo? corqty.incomeTaxCorrectionNo : '';
+            item["TANGGAL FAKTUR PAJAK PPN"] = corqty.incomeTaxCorrectionDate? moment(new Date(corqty.incomeTaxCorrectionDate)).format(dateFormat) : '';
+            item["UNIT"] = corqty.items.purchaseOrder.unit.name? corqty.items.purchaseOrder.unit.name : '';
+            item["KATEGORI"] = corqty.unitPaymentOrder.category? corqty.unitPaymentOrder.category.name : '';
+            item["CODE SUPPLIER"] = corqty.unitPaymentOrder.supplier? corqty.unitPaymentOrder.supplier.code : '';
+            item["SUPPLIER"] = corqty.unitPaymentOrder.supplier? corqty.unitPaymentOrder.supplier.name : '';
+            item["KODE BARANG"] = corqty.items.product? corqty.items.product.code : '';
+            item["NAMA BARANG"] = corqty.items.product? corqty.items.product.name : '';
 
-            var a = corqty.items.quantity.toFixed(2).toString().split('.');
-            var a1 = a[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            var Jumlah = a1 + '.' + a[1];
+                var a= corqty.items.quantity.toFixed(2).toString().split('.');
+                var a1=a[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                var Jumlah= a1 + '.' + a[1];
 
-            item["JUMLAH"] = Jumlah;
-            item["SATUAN"] = corqty.items.uom.unit ? corqty.items.uom.unit : '';
+            item["JUMLAH"] = Jumlah; 
+            item["SATUAN"] = corqty.items.uom.unit? corqty.items.uom.unit : '';
 
-            var x = corqty.items.pricePerUnit.toFixed(4).toString().split('.');
-            var x1 = x[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            var HARGA = x1 + '.' + x[1];
+                var x= corqty.items.pricePerUnit.toFixed(4).toString().split('.');
+                var x1=x[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                var HARGA= x1 + '.' + x[1];
 
-            var y = corqty.items.priceTotal.toFixed(2).toString().split('.');
-            var y1 = y[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            var TOTAL = y1 + '.' + y[1];
-
+                var y= corqty.items.priceTotal.toFixed(2).toString().split('.');
+                var y1=y[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                var TOTAL= y1 + '.' + y[1];
+   
             item["HARGA SATUAN"] = HARGA;
             item["HARGA TOTAL"] = TOTAL;
-            item["USER INPUT"] = corqty._createdBy ? corqty._createdBy : '';
-
+            item["USER INPUT"] = corqty._createdBy? corqty._createdBy : '';
+            item["MATA UANG"] = corqty.items.currency? corqty.items.currency.code : '';
+             if(corqty.useIncomeTax==true){
+                    var z =( (corqty.items.quantity * corqty.items.pricePerUnit)/10).toFixed(2).toString().split('.'); 
+                    var z1=z[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    var ppn= z1 + '.' + z[1];
+                    item["PPN"] =ppn;
+                    }else{
+                    item["PPN"] =0;
+                    }
             xls.data.push(item);
         }
 
@@ -585,6 +664,7 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
         xls.options["TANGGAL FAKTUR PAJAK PPN"] = "date";
         xls.options["UNIT"] = "string";
         xls.options["KATEGORI"] = "string";
+        xls.options["CODE SUPPLIER"] = "string";
         xls.options["SUPPLIER"] = "string";
         xls.options["KODE BARANG"] = "string";
         xls.options["NAMA BARANG"] = "string";
@@ -593,8 +673,9 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
         xls.options["HARGA SATUAN"] = "number";
         xls.options["HARGA TOTAL"] = "number";
         xls.options["USER INPUT"] = "string";
-
-        if (query.dateFrom && query.dateTo) {
+        xls.options["MATA UANG"] = "string";
+        xls.options["PPN"] = "number";
+        if(query.dateFrom && query.dateTo){
             xls.name = `Monitoring Koreksi Jumlah ${moment(new Date(query.dateFrom)).format(dateFormat)} - ${moment(new Date(query.dateTo)).format(dateFormat)}.xlsx`;
         }
         return Promise.resolve(xls);
@@ -627,18 +708,20 @@ module.exports = class UnitPaymentQuantityCorrectionNoteManager extends BaseMana
                     for (var _item of unitPaymentQuantityCorrectionNote.items) {
                         for (var _poItem of _item.purchaseOrder.items) {
                             if (_poItem.product._id.toString() === _item.product._id.toString()) {
-                                for (var _fulfillment of _poItem.fulfillments) {
-                                    var qty = 0, priceTotal = 0, pricePerUnit = 0;
-                                    if (_item.unitReceiptNoteNo === _fulfillment.unitReceiptNoteNo && unitPaymentQuantityCorrectionNote.unitPaymentOrder.no === _fulfillment.interNoteNo) {
-                                        // qty = _fulfillment.unitReceiptNoteDeliveredQuantity - _item.quantity;
-                                        // priceTotal = qty * _item.pricePerUnit;
-                                        priceTotal = _item.quantity * _item.pricePerUnit;
-                                        pricePerUnit = _item.pricePerUnit;
-                                        _item.pricePerUnit = pricePerUnit;
-                                        // _item.quantity = qty;
-                                        _item.priceTotal = priceTotal;
+                                if (_poItem.fulfillments) {
+                                    for (var _fulfillment of _poItem.fulfillments) {
+                                        var qty = 0, priceTotal = 0, pricePerUnit = 0;
+                                        if (_item.unitReceiptNoteNo === _fulfillment.unitReceiptNoteNo && unitPaymentQuantityCorrectionNote.unitPaymentOrder.no === _fulfillment.interNoteNo) {
+                                            // qty = _fulfillment.unitReceiptNoteDeliveredQuantity - _item.quantity;
+                                            // priceTotal = qty * _item.pricePerUnit;
+                                            priceTotal = _item.quantity * _item.pricePerUnit;
+                                            pricePerUnit = _item.pricePerUnit;
+                                            _item.pricePerUnit = pricePerUnit;
+                                            // _item.quantity = qty;
+                                            _item.priceTotal = priceTotal;
 
-                                        break;
+                                            break;
+                                        }
                                     }
                                 }
                                 break;
