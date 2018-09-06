@@ -1,6 +1,6 @@
 'use strict'
 var helper = require("../../helper");
-var MovementInventoryManager = require("../../../../src/managers/inventory/movement-inventory-manager");
+var MovementInventoryManager = require("../../../src/managers/inventory/movement-inventory-manager");
 var productDataUtil = require('../master/product-data-util');
 var storageDataUtil = require('../master/storage-data-util');
 var uomDataUtil = require('../master/uom-data-util');
