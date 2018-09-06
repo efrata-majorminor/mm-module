@@ -120,6 +120,7 @@ module.exports = class DiscountManager extends BaseManager {
                 valid.stores = result[0];
 
                 // Get Discount where is still available until today
+                // Now Not used, because bottom validation has released
                 if (result[1].length > 0) {
                     result[1].forEach(item => {
                         var startDiscount = moment(item.startDate).startOf('day');
@@ -139,20 +140,21 @@ module.exports = class DiscountManager extends BaseManager {
                     errors["endDate"] = "Masukkan Mulai Berakhir Diskon";
                 }
 
-                if (validListDiscount.length > 0) {
-                    validListDiscount.forEach(item => {
-                        var validStartDiscount = moment(valid.startDate).startOf('day');
-                        var validEndDiscount = moment(valid.endDate).endOf('day');
-                        var itemStartDiscount = moment(item.startDate).startOf('day');
-                        var itemEndDiscount = moment(item.endDate).endOf('day');
+                // release validation for available discount have same period
+                // if (validListDiscount.length > 0) {
+                //     validListDiscount.forEach(item => {
+                //         var validStartDiscount = moment(valid.startDate).startOf('day');
+                //         var validEndDiscount = moment(valid.endDate).endOf('day');
+                //         var itemStartDiscount = moment(item.startDate).startOf('day');
+                //         var itemEndDiscount = moment(item.endDate).endOf('day');
 
-                        if (validStartDiscount >= itemStartDiscount && validStartDiscount <= itemEndDiscount ||
-                            itemStartDiscount >= validStartDiscount && itemStartDiscount <= validEndDiscount) {
-                                errors["discountOne"] = "Diskon 1 Sudah dipakai & Masih Berlaku";
-                                errors["discountTwo"] = "Diskon 2 Sudah dipakai & Masih Berlaku";
-                        }
-                    });
-                }
+                //         if (validStartDiscount >= itemStartDiscount && validStartDiscount <= itemEndDiscount ||
+                //             itemStartDiscount >= validStartDiscount && itemStartDiscount <= validEndDiscount) {
+                //                 errors["discountOne"] = "Diskon 1 Sudah dipakai & Masih Berlaku";
+                //                 errors["discountTwo"] = "Diskon 2 Sudah dipakai & Masih Berlaku";
+                //         }
+                //     });
+                // }
 
                 if (!valid.stamp) {
                     valid = new Discount(valid);
