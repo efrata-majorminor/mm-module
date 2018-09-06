@@ -14,7 +14,7 @@ var MachineType = BtModels.master.MachineType;
 before('#00. connect db', function (done) {
     helper.getDb()
         .then(db => {
-            summaryInventoryManager = new SummaryInventoryManager(db, {
+            SummaryInventory = new summaryInventoryManager(db, {
                 username: 'dev'
             });
             done();
