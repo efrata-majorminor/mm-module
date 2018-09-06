@@ -4,7 +4,6 @@ var helper = require("../../../helper");
 var validate = require("bateeq-models").validator.inventory.summaryInventory;
 
 var summaryInventoryManager = require("../../../../src/managers/inventory/summary-inventory-manager");
-var summaryInventoryManager = null;
 
 //delete unitest data
 var BtModels = require('bateeq-models');
