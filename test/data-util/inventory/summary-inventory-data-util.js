@@ -3,7 +3,6 @@ var helper = require("../../helper");
 var SummaryInventoryManager = require("../../../src/managers/inventory/summary-inventory-manager");
 var productDataUtil = require('../master/product-data-util');
 var storageDataUtil = require('../master/storage-data-util');
-
 var uomDataUtil = require('../master/uom-data-util');
 
 var codeGenerator = require('../../../src/utils/code-generator');

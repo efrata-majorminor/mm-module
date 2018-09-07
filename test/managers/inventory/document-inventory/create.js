@@ -46,3 +46,13 @@ it("#02. should success when create new data using status ADJ", function (done) 
             done(e);
         });
 });
+
+it("#03. should success when read data", function (done) {
+    documentInventoryManager.read({ "keyword": "test" })
+        .then((data) => {
+            done();
+        })
+        .catch((e) => {
+            done(e);
+        });
+});

@@ -1,6 +1,7 @@
 require("should");
 var MovementInventory = require("../../../data-util/inventory/movement-inventory-data-util");
 var helper = require("../../../helper");
+var moment = require("moment");
 var validate = require("bateeq-models").validator.inventory.movementInventory;
 
 var MovementInventoryManager = require("../../../../src/managers/inventory/movement-inventory-manager");
@@ -39,7 +40,6 @@ it("#01. should success when create new data", function (done) {
         });
 });
 
-var createdData;
 it(`#02. should success when get created data with id`, function (done) {
     movementInventoryManager.getSingleById(createdId)
         .then((data) => {
@@ -54,12 +54,67 @@ it(`#02. should success when get created data with id`, function (done) {
 });
 
 
+it("#01.(3) should success when create new data", function (done) {
+    MovementInventory.getNewTestData3()
+        .then((data) => movementInventoryManager.create(data))
+        .then((id) => {
+            id.should.be.Object();
+            createdId = id;
+            done();
+        })
+        .catch((e) => {
+            done(e);
+        });
+});
+
+it("#01.(4) should success when create new data", function (done) {
+    MovementInventory.getNewTestData4()
+        .then((data) => movementInventoryManager.create(data))
+        .then((id) => {
+            id.should.be.Object();
+            createdId = id;
+            done();
+        })
+        .catch((e) => {
+            done(e);
+        });
+});
+
+it("#01.(5) should success when create new data", function (done) {
+    MovementInventory.getNewTestData5()
+        .then((data) => movementInventoryManager.create(data))
+        .then((id) => {
+            id.should.be.Object();
+            createdId = id;
+            done();
+        })
+        .catch((e) => {
+            done(e);
+        });
+});
+
+var createdData;
+it(`#02. should success when get created data with id`, function (done) {
+    movementInventoryManager.getSingleById(createdId)
+        .then((data) => {
+            data.should.instanceof(Object);
+            validate(data);
+            createdData = data;
+            done();
+        })
+        .catch((e) => {
+            done(e);
+        });
+});
+
 var resultForExcelTest = {};
 it("#03. should success when read data", function (done) {
-    movementInventoryManager.read({
-        filter: {
-            _id: createdId
-        }
+    movementInventoryManager.getMovementReport({
+        "filter": {
+            "_id": createdId
+        },
+        "offset": 0,
+        "keyword": "TEST"
     })
         .then((documents) => {
             resultForExcelTest = documents;
@@ -85,7 +140,6 @@ it('#04. should success when get data for Excel Report', function (done) {
             done(e);
         });
 });
-
 
 it("#05. should success when destroy all unit test data", function (done) {
     movementInventoryManager.destroy(createdData._id)

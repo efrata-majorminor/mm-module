@@ -4,6 +4,3 @@ describe("BASIC CRUD SCENARIOS", function() {
 describe("CREATE SCENARIOS", function() {
     require("./create");
 }); 
-describe("VALIDATION SCENARIOS", function() {
-    require("./validator");
-}); 

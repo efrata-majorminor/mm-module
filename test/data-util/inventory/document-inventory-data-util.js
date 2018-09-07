@@ -17,9 +17,8 @@ class DocumentInventoryDataUtil {
         return Promise.all([productDataUtil.getTestData(), productDataUtil.getTestData2(), storageDataUtil.getTestData(), uomDataUtil.getTestData()])
             .then(result => {
                 var product = result[0];
-                var product2 = result[1];
-                var storage = result[2];
-                var uom = result[3];
+                var storage = result[1];
+                var uom = result[2];
 
                 var code = codeGenerator()
                 var data = {
@@ -31,10 +30,6 @@ class DocumentInventoryDataUtil {
                     storageId: storage._id,
                     items: [{
                         productId: product._id,
-                        quantity: 1000,
-                        uomId: uom._id
-                    }, {
-                        productId: product2._id,
                         quantity: 1000,
                         uomId: uom._id
                     }]
@@ -49,6 +44,45 @@ class DocumentInventoryDataUtil {
             .getManager(DocumentInventoryManager)
             .then((manager) => {
                 return this.getNewData().then((data) => {
+                    return manager.create(data)
+                        .then((id) => {
+                            return manager.getSingleById(id)
+                        });
+                });
+            });
+    }
+
+    getPackingNewData() {
+        return Promise.all([productDataUtil.getTestData(), storageDataUtil.getPackingTestData(), uomDataUtil.getTestData()])
+            .then(result => {
+                var product = result[0];
+                var storage = result[1];
+                var uom = result[2];
+
+                var code = codeGenerator()
+                var data = {
+                    code: code,
+                    referenceNo: `RFNO-${code}`,
+                    referenceType: 'unit-test-doc',
+                    type: "IN",
+                    date: new Date(),
+                    storageId: storage._id,
+                    items: [{
+                        productId: product._id,
+                        quantity: 1000,
+                        uomId: uom._id
+                    }]
+                };
+
+                return data;
+            });
+    }
+
+     getPackingNewTestData() {
+        return helper
+            .getManager(DocumentInventoryManager)
+            .then((manager) => {
+                return this.getPackingNewData().then((data) => {
                     return manager.create(data)
                         .then((id) => {
                             return manager.getSingleById(id)

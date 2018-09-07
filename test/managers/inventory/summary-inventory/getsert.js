@@ -10,6 +10,8 @@ var validate = require("bateeq-models").validator.inventory.summaryInventory;
 var moment = require('moment');
 
 var SummaryInventoryManager = require("../../../../src/managers/inventory/summary-inventory-manager");
+var SummaryInventoryManager = null;
+
 var product = null;
 var storage = null;
 var uom = null;

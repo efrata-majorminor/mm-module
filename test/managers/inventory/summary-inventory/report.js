@@ -4,6 +4,7 @@ var helper = require("../../../helper");
 var validate = require("bateeq-models").validator.inventory.summaryInventory;
 
 var summaryInventoryManager = require("../../../../src/managers/inventory/summary-inventory-manager");
+var summaryInventoryManager = null;
 
 //delete unitest data
 var BtModels = require('bateeq-models');
@@ -58,7 +59,8 @@ it("#03. should success when read data", function (done) {
     summaryInventoryManager.read({
         filter: {
             _id: createdId
-        }
+        },
+        "keyword": "TEST"
     })
         .then((documents) => {
             resultForExcelTest = documents;
@@ -85,7 +87,21 @@ it('#04. should success when get data for Excel Report', function (done) {
 });
 
 
-it("#05. should success when destroy all unit test data", function (done) {
+it("#05. should success when get summary report", function (done) {
+    var info = {
+        "storageId": createdData.storageId,
+        "productId": createdData.productId,
+    }
+    summaryInventoryManager.getSummaryReport(info)
+        .then((result) => {
+            done();
+        })
+        .catch((e) => {
+            done(e);
+        });
+});
+
+it("#06. should success when destroy all unit test data", function (done) {
     summaryInventoryManager.destroy(createdData._id)
         .then((result) => {
             result.should.be.Boolean();
