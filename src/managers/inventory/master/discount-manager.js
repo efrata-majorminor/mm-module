@@ -1,5 +1,6 @@
 "use strict";
-const moduleId = "M-DISC";
+const moduleId = "EFR-DC";
+const moment = require('moment');
 var ObjectId = require("mongodb").ObjectId;
 require("mongodb-toolkit");
 var BateeqModels = require("bateeq-models");
@@ -27,6 +28,13 @@ module.exports = class DiscountManager extends BaseManager {
 
         if (paging.keyword) {
             var regex = new RegExp(paging.keyword, "i");
+
+            var filterCode = {
+                "code": {
+                    "$regex": regex
+                }
+            };
+
             var filterDiscountOne = {
                 "discountOne": {
                     "$regex": regex
@@ -50,7 +58,7 @@ module.exports = class DiscountManager extends BaseManager {
                     "$regex": regex
                 }
             }
-            keywordFilter['$or'] = [filterDiscountOne, filterDiscountTwo, filterStoreCategory, filterItem];
+            keywordFilter['$or'] = [filterCode, filterDiscountOne, filterDiscountTwo, filterStoreCategory, filterItem];
         }
 
         query["$and"] = [_default];
@@ -65,7 +73,15 @@ module.exports = class DiscountManager extends BaseManager {
             }
         };
 
-        return this.collection.createIndexes([dateIndex]);
+        var codeIndex = {
+            name: `ix_${map.inventory.master.Discount}_code`,
+            key: {
+                code: 1
+            },
+            unique: true
+        };
+
+        return this.collection.createIndexes([dateIndex, codeIndex]);
     }
 
     _beforeInsert(discount) {
@@ -77,10 +93,9 @@ module.exports = class DiscountManager extends BaseManager {
         var valid = discount;
         var errors = {};
         var getStores = [];
-        var getDiscountOne = {};
-        var getDiscountTwo = {};
+        var getAvailableDiscount = {};
 
-        if (valid.discountOne || valid.discountTwo) {
+        if (valid.discountOne && valid.discountTwo) {
 
             if (valid.storeCategory === "ALL") {
                 getStores = this.storeManager.getStore();
@@ -94,25 +109,27 @@ module.exports = class DiscountManager extends BaseManager {
                 }
             }
 
-            if (valid.discountOne != 0) {
-                getDiscountOne = this.getDiscountByFilter({ 'discountOne': valid.discountOne, '_deleted': false });
-            }
+            getAvailableDiscount = this.getDiscountByFilter({ 'discountOne': valid.discountOne, 'discountTwo': valid.discountTwo, '_deleted': false });
 
-            if (valid.discountTwo != 0) {
-                getDiscountTwo = this.getDiscountByFilter({ 'discountTwo': valid.discountTwo, '_deleted': false });
-            }
         }
 
-        return Promise.all([getStores, getDiscountOne, getDiscountTwo])
+        return Promise.all([getStores, getAvailableDiscount])
             .then(result => {
+                var todaySdate = moment(new Date).startOf('date');
+                var validListDiscount = [];
                 valid.stores = result[0];
 
-                if (result[1].length > 0 && !valid._id) {
-                    errors["discountOne"] = "Diskon 1 sudah ada";
-                }
+                // Get Discount where is still available until today
+                // Now Not used, because bottom validation has released
+                if (result[1].length > 0) {
+                    result[1].forEach(item => {
+                        var startDiscount = moment(item.startDate).startOf('day');
+                        var endDiscount = moment(item.endDate).endOf('day');
 
-                if (result[2].length > 0 && !valid._id) {
-                    errors["discountTwo"] = "Diskon 2 sudah ada";
+                        if (todaySdate >= startDiscount && valid._id != item._id || todaySdate <= endDiscount && valid._id != item._id) {
+                            validListDiscount.push(item);
+                        }
+                    });
                 }
 
                 if (!valid.startDate || valid.startDate == '') {
@@ -122,6 +139,22 @@ module.exports = class DiscountManager extends BaseManager {
                 if (!valid.endDate || valid.endDate == '') {
                     errors["endDate"] = "Masukkan Mulai Berakhir Diskon";
                 }
+
+                // release validation for available discount have same period
+                // if (validListDiscount.length > 0) {
+                //     validListDiscount.forEach(item => {
+                //         var validStartDiscount = moment(valid.startDate).startOf('day');
+                //         var validEndDiscount = moment(valid.endDate).endOf('day');
+                //         var itemStartDiscount = moment(item.startDate).startOf('day');
+                //         var itemEndDiscount = moment(item.endDate).endOf('day');
+
+                //         if (validStartDiscount >= itemStartDiscount && validStartDiscount <= itemEndDiscount ||
+                //             itemStartDiscount >= validStartDiscount && itemStartDiscount <= validEndDiscount) {
+                //                 errors["discountOne"] = "Diskon 1 Sudah dipakai & Masih Berlaku";
+                //                 errors["discountTwo"] = "Diskon 2 Sudah dipakai & Masih Berlaku";
+                //         }
+                //     });
+                // }
 
                 if (!valid.stamp) {
                     valid = new Discount(valid);
