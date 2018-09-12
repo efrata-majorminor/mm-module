@@ -68,7 +68,7 @@ module.exports = class DiscountManager extends BaseManager {
             keywordFilter['$or'] = [filterCode, filterDiscountOne, filterDiscountTwo, filterStoreCategory, filterItem, filterInformation];
         }
 
-        query["$and"] = [_default];
+        query["$and"] = [_default, pagingFilter, keywordFilter];
         return query;
     }
 
