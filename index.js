@@ -56,9 +56,11 @@ module.exports = {
         TransferOutDocManager: inventoryMap.get("transfer-out-doc"),
         InventoryManager: inventoryMap.get("inventory"),
         InventoryMovementManager: inventoryMap.get("inventory-movement"),
+
         DocumentInventoryManager: inventoryMap.get("document-inventory"),
         MovementInventoryManager: inventoryMap.get("movement-inventory"),
         SummaryInventoryManager : inventoryMap.get("summary-inventory"),
+        
         FinishedGoodsManager: inventoryMap.get("efr-hp-fng"),
         ExpeditionsManager: inventoryMap.get("efr-kb-exp"),
         AlterationOutManager: inventoryMap.get("efr-kb-alt"),
