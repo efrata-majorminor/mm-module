@@ -5,6 +5,10 @@ inventoryMap.set("transfer-out-doc", require('./src/managers/inventory/transfer-
 inventoryMap.set("inventory", require('./src/managers/inventory/inventory-manager'));
 inventoryMap.set("inventory-movement", require('./src/managers/inventory/inventory-movement-manager'));
 
+inventoryMap.set("document-inventory", require('./src/managers/inventory/document-inventory-manager'));
+inventoryMap.set("movement-inventory", require('./src/managers/inventory/movement-inventory-manager'));
+inventoryMap.set("summary-inventory", require('./src/managers/inventory/summary-inventory-manager'));
+
 inventoryMap.set("efr-kb-rtt", require('./src/managers/inventory/efr-kb-rtt-manager'));
 inventoryMap.set("adjustment", require('./src/managers/inventory/adjustment-manager'));
 inventoryMap.set("efr-kb-fng", require('./src/managers/inventory/efr-kb-fng-manager'));
@@ -52,6 +56,11 @@ module.exports = {
         TransferOutDocManager: inventoryMap.get("transfer-out-doc"),
         InventoryManager: inventoryMap.get("inventory"),
         InventoryMovementManager: inventoryMap.get("inventory-movement"),
+
+        DocumentInventoryManager: inventoryMap.get("document-inventory"),
+        MovementInventoryManager: inventoryMap.get("movement-inventory"),
+        SummaryInventoryManager : inventoryMap.get("summary-inventory"),
+        
         FinishedGoodsManager: inventoryMap.get("efr-hp-fng"),
         ExpeditionsManager: inventoryMap.get("efr-kb-exp"),
         AlterationOutManager: inventoryMap.get("efr-kb-alt"),
