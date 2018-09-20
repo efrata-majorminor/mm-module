@@ -56,9 +56,6 @@ describe('#bateeq-module', function (done) {
     test('@MANAGERS/INVENTORY/REPORT-MANAGER', './managers/inventory/report-manager');
     test('@MANAGER/MONTHLY-STOCK-MANAGER', './managers/inventory/monthly-stock-manager-test');
     test('@Inventory/Discount-Master', './managers/inventory/master/master-discount');
-    test('@MANAGERS/INVENTORY/SUMMARY-INVENTORY', './managers/inventory/summary-inventory');
-    test('@MANAGERS/INVENTORY/MOVEMENT-INVENTORY', './managers/inventory/movement-inventory');
-    test('@MANAGERS/INVENTORY/DOCUMENT-INVENTORY', './managers/inventory/document-inventory');
 
     // manufacture
     test('@MANAGERS/MANUFACTURE/DESIGN-TRACKING-BOARD-MANAGER', './managers/manufacture/design-tracking-board');
@@ -75,4 +72,9 @@ describe('#bateeq-module', function (done) {
     test('@PURCHASING/UNIT-PAYMENT-ORDER', './managers/purchasing/unit-payment-order');
     test('@PURCHASING/PRICE-CORRECTION', './managers/purchasing/price-correction');
     test('@PURCHASING/QUANTITY-CORRECTION', './managers/purchasing/quantity-correction');
+
+    //inventory gudang
+    test('@MANAGERS/INVENTORY/SUMMARY-INVENTORY', './managers/inventory/summary-inventory');
+    test('@MANAGERS/INVENTORY/MOVEMENT-INVENTORY', './managers/inventory/movement-inventory');
+    test('@MANAGERS/INVENTORY/DOCUMENT-INVENTORY', './managers/inventory/document-inventory');
 })
