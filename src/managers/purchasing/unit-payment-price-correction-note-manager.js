@@ -415,7 +415,7 @@ module.exports = class unitPaymentPriceCorrectionNoteManager extends BaseManager
                     .updateOne(query, documentNumbersData, options)
                     .then((id) => {
                         if (unitPaymentPriceCorrectionNote.unitPaymentOrder.useIncomeTax)
-                            unitPaymentPriceCorrectionNote.returNoteNo = generateCode();
+                           unitPaymentPriceCorrectionNote.returNoteNo = generateCode();
                         return Promise.resolve(unitPaymentPriceCorrectionNote);
                     })
             });
