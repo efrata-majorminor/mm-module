@@ -185,7 +185,7 @@ module.exports = function (pox, offset) {
             }, item.remark],
             style: ['size08']
         }, {
-            text: parseInt(item.quantity).toLocaleString(locale, locale.parseInt) + ' ' + item.uom,
+            text: parseFloat(item.quantity).toLocaleString(locale, locale.parseInt) + ' ' + item.uom,
             style: ['size08', 'center']
         }, {
             columns: [{
