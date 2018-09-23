@@ -96,8 +96,27 @@ module.exports = class PusatTerimaBarangBaruManager extends TransferInManager {
                         '$regex': regex
                     }
                 };
+
+                var filterReference = {
+                    'reference': {
+                        '$regex': regex
+                    }
+                };
+
+                var filterSourceName = {
+                    'source.name': {
+                        '$regex': regex
+                    }
+                };
+
+                var filterDestinationName = {
+                    'destination.name': {
+                        '$regex': regex
+                    }
+                };
+
                 keywordFilter = {
-                    '$or': [filterPackingList]
+                    '$or': [filterPackingList, filterReference, filterSourceName, filterDestinationName]
                 };
             }
 
