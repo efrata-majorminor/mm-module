@@ -102,7 +102,7 @@ module.exports = class DiscountManager extends BaseManager {
         var getStores = [];
         var getAvailableDiscount = {};
 
-        if (valid.discountOne && valid.discountTwo) {
+        if (valid.discountOne >=0 && valid.discountTwo >= 0) {
 
             if (valid.storeCategory === "ALL") {
                 getStores = this.storeManager.getStore();
