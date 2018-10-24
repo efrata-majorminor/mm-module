@@ -365,12 +365,12 @@ module.exports = class FactPenjualan {
     }
 
     replaceUrl(path, id) {
-        var templatePath = "https://bateeq-core-api.mybluemix.net/v1/master/items/finished-goods/image";
+        var templatePath = "https://bateeq-core-api.azurewebsites.net/v1/master/items/finished-goods/image";
         return path.replace(path, templatePath + "/" + id);
     }
 
     replaceMotif(path, id) {
-        var templatePath = "https://bateeq-core-api.mybluemix.net/v1/master/items/finished-goods/motif-image";
+        var templatePath = "https://bateeq-core-api.azurewebsites.net/v1/master/items/finished-goods/motif-image";
         return path.replace(path, templatePath + "/" + id);
     }
 
