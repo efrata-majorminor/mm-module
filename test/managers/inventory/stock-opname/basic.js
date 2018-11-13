@@ -57,7 +57,7 @@ it("#02. should error when create new data with wrong upload data", function(don
     }
     instanceManager.create(data)
         .then((id) => {
-            id.should.be.Array();
+            id.errors.should.be.Array();
             done();
         })
         .catch((e) => {
@@ -81,8 +81,8 @@ it("#03. should success when create new upload data", function(done){
     }
     instanceManager.create(data)
         .then((id) => {
-            id.should.be.Object();
-            stockOpnameId = id;
+            id.ops.should.be.Array();
+            stockOpnameId = id.ops[0]._id;
             done();
         })
         .catch((e) => {
@@ -162,7 +162,7 @@ it("#06. should success when create new upload data", function(done){
     instanceManager.create(data)
         .then((id) => {
             id.should.be.Object();
-            stockOpnameId1 = id;
+            stockOpnameId1 = id.ops[0]._id;
             done();
         })
         .catch((e) => {
