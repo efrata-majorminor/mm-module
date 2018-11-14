@@ -89,7 +89,8 @@ module.exports = class StockOpnameDocManager extends BaseManager {
     }
 
     createStockOpnameBalance() {
-        console.log(this.event.passParameter());
+        var stockOpnameId = this.event.passParameter();
+        console.log(stockOpnameId[0]);
     }
 
     create(valid) {

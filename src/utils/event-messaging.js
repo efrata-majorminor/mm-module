@@ -3,7 +3,7 @@ const EventEmitter = require('events').EventEmitter;
 module.exports = class EventMessaging {
     constructor() {
         this.eventEmitter = new EventEmitter;
-        this.eventFunctionParameter = new Object();
+        this.eventFunctionParameter = [];
         this.eventKey = "";
     }
 
