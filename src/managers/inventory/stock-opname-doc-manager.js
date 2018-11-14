@@ -85,6 +85,10 @@ module.exports = class StockOpnameDocManager extends BaseManager {
             .execute();
     }
 
+    createBalance(stockOpnames){
+        console.log(stockOpnames);
+    }
+
     create(valid) {
         return new Promise((resolve, reject) => {
             var dataFile = valid.dataFile ? valid.dataFile : [];
@@ -224,6 +228,10 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                         this.collection.insertMany(resultOfData)
                             .then(id => {
+                                const EventEmitter = require('../../utils/event-messaging');
+                                var event = new EventEmitter();
+                                event.sendEvent("addSaldo", this.createBalance("addSales"));
+                                event.emitEvent();
                                 resolve(id);
                             })
                             .catch(e => {
