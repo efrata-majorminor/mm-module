@@ -88,11 +88,6 @@ module.exports = class StockOpnameDocManager extends BaseManager {
             .execute();
     }
 
-    createStockOpnameBalance() {
-        var stockOpnameId = this.event.passParameter();
-        console.log(stockOpnameId[0]);
-    }
-
     create(valid) {
         return new Promise((resolve, reject) => {
             var dataFile = valid.dataFile ? valid.dataFile : [];
@@ -252,6 +247,11 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                     reject(e);
                 });
         });
+    }
+
+    createStockOpnameBalance() {
+        var stockOpnameId = this.event.passParameter();
+        console.log(stockOpnameId);
     }
 
     _validate(StockOpname) {

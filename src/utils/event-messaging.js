@@ -7,10 +7,6 @@ module.exports = class EventMessaging {
         this.eventKey = "";
     }
 
-    passParameter() {
-        return this.eventFunctionParameter;
-    }
-
     sendEvent(eventKey, eventFunction, parameterFunction) {
         console.log("Send Event: " + eventKey);
         this.eventFunctionParameter = parameterFunction;
@@ -21,5 +17,9 @@ module.exports = class EventMessaging {
     emitEvent() {
         console.log("Emit Event: " + this.eventKey);
         this.eventEmitter.emit(this.eventKey);
+    }
+
+    passParameter() {
+        return this.eventFunctionParameter;
     }
 }
