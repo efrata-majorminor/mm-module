@@ -89,7 +89,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
     }
 
     createStockOpnameBalance() {
-        console.log(this.event.eventFunctionParameter);
+        console.log(this.event.passParameter());
     }
 
     create(valid) {
@@ -231,8 +231,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                         this.collection.insertMany(resultOfData)
                             .then(id => {
-                                this.event.eventFunctionParameter = id;
-                                this.event.sendEvent("addSaldo", this.createStockOpnameBalance);
+                                this.event.sendEvent("addSaldo", this.createStockOpnameBalance, id);
                                 this.event.emitEvent();
                                 resolve(id);
                             })
