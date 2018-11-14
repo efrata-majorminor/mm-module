@@ -35,6 +35,9 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
         var InventoryManager = require('./inventory-manager');
         this.inventoryManager = new InventoryManager(db, user);
+
+        const EventEmitter = require('../../utils/event-messaging');
+        this.event = new EventEmitter();
     }
 
     _getQuery(paging) {
@@ -85,8 +88,8 @@ module.exports = class StockOpnameDocManager extends BaseManager {
             .execute();
     }
 
-    createBalance(stockOpnames){
-        console.log(stockOpnames);
+    createStockOpnameBalance() {
+        console.log(this.event.eventFunctionParameter);
     }
 
     create(valid) {
@@ -228,10 +231,9 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                         this.collection.insertMany(resultOfData)
                             .then(id => {
-                                const EventEmitter = require('../../utils/event-messaging');
-                                var event = new EventEmitter();
-                                event.sendEvent("addSaldo", this.createBalance("addSales"));
-                                event.emitEvent();
+                                this.event.eventFunctionParameter = id;
+                                this.event.sendEvent("addSaldo", this.createStockOpnameBalance);
+                                this.event.emitEvent();
                                 resolve(id);
                             })
                             .catch(e => {
@@ -239,9 +241,9 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                             });
                     } else {
                         var errorResult = {
-                            code : 409,
-                            message : "Data item or product not pas validation",
-                            errors : dataError
+                            code: 409,
+                            message: "Data item or product not pas validation",
+                            errors: dataError
                         };
                         resolve(errorResult);
                     }
