@@ -38,7 +38,6 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
         const EventEmitter = require('../../utils/event-messaging');
         this.event = new EventEmitter();
-        this.eventParameter = [];
     }
 
     _getQuery(paging) {
@@ -228,9 +227,14 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                         this.collection.insertMany(resultOfData)
                             .then(id => {
-                                this.eventParameter = id;
+                                var stockOpnames = []
+                                
+                                id.ops.forEach(stockOpname => {
+                                    stockOpnames.push(stockOpname._id);
+                                });
+
                                 this.event.sendEvent("addSaldo", this.createStockOpnameBalance);
-                                this.event.emitEvent();
+                                this.event.emitEvent(stockOpnames);
                                 resolve(id);
                             })
                             .catch(e => {
@@ -252,10 +256,6 @@ module.exports = class StockOpnameDocManager extends BaseManager {
     }
 
     createStockOpnameBalance(stockOpnameId) {
-        if (!stockOpnameId)
-        {
-            stockOpnameId = this.eventParameter;
-        }
         console.log(stockOpnameId);
     }
 
