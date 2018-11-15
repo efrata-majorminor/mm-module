@@ -35,6 +35,10 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
         var InventoryManager = require('./inventory-manager');
         this.inventoryManager = new InventoryManager(db, user);
+
+        const EventEmitter = require('../../utils/event-messaging');
+        this.event = new EventEmitter();
+        this.eventParameter = [];
     }
 
     _getQuery(paging) {
@@ -224,6 +228,9 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                         this.collection.insertMany(resultOfData)
                             .then(id => {
+                                this.eventParameter = id;
+                                this.event.sendEvent("addSaldo", this.createStockOpnameBalance);
+                                this.event.emitEvent();
                                 resolve(id);
                             })
                             .catch(e => {
@@ -231,9 +238,9 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                             });
                     } else {
                         var errorResult = {
-                            code : 409,
-                            message : "Data item or product not pas validation",
-                            errors : dataError
+                            code: 409,
+                            message: "Data item or product not pas validation",
+                            errors: dataError
                         };
                         resolve(errorResult);
                     }
@@ -242,6 +249,14 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                     reject(e);
                 });
         });
+    }
+
+    createStockOpnameBalance(stockOpnameId) {
+        if (!stockOpnameId)
+        {
+            stockOpnameId = this.eventParameter;
+        }
+        console.log(stockOpnameId);
     }
 
     _validate(StockOpname) {
