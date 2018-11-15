@@ -12,8 +12,8 @@ module.exports = class EventMessaging {
         this.eventEmitter.on(this.eventKey, eventFunction);
     }
 
-    emitEvent() {
+    emitEvent(eventParameter) {
         console.log("Emit Event: " + this.eventKey);
-        this.eventEmitter.emit(this.eventKey);
+        this.eventEmitter.emit(this.eventKey, eventParameter);
     }
 }
