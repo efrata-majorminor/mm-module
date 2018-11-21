@@ -15,6 +15,11 @@ var TransInItem = BateeqModels.inventory.TransferInItem;
 var TransOutDoc = BateeqModels.inventory.TransferOutDoc;
 var TransOutItem = BateeqModels.inventory.TransferOutItem;
 
+var StockOpnameBalance = BateeqModels.inventory.StockOpnameBalance;
+var OpnameProduct = BateeqModels.inventory.StockOpnameProductRecord;
+var BalanceOpnameHistory = BateeqModels.inventory.StockOpnameBalanceHistory;
+var moment = require('moment');
+
 var moduleId = "EFR-SO/INT";
 
 module.exports = class StockOpnameDocManager extends BaseManager {
@@ -35,6 +40,12 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
         var InventoryManager = require('./inventory-manager');
         this.inventoryManager = new InventoryManager(db, user);
+
+        var StockOpnameBalanceManager = require('./stock-opname-balance-manager');
+        this.stockOpnameBalanceManager = new StockOpnameBalanceManager(db, user);
+
+        var StockOpnameBalanceHistoryManager = require('./stock-opname-balance-history-manager');
+        this.stockOpnameBalanceHistoryManager = new StockOpnameBalanceHistoryManager(db, user);
 
         const EventEmitter = require('../../utils/event-messaging');
         this.event = new EventEmitter();
@@ -227,14 +238,22 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                         this.collection.insertMany(resultOfData)
                             .then(id => {
-                                var stockOpnames = []
-                                
-                                id.ops.forEach(stockOpname => {
-                                    stockOpnames.push(stockOpname._id);
-                                });
+                                if (id.ops.length > 0) {
+                                    var stockOpnames = []
 
-                                this.event.sendEvent("addSaldo", this.createStockOpnameBalance);
-                                this.event.emitEvent(stockOpnames);
+                                    id.ops.forEach(stockOpname => {
+                                        stockOpnames.push(stockOpname);
+                                    });
+
+                                    var eventParameter = {
+                                        stockOpnames: stockOpnames,
+                                        stockOpnameBalanceManager: this.stockOpnameBalanceManager,
+                                        stockOpnameBalanceHistoryManager: this.stockOpnameBalanceHistoryManager
+                                    };
+
+                                    this.event.sendEvent("addSaldo", this.stockOpnameBalance);
+                                    this.event.emitEvent(eventParameter);
+                                }
                                 resolve(id);
                             })
                             .catch(e => {
@@ -255,8 +274,81 @@ module.exports = class StockOpnameDocManager extends BaseManager {
         });
     }
 
-    createStockOpnameBalance(stockOpnameId) {
-        console.log(stockOpnameId);
+    stockOpnameBalance(eventParameter) {
+
+        var stockOpnames = eventParameter.stockOpnames;
+
+        if (stockOpnames.length > 0) {
+
+            return new Promise((resolve, reject) => {
+                var stockOpnameBalance = new StockOpnameBalance();
+
+                stockOpnames.forEach((stockOpname) => {
+
+                    // Set first time information
+                    if (!stockOpnameBalance.code) {
+
+                        stockOpnameBalance.code = generateCode('opname-balance');
+                        stockOpnameBalance.storage = {
+                            code: stockOpname.storage.code,
+                            name: stockOpname.storage.name
+                        };
+                    }
+
+                    // Set stock opname code
+                    if (stockOpnameBalance.stockOpnameDocCodes.indexOf(stockOpname.code) == -1) {
+                        stockOpnameBalance.stockOpnameDocCodes.push(stockOpname.code);
+                    }
+
+                    // Set Product for Balance
+                    if (stockOpname.items.length > 0) {
+
+                        stockOpname.items.forEach((product) => {
+
+                            var opnameProduct = new OpnameProduct();
+                            opnameProduct.productCode = product.item.code;
+                            opnameProduct.productName = product.item.name;
+                            opnameProduct.quantityOpname = product.qtySO;
+
+                            stockOpnameBalance.products.push(opnameProduct);
+                        });
+                    }
+                });
+
+                return Promise.all([stockOpnameBalance])
+                    .then((results) => {
+
+                        var result = results[0];
+                        var balanceOpnameHistory = new BalanceOpnameHistory();
+                        var stockOpnameBalanceManager = eventParameter.stockOpnameBalanceManager;
+
+                        return stockOpnameBalanceManager.create(result)
+                            .then((id) => {
+
+                                balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
+                                balanceOpnameHistory.statusBalance = 'SUCCESS';
+                                var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                    .then((history) => {
+                                        resolve(history);
+                                    });
+                            })
+                            .catch((error) => {
+
+                                balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
+                                balanceOpnameHistory.statusBalance = 'FAILED';
+                                var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                    .then((history) => {
+                                        reject(error);
+                                    });
+
+                            });
+                    });
+            });
+        } else {
+
+        }
     }
 
     _validate(StockOpname) {
