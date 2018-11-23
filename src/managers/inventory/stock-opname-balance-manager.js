@@ -20,12 +20,100 @@ module.exports = class StockOpnameBalanceManager extends BaseManager {
         return new Promise((resolve, reject) => {
 
             this.collection.insert(stockOpnameBalance)
-            .then((result) => {
-                resolve(result);
-            })
-            .catch((error) => {
-                reject(error);
-            });
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
         });
+    }
+
+    update(stockOpnameBalance) {
+        return new Promise((resolve, reject) => {
+
+            this.collection.update(stockOpnameBalance)
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
+    getByStorageCode(storeCode) {
+        return new Promise((resolve, reject) => {
+
+            var query = {
+                'storage.code': storeCode,
+                '_deleted': false
+            };
+
+            this.collection.singleOrDefault(query)
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+
+
+    }
+
+    _getQuery(paging) {
+        var _default = {
+            _deleted: false
+        },
+            pagingFilter = paging.filter || {},
+            keywordFilter = {},
+            query = {};
+
+        if (paging.keyword) {
+            var regex = new RegExp(paging.keyword, "i");
+            var createdAgentFilter = {
+                "_createAgent": {
+                    "$regex": regex
+                }
+            };
+            var codeFilter = {
+                "code": {
+                    "$regex": regex
+                }
+            };
+            var storageFilter = {
+                "storage.name": {
+                    "$regex": regex
+                }
+            };
+            var stockOpnameDocCodeFilter = {
+                "stockOpnameDocCodes": {
+                    "$regex": regex
+                }
+            }
+
+            keywordFilter["$or"] = [createdAgentFilter, codeFilter, storageFilter, stockOpnameDocCodeFilter];
+        }
+        query["$and"] = [_default, keywordFilter, pagingFilter];
+        return query;
+    }
+
+    read(paging) {
+        var _paging = Object.assign({
+            page: 1,
+            size: 20,
+            order: {},
+            filter: {},
+            select: ["code", "storage.name", "products"]
+        }, paging);
+        var query = this._getQuery(_paging);
+
+        return this.collection
+            .where(query)
+            .select(_paging.select)
+            .page(_paging.page, _paging.size)
+            .order(_paging.order)
+            .execute();
     }
 }
