@@ -281,7 +281,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
         if (stockOpname.length != undefined && stockOpname.length > 0) {
 
             return new Promise((resolve, reject) => {
-                var stockOpnameBalance = new StockOpnameBalance();
+                var stockOpnameBalance = {};
                 var stockOpnameBalanceManager = eventParameter.stockOpnameBalanceManager;
                 var hasOpnameBalance = false;
 
@@ -292,18 +292,18 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                             // Check if has balance before
                             if (result != null) {
+
                                 stockOpnameBalance = result;
                                 hasOpnameBalance = true;
                             }
-
-                            // Set first time information
-                            if (!stockOpnameBalance.code) {
-
-                                stockOpnameBalance.code = generateCode('opname-balance');
-                                stockOpnameBalance.storage = {
-                                    code: stockOpname.storage.code,
-                                    name: stockOpname.storage.name
-                                };
+                            else {
+                                stockOpnameBalance = new StockOpnameBalance({
+                                    code: generateCode('opname-balance'),
+                                    storage: {
+                                        code: stockOpname.storage.code,
+                                        name: stockOpname.storage.name
+                                    }
+                                });
                             }
 
                             // Set stock opname code
@@ -317,10 +317,11 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                                     stockOpname.items.forEach((items) => {
 
-                                        var opnameProduct = new OpnameProduct();
-                                        opnameProduct.productCode = items.item.code;
-                                        opnameProduct.productName = items.item.name;
-                                        opnameProduct.quantityOpname = items.qtySO;
+                                        var opnameProduct = new OpnameProduct({
+                                            productCode: items.item.code,
+                                            productName: items.item.name,
+                                            quantityOpname: items.qtySO,
+                                        });
 
                                         stockOpnameBalance.products.push(opnameProduct);
                                     });
@@ -345,10 +346,11 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                         }
                                         else {
 
-                                            var opnameProduct = new OpnameProduct();
-                                            opnameProduct.productCode = items.item.code;
-                                            opnameProduct.productName = items.item.name;
-                                            opnameProduct.quantityOpname = items.qtySO;
+                                            var opnameProduct = new OpnameProduct({
+                                                productCode: items.item.code,
+                                                productName: items.item.name,
+                                                quantityOpname: items.qtySO,
+                                            });
 
                                             stockOpnameBalance.products.push(opnameProduct);
                                         }
@@ -360,17 +362,18 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                 .then((results) => {
 
                                     var result = results[0];
-                                    var balanceOpnameHistory = new BalanceOpnameHistory();
 
                                     if (!hasOpnameBalance) {
 
                                         return stockOpnameBalanceManager.create(result)
                                             .then((id) => {
 
-                                                balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
-                                                balanceOpnameHistory.statusBalance = 'SUCCESS';
-                                                balanceOpnameHistory.remark = 'CREATE-BALANCE';
                                                 var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                                var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                    stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                    statusBalance: 'Success',
+                                                    remark: 'Create-Balance'
+                                                });
 
                                                 return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
                                                     .then((history) => {
@@ -379,10 +382,12 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                             })
                                             .catch((error) => {
 
-                                                balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
-                                                balanceOpnameHistory.statusBalance = 'FAILED';
-                                                balanceOpnameHistory.remark = 'CREATE-BALANCE';
                                                 var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                                var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                    stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                    statusBalance: 'Failed',
+                                                    remark: 'Create-Balance'
+                                                });
 
                                                 return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
                                                     .then((history) => {
@@ -396,10 +401,12 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                         return stockOpnameBalanceManager.update(result)
                                             .then((id) => {
 
-                                                balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
-                                                balanceOpnameHistory.statusBalance = 'SUCCESS';
-                                                balanceOpnameHistory.remark = 'UPDATE-BALANCE';
                                                 var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                                var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                    stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                    statusBalance: 'Success',
+                                                    remark: 'Update-Balance'
+                                                });
 
                                                 return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
                                                     .then((history) => {
@@ -408,10 +415,12 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                             })
                                             .catch((error) => {
 
-                                                balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
-                                                balanceOpnameHistory.statusBalance = 'FAILED';
-                                                balanceOpnameHistory.remark = 'UPDATE-BALANCE';
                                                 var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                                var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                    stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                    statusBalance: 'Failed',
+                                                    remark: 'Update-Balance'
+                                                });
 
                                                 return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
                                                     .then((history) => {
@@ -433,7 +442,6 @@ module.exports = class StockOpnameDocManager extends BaseManager {
         else {
             var stockOpname = eventParameter.stockOpname;
             var stockOpnameBalaceManager = eventParameter.stockOpnameBalaceManager;
-            var balanceOpnameHistory = new BalanceOpnameHistory();
 
             return new Promise((resolve, reject) => {
 
@@ -467,26 +475,33 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                                     stockOpnameBalaceManager.update(stockOpnameBalance)
                                         .then((result) => {
-                                            balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
-                                            balanceOpnameHistory.statusBalance = 'SUCCESS';
-                                            balanceOpnameHistory.remark = 'UPDATE-BALANCE';
+
                                             var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                            var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                statusBalance: 'Success',
+                                                remark: 'Update-Balance'
+                                            });
 
                                             return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
                                                 .then((history) => {
-                                                    balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
-                                                    balanceOpnameHistory.statusBalance = 'FAILED';
-                                                    balanceOpnameHistory.remark = 'UPDATE-BALANCE';
-                                                    var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
 
-                                                    return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
-                                                        .then((history) => {
-                                                            reject(error);
-                                                        });
+                                                    resolve(result);
                                                 });
                                         })
                                         .catch((error) => {
-                                            reject(error);
+
+                                            var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                            var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                statusBalance: 'Failed',
+                                                remark: 'Update-Balance'
+                                            });
+
+                                            return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                .then((history) => {
+                                                    reject(error);
+                                                });
                                         });
                                 })
                                 .catch((error) => {
