@@ -331,7 +331,9 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                                     stockOpname.items.forEach((items) => {
 
-                                        if (product.productCode == items.item.code) {
+                                        var indexOfProduct = stockOpnameBalance.products.map((e) => { return e.productCode }).indexOf(items.item.code);
+
+                                        if (indexOfProduct != -1) {
 
                                             if (items.qtySO > items.qtyBeforeSO) {
                                                 product.quantityOpname = items.qtySO - items.qtyBeforeSO;
@@ -340,6 +342,15 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                             if (items.qtySO < items.qtyBeforeSO) {
                                                 product.quantityOpname = items.qtyBeforeSO - items.qtySO;
                                             }
+                                        }
+                                        else {
+
+                                            var opnameProduct = new OpnameProduct();
+                                            opnameProduct.productCode = items.item.code;
+                                            opnameProduct.productName = items.item.name;
+                                            opnameProduct.quantityOpname = items.qtySO;
+
+                                            stockOpnameBalance.products.push(opnameProduct);
                                         }
                                     });
                                 });
@@ -422,6 +433,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
         else {
             var stockOpname = eventParameter.stockOpname;
             var stockOpnameBalaceManager = eventParameter.stockOpnameBalaceManager;
+            var balanceOpnameHistory = new BalanceOpnameHistory();
 
             return new Promise((resolve, reject) => {
 
@@ -455,7 +467,23 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                                     stockOpnameBalaceManager.update(stockOpnameBalance)
                                         .then((result) => {
-                                            resolve(result);
+                                            balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
+                                            balanceOpnameHistory.statusBalance = 'SUCCESS';
+                                            balanceOpnameHistory.remark = 'UPDATE-BALANCE';
+                                            var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+
+                                            return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                .then((history) => {
+                                                    balanceOpnameHistory.stockOpnameBalanceCode = stockOpnameBalance.code;
+                                                    balanceOpnameHistory.statusBalance = 'FAILED';
+                                                    balanceOpnameHistory.remark = 'UPDATE-BALANCE';
+                                                    var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+
+                                                    return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                        .then((history) => {
+                                                            reject(error);
+                                                        });
+                                                });
                                         })
                                         .catch((error) => {
                                             reject(error);
