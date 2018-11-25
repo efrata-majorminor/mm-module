@@ -294,10 +294,12 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                             if (result != null) {
 
                                 stockOpnameBalance = result;
+                                stockOpnameBalance._updatedDate = moment(new Date).locale('id')._d;
                                 hasOpnameBalance = true;
                             }
                             else {
                                 stockOpnameBalance = new StockOpnameBalance({
+                                    _createdDate: moment(new Date()).locale('id')._d,
                                     code: generateCode('opname-balance'),
                                     storage: {
                                         code: stockOpname.storage.code,
@@ -448,6 +450,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                 return stockOpnameBalaceManager.getByStorageCode(stockOpname.storage.code)
                     .then((result) => {
                         var stockOpnameBalance = result;
+                        stockOpnameBalance._updatedDate = moment(new Date).locale('id')._d;
 
                         if (stockOpnameBalance) {
 
