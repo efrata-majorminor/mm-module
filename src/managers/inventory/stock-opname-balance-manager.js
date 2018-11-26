@@ -42,11 +42,12 @@ module.exports = class StockOpnameBalanceManager extends BaseManager {
         });
     }
 
-    getByStorageCode(storeCode) {
+    getByStorageCode(storeCode, productCode) {
         return new Promise((resolve, reject) => {
 
             var query = {
                 'storage.code': storeCode,
+                'product.code': productCode,
                 '_deleted': false
             };
 
