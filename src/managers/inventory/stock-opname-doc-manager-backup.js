@@ -7,14 +7,17 @@ var BaseManager = require('module-toolkit').BaseManager;
 var BateeqModels = require('bateeq-models');
 var map = BateeqModels.map;
 var generateCode = require('../../utils/code-generator');
+
 var SODoc = BateeqModels.inventory.StockOpnameDoc;
 var SODocItem = BateeqModels.inventory.StockOpnameDocItem;
 var TransInDoc = BateeqModels.inventory.TransferInDoc;
 var TransInItem = BateeqModels.inventory.TransferInItem;
 var TransOutDoc = BateeqModels.inventory.TransferOutDoc;
 var TransOutItem = BateeqModels.inventory.TransferOutItem;
+
 var StockOpnameBalance = BateeqModels.inventory.StockOpnameBalance;
 var OpnameProduct = BateeqModels.inventory.StockOpnameProductRecord;
+var BalanceOpnameHistory = BateeqModels.inventory.StockOpnameBalanceHistory;
 var moment = require('moment');
 
 var moduleId = "EFR-SO/INT";
@@ -40,6 +43,9 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
         var StockOpnameBalanceManager = require('./stock-opname-balance-manager');
         this.stockOpnameBalanceManager = new StockOpnameBalanceManager(db, user);
+
+        var StockOpnameBalanceHistoryManager = require('./stock-opname-balance-history-manager');
+        this.stockOpnameBalanceHistoryManager = new StockOpnameBalanceHistoryManager(db, user);
 
         const EventEmitter = require('../../utils/event-messaging');
         this.event = new EventEmitter();
@@ -241,7 +247,8 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
                                     var eventParameter = {
                                         stockOpname: stockOpnames,
-                                        stockOpnameBalanceManager: this.stockOpnameBalanceManager
+                                        stockOpnameBalanceManager: this.stockOpnameBalanceManager,
+                                        stockOpnameBalanceHistoryManager: this.stockOpnameBalanceHistoryManager
                                     };
 
                                     this.event.sendEvent("addSaldo", this.stockOpnameBalance);
@@ -269,119 +276,247 @@ module.exports = class StockOpnameDocManager extends BaseManager {
 
     stockOpnameBalance(eventParameter) {
 
-        var stockOpnames = eventParameter.stockOpname;
+        var stockOpname = eventParameter.stockOpname;
 
-        if (stockOpnames.length != undefined && stockOpnames.length > 0) {
-
-            var stockOpnameBalanceManager = eventParameter.stockOpnameBalanceManager;
-            var today = moment(new Date()).locale('id')._d;
+        if (stockOpname.length != undefined && stockOpname.length > 0) {
 
             return new Promise((resolve, reject) => {
+                var stockOpnameBalance = {};
+                var stockOpnameBalanceManager = eventParameter.stockOpnameBalanceManager;
+                var hasOpnameBalance = false;
 
-                var stockOpnamebalances = [];
+                stockOpname.forEach((stockOpname) => {
 
-                stockOpnames.forEach((stockOpname) => {
+                    stockOpnameBalanceManager.getByStorageCode(stockOpname.storage.code)
+                        .then((result) => {
 
-                    stockOpname.items.forEach((items) => {
+                            // Check if has balance before
+                            if (result != null) {
 
-                        var storageCode = stockOpname.storage.code;
-                        var productCode = items.item.code;
-
-                        stockOpnameBalanceManager.getByStorageCode(storageCode, productCode)
-                            .then(result => {
-
-                                if (result) {
-                                    var stockOpnameBalance = result;
-                                    stockOpnameBalance.lastOpnameDate = stockOpnameBalance.opnameDate;
-                                    stockOpnameBalance.opnameDate = today;
-
-                                    if (items.qtySO > items.qtyBeforeSO) {
-                                        stockOpnameBalance.product.quantity = items.qtySO - items.qtyBeforeSO;
+                                stockOpnameBalance = result;
+                                stockOpnameBalance._updatedDate = moment(new Date).locale('id')._d;
+                                hasOpnameBalance = true;
+                            }
+                            else {
+                                stockOpnameBalance = new StockOpnameBalance({
+                                    _createdDate: moment(new Date()).locale('id')._d,
+                                    code: generateCode('opname-balance'),
+                                    storage: {
+                                        code: stockOpname.storage.code,
+                                        name: stockOpname.storage.name
                                     }
+                                });
+                            }
 
-                                    if (items.qtySO < items.qtyBeforeSO) {
-                                        stockOpnameBalance.product.quantity = items.qtyBeforeSO - items.qtySO;
+                            // Set stock opname code
+                            if (stockOpnameBalance.stockOpnameDocCodes.indexOf(stockOpname.code) == -1) {
+                                stockOpnameBalance.stockOpnameDocCodes.push(stockOpname.code);
+                            }
+
+                            if (!hasOpnameBalance && stockOpnameBalance.products.length == 0) {
+
+                                if (stockOpname.items.length > 0) {
+
+                                    stockOpname.items.forEach((items) => {
+
+                                        var opnameProduct = new OpnameProduct({
+                                            productCode: items.item.code,
+                                            productName: items.item.name,
+                                            quantityOpname: items.qtySO,
+                                        });
+
+                                        stockOpnameBalance.products.push(opnameProduct);
+                                    });
+                                }
+                            }
+                            else {
+                                stockOpnameBalance.products.forEach((product) => {
+
+                                    stockOpname.items.forEach((items) => {
+
+                                        var indexOfProduct = stockOpnameBalance.products.map((e) => { return e.productCode }).indexOf(items.item.code);
+
+                                        if (indexOfProduct != -1) {
+
+                                            if (items.qtySO > items.qtyBeforeSO) {
+                                                product.quantityOpname = items.qtySO - items.qtyBeforeSO;
+                                            }
+
+                                            if (items.qtySO < items.qtyBeforeSO) {
+                                                product.quantityOpname = items.qtyBeforeSO - items.qtySO;
+                                            }
+                                        }
+                                        else {
+
+                                            var opnameProduct = new OpnameProduct({
+                                                productCode: items.item.code,
+                                                productName: items.item.name,
+                                                quantityOpname: items.qtySO,
+                                            });
+
+                                            stockOpnameBalance.products.push(opnameProduct);
+                                        }
+                                    });
+                                });
+                            }
+
+                            return Promise.all([stockOpnameBalance])
+                                .then((results) => {
+
+                                    var result = results[0];
+
+                                    if (!hasOpnameBalance) {
+
+                                        return stockOpnameBalanceManager.create(result)
+                                            .then((id) => {
+
+                                                var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                                var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                    stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                    statusBalance: 'Success',
+                                                    remark: 'Create-Balance'
+                                                });
+
+                                                return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                    .then((history) => {
+                                                        resolve(history);
+                                                    });
+                                            })
+                                            .catch((error) => {
+
+                                                var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                                var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                    stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                    statusBalance: 'Failed',
+                                                    remark: 'Create-Balance'
+                                                });
+
+                                                return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                    .then((history) => {
+                                                        reject(error);
+                                                    });
+
+                                            });
                                     }
+                                    else {
 
-                                    stockOpnamebalances.push(stockOpnameBalanceManager.update(stockOpnameBalance));
-                                }
-                                else {
+                                        return stockOpnameBalanceManager.update(result)
+                                            .then((id) => {
 
-                                    var stockOpnameProductRecord = new OpnameProduct({
-                                        code: items.item.code,
-                                        name: items.item.name,
-                                        quantity: items.qtySO
-                                    });
+                                                var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                                var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                    stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                    statusBalance: 'Success',
+                                                    remark: 'Update-Balance'
+                                                });
 
-                                    var stockOpnameBalance = new StockOpnameBalance({
-                                        code: generateCode('stock-opname'),
-                                        storage: {
-                                            code: stockOpname.storage.code,
-                                            name: stockOpname.storage.name
-                                        },
-                                        product: stockOpnameProductRecord,
-                                        opnameDate: today,
-                                        lastOpnameDate: today
-                                    });
+                                                return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                    .then((history) => {
+                                                        resolve(history);
+                                                    });
+                                            })
+                                            .catch((error) => {
 
-                                    stockOpnamebalances.push(stockOpnameBalanceManager.create(stockOpnameBalance));
-                                }
-                            });
-                    });
+                                                var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                                var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                    stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                    statusBalance: 'Failed',
+                                                    remark: 'Update-Balance'
+                                                });
+
+                                                return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                    .then((history) => {
+                                                        reject(error);
+                                                    });
+                                            });
+                                    }
+                                })
+                                .catch((error) => {
+                                    reject(error);
+                                });
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        });
                 });
-
-                var promiseStockOpnamebalances = Promise.all(stockOpnamebalances);
-
-                Promise.all([promiseStockOpnamebalances])
-                    .then(result => {
-                        resolve(result);
-                    })
-                    .catch(error => {
-                        reject(error);
-                    });
             });
         }
         else {
             var stockOpname = eventParameter.stockOpname;
-            var today = moment(new Date()).locale('id')._d;
-            var stockOpnameBalanceManager = eventParameter.stockOpnameBalanceManager;
+            var stockOpnameBalaceManager = eventParameter.stockOpnameBalaceManager;
 
             return new Promise((resolve, reject) => {
-                var stockOpnamebalances = [];
-                var storageCode = stockOpname.storage.code;
 
-                stockOpname.items.forEach((items) => {
+                return stockOpnameBalaceManager.getByStorageCode(stockOpname.storage.code)
+                    .then((result) => {
+                        var stockOpnameBalance = result;
+                        stockOpnameBalance._updatedDate = moment(new Date).locale('id')._d;
 
-                    var productCode = items.item.code;
-                    stockOpnameBalanceManager.getByStorageCode(storageCode, productCode)
-                        .then(result => {
+                        if (stockOpnameBalance) {
 
-                            if (result) {
-                                var stockOpnameBalance = result;
+                            stockOpname.items.forEach((item) => {
 
-                                if (items.qtySO > items.qtyBeforeSO) {
-                                    stockOpnameBalance.product.quantity = items.qtySO - items.qtyBeforeSO;
-                                }
+                                stockOpnameBalance.products.forEach((productOnOpname) => {
 
-                                if (items.qtySO < items.qtyBeforeSO) {
-                                    stockOpnameBalance.product.quantity = items.qtyBeforeSO - items.qtySO;
-                                }
+                                    if (productOnOpname.productCode == item.item.code) {
 
-                                stockOpnamebalances.push(stockOpnameBalanceManager.update(stockOpnameBalance));
-                            }
-                        });
-                });
+                                        if (item.qtySO > item.qtyBeforeSO) {
+                                            productOnOpname.quantityOpname = item.qtySO - item.qtyBeforeSO;
+                                        }
 
-                var promiseStockOpnamebalances = Promise.all(stockOpnamebalances);
+                                        if (item.qtySO < item.qtyBeforeSO) {
+                                            productOnOpname.quantityOpname = item.qtyBeforeSO - item.qtySO;
+                                        }
+                                    }
+                                });
 
-                Promise.all([promiseStockOpnamebalances])
-                    .then(result => {
-                        resolve(result);
+                            });
+
+                            return Promise.all([stockOpnameBalance])
+                                .then((result) => {
+                                    var stockOpnameBalance = result[0];
+
+                                    stockOpnameBalaceManager.update(stockOpnameBalance)
+                                        .then((result) => {
+
+                                            var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                            var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                statusBalance: 'Success',
+                                                remark: 'Update-Balance'
+                                            });
+
+                                            return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                .then((history) => {
+
+                                                    resolve(result);
+                                                });
+                                        })
+                                        .catch((error) => {
+
+                                            var stockOpnameBalanceHistoryManager = eventParameter.stockOpnameBalanceHistoryManager;
+                                            var balanceOpnameHistory = new BalanceOpnameHistory({
+                                                stockOpnameBalanceCode: stockOpnameBalance.code,
+                                                statusBalance: 'Failed',
+                                                remark: 'Update-Balance'
+                                            });
+
+                                            return stockOpnameBalanceHistoryManager.create(balanceOpnameHistory)
+                                                .then((history) => {
+                                                    reject(error);
+                                                });
+                                        });
+                                })
+                                .catch((error) => {
+                                    reject(error);
+                                });
+                        }
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         reject(error);
                     });
             });
+
         }
     }
 
@@ -473,7 +608,8 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                     var newDate = new Date();
                     var eventParameter = {
                         stockOpname: result,
-                        stockOpnameBalanceManager: this.stockOpnameBalanceManager
+                        stockOpnameBalaceManager: this.stockOpnameBalanceManager,
+                        stockOpnameBalanceHistoryManager: this.stockOpnameBalanceHistoryManager
                     }
 
                     this.event.sendEvent('update-balance', this.stockOpnameBalance);
