@@ -287,7 +287,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                         var storageCode = stockOpname.storage.code;
                         var productCode = items.item.code;
 
-                        stockOpnameBalanceManager.getByStorageCode(storageCode, productCode)
+                        stockOpnamebalances.push(stockOpnameBalanceManager.getByStorageCode(storageCode, productCode)
                             .then(result => {
 
                                 if (result) {
@@ -303,7 +303,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                         stockOpnameBalance.product.quantity = items.qtyBeforeSO - items.qtySO;
                                     }
 
-                                    stockOpnamebalances.push(stockOpnameBalanceManager.update(stockOpnameBalance));
+                                    return stockOpnameBalanceManager.update(stockOpnameBalance);
                                 }
                                 else {
 
@@ -324,15 +324,14 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                         lastOpnameDate: today
                                     });
 
-                                    stockOpnamebalances.push(stockOpnameBalanceManager.create(stockOpnameBalance));
+                                    return stockOpnameBalanceManager.create(stockOpnameBalance);
                                 }
-                            });
+                            })
+                        );
                     });
                 });
 
-                var promiseStockOpnamebalances = Promise.all(stockOpnamebalances);
-
-                Promise.all([promiseStockOpnamebalances])
+                Promise.all([stockOpnamebalances])
                     .then(result => {
                         resolve(result);
                     })
@@ -353,7 +352,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                 stockOpname.items.forEach((items) => {
 
                     var productCode = items.item.code;
-                    stockOpnameBalanceManager.getByStorageCode(storageCode, productCode)
+                    stockOpnamebalances.push(stockOpnameBalanceManager.getByStorageCode(storageCode, productCode)
                         .then(result => {
 
                             if (result) {
@@ -367,14 +366,13 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                     stockOpnameBalance.product.quantity = items.qtyBeforeSO - items.qtySO;
                                 }
 
-                                stockOpnamebalances.push(stockOpnameBalanceManager.update(stockOpnameBalance));
+                                return stockOpnameBalanceManager.update(stockOpnameBalance);
                             }
-                        });
+                        })
+                    );
                 });
 
-                var promiseStockOpnamebalances = Promise.all(stockOpnamebalances);
-
-                Promise.all([promiseStockOpnamebalances])
+                Promise.all([stockOpnamebalances])
                     .then(result => {
                         resolve(result);
                     })
