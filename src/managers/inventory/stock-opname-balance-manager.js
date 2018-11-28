@@ -63,6 +63,23 @@ module.exports = class StockOpnameBalanceManager extends BaseManager {
 
     }
 
+    getBalanceByStorageCode(storageCode) {
+        return new Promise((resolve, reject) => {
+
+            var query = {
+                'storage.code' : storageCode
+            };
+
+            this.collection.find(query).toArray()
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            });
+        });
+    }
+
     _getQuery(paging) {
         var _default = {
             _deleted: false
