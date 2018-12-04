@@ -244,8 +244,8 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                                         stockOpnameBalanceManager: this.stockOpnameBalanceManager
                                     };
 
-                                    this.event.sendEvent("addSaldo", this.stockOpnameBalance);
-                                    this.event.emitEvent(eventParameter);
+                                    // this.event.sendEvent("addSaldo", this.stockOpnameBalance);
+                                    // this.event.emitEvent(eventParameter);
                                 }
                                 resolve(id);
                             })
@@ -474,8 +474,8 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                         stockOpnameBalanceManager: this.stockOpnameBalanceManager
                     }
 
-                    this.event.sendEvent('update-balance', this.stockOpnameBalance);
-                    this.event.emitEvent(eventParameter);
+                    // this.event.sendEvent('update-balance', this.stockOpnameBalance);
+                    // this.event.emitEvent(eventParameter);
 
                     for (var a of result.items) {
                         if (a.isAdjusted) {
