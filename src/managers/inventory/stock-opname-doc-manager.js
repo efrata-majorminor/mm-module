@@ -211,7 +211,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                             itemsIndex++;
                             lastItem++;
 
-                            if (itemsIndex == 1000 || lastItem == data.length) {
+                            if (itemsIndex == 500 || lastItem == data.length) {
 
                                 var SO = new SODoc({
                                     code: generateCode(moduleId),
