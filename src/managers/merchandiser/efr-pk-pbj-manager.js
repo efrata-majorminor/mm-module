@@ -66,8 +66,14 @@ module.exports = class SPKBarangJadiManager extends BaseManager {
                     '$regex': regex
                 }
             };
+            var filterReferenceList = {
+                'reference':
+                {
+                    '$regex': regex
+                }
+            };
             keywordFilter = {
-                '$or': [filterCode, filterPackingList]
+                '$or': [filterCode, filterPackingList, filterReferenceList]
             };
         }
         query = { '$and': [deletedFilter, paging.filter, keywordFilter] }
@@ -101,8 +107,13 @@ module.exports = class SPKBarangJadiManager extends BaseManager {
                         '$regex': regex
                     }
                 };
+                var filterReferenceList = {
+                    'reference': {
+                        '$regex': regex
+                    }
+                };
                 var $or = {
-                    '$or': [filterCode, filterPackingList]
+                    '$or': [filterCode, filterPackingList, filterReferenceList]
                 };
 
                 query['$and'].push($or);
