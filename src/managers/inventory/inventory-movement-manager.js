@@ -80,7 +80,7 @@ module.exports = class InventoryMovementManager {
     readByStorageIdAndItemId(storageId, itemId, paging) {
         var _paging = Object.assign({
             page: 1,
-            size: 20,
+            size: 2000,
             order: '_id',
             asc: true
         }, paging);
