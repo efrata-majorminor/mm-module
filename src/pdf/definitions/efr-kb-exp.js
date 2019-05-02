@@ -83,6 +83,17 @@ module.exports = function (expeditions) {
         { text: "Total Barang", style: ['tableHeader', 'size09'] }
     ]
 
+    var thead2 = [{
+        text: 'Penerima/Pembeli',
+        style: 'tableHeader'
+    }, {
+        text: 'Bagian Pengiriman',
+        style: 'tableHeader'
+    }, {
+        text: 'Petugas Gudang',
+        style: 'tableHeader'
+    }];
+
     var index = 1;
     var total = 0;
 
@@ -136,6 +147,20 @@ module.exports = function (expeditions) {
         style: ['marginTop20']
     }
 
+    var tbody2 = [[{
+        text: "\n\n\n\n\n",
+        style: ['size08', 'center'],
+    }, " ", " "]];
+
+    var data4 = [{
+        table: {
+            widths: ['30%', '40%', '30%'],
+            headerRows: 0,
+            body: [].concat([thead2], tbody2)
+        },
+        style: ['marginTop20','size08']
+    }];
+
     var dd = {
         pageSize: 'A4',
         pageOrientation: 'portrait',
@@ -145,7 +170,8 @@ module.exports = function (expeditions) {
             subHeader,
             data1,
             data2,
-            data3
+            data3,
+            data4
         ],
         styles: {
             size06: {
