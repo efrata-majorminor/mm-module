@@ -108,6 +108,14 @@ module.exports = function (spkDocs) {
         { text: "Harga", style: ['tableHeader', 'size09'] }
     ]
 
+    var thead2 = [{
+        text: '',
+        style: 'tableHeader'
+    }, {
+        text: 'Yang Membuat',
+        style: 'tableHeader'
+    }];
+
     var index = 1;
     var total = 0;
     var totalHarga = 0;
@@ -151,6 +159,24 @@ module.exports = function (spkDocs) {
         style: ['marginTop20']
     }
 
+    var tbody2 = [[{
+        text: "\n\n\n\n\n",
+        style: ['size08', 'center'],
+    },
+    {
+        text: "\n\n\n\n\(________________________________)",
+        style: ['size08', 'center'],
+    }]];
+
+    var data4 = [{
+        table: {
+            widths: ['70%', '30%'],
+            headerRows: 0,
+            body: [].concat([thead2], tbody2)
+        },
+        style: ['marginTop20','size08']
+    }];
+
     var dd = {
         pageSize: 'A4',
         pageOrientation: 'portrait',
@@ -160,7 +186,8 @@ module.exports = function (spkDocs) {
             subHeader,
             data1,
             data2,
-            data3
+            data3,
+            data4
         ],
         styles: {
             size06: {

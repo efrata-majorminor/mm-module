@@ -138,9 +138,9 @@ module.exports = function (expeditions) {
     var data3 = {
         table: {
             headerRows: 0,
-            widths: ['75%', '25%'],
+            widths: ['90.5%', '9.5%'],
             body: [
-                [{ text: 'Total', style: ['bold', 'size08'], alignment: 'center' },
+                [{ text: 'Total', style: ['bold', 'size08'], alignment: 'right' },
                 { text: total, style: ['bold', 'size08'], alignment: 'center' }]
             ]
         },
@@ -148,9 +148,17 @@ module.exports = function (expeditions) {
     }
 
     var tbody2 = [[{
-        text: "\n\n\n\n\n",
+        text: "\n\n\n\n\(________________________________)",
         style: ['size08', 'center'],
-    }, " ", " "]];
+    }, 
+    {
+        text: "\n\n\n\n\(________________________________)",
+        style: ['size08', 'center'],
+    },
+    {
+        text: "\n\n\n\n\(________________________________)",
+        style: ['size08', 'center'],
+    }]];
 
     var data4 = [{
         table: {
