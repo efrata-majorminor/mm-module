@@ -103,8 +103,7 @@ module.exports = class InventoryManager extends BaseManager {
                 query['$and'].push($or);
             }
 
-            var _select = ["storageId", "itemId", "item.code", "item.name", "quantity"];
-
+            var _select = ["storageId", "itemId", "item.code", "item.name", "quantity", "item.domesticSale", "item.article.realizationOrder" ];            
 
             this.collection
                 .where(query)
