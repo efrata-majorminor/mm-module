@@ -37,7 +37,7 @@ module.exports = function (unitPaymentCorrection, offset) {
             columns: [
                 {
                     width: '40%',
-                    text: 'PT EFRATA RETAILINDO',
+                    text: 'PT MAJORMINOR',
                     style: ['size15', 'bold', 'left']
                 }, {
                     width: '60%',

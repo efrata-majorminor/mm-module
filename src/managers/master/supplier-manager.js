@@ -6,10 +6,10 @@ var i18n = require('dl-i18n');
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var Supplier = BateeqModels.master.Supplier;
+var Supplier = MmModels.master.Supplier;
 
 
 module.exports = class SupplierManager extends BaseManager {

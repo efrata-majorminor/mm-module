@@ -6,15 +6,15 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var TransferInManager = require('./transfer-in-doc-manager');
-var map = BateeqModels.map;
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
 
-var TransferInDoc = BateeqModels.inventory.TransferInDoc;
-var TransferInItem = BateeqModels.inventory.TransferInItem;
+var TransferInDoc = MmModels.inventory.TransferInDoc;
+var TransferInItem = MmModels.inventory.TransferInItem;
 
-const moduleId = "EFR-TB/BBP";
+const moduleId = "MM-TB/BBP";
 
 module.exports = class PusatTerimaBarangBaruManager extends TransferInManager {
     constructor(db, user) {
@@ -58,7 +58,7 @@ module.exports = class PusatTerimaBarangBaruManager extends TransferInManager {
                 isDraft: false
             }, keywordFilter = {};
 
-            var regex = new RegExp("EFR\-PK/\PBJ|EFR\-PK/\PBR", "i");
+            var regex = new RegExp("MM\-PK/\PBJ|MM\-PK/\PBR", "i");
             var filterCode = {
                 'code': {
                     '$regex': regex

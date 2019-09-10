@@ -5,14 +5,14 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var generateCode = require('../../utils/code-generator');
-var map = BateeqModels.map;
+var map = MmModels.map;
 
-var TransferOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransferOutItem = BateeqModels.inventory.TransferOutItem;
+var TransferOutDoc = MmModels.inventory.TransferOutDoc;
+var TransferOutItem = MmModels.inventory.TransferOutItem;
 
-var moduleId = "EFR-KB/RTD";
+var moduleId = "MM-KB/RTD";
 
 module.exports = class FinishingKirimBarangReturSelesaiPerbaikanManager {
     constructor(db, user) {

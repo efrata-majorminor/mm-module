@@ -13,7 +13,7 @@ class ArticleMaterialDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.article.ArticleMaterial;
+        var Model = require('mm-models').master.article.ArticleMaterial;
         var data = new Model();
         var code = generateCode();
         data.code = code;

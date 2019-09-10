@@ -1,6 +1,6 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.sales;
+var validate = require('mm-models').validator.sales;
 var generateCode = require('../../src/utils/code-generator');
 var manager;
 var testData;
@@ -13,11 +13,11 @@ function getDataDiscountItem() {
     stores.push(testData.stores["ST-BJB"]);
     stores.push(testData.stores["ST-BJR"]);
 
-    var Promo = require('bateeq-models').sales.Promo;
-    var PromoCriteria = require('bateeq-models').sales.PromoCriteria;
-    var PromoReward = require('bateeq-models').sales.PromoReward;
-    var PromoCriteriaSelectedProduct = require('bateeq-models').sales.PromoCriteriaSelectedProduct;
-    var PromoRewardDiscountProduct = require('bateeq-models').sales.PromoRewardDiscountProduct;
+    var Promo = require('mm-models').sales.Promo;
+    var PromoCriteria = require('mm-models').sales.PromoCriteria;
+    var PromoReward = require('mm-models').sales.PromoReward;
+    var PromoCriteriaSelectedProduct = require('mm-models').sales.PromoCriteriaSelectedProduct;
+    var PromoRewardDiscountProduct = require('mm-models').sales.PromoRewardDiscountProduct;
     
     var promo = new Promo();
     var code = generateCode('UnitTest');
@@ -71,11 +71,11 @@ function getDataPackageSpecialPrice() {
     stores.push(testData.stores["ST-BJB"]);
     stores.push(testData.stores["ST-BJR"]);
 
-    var Promo = require('bateeq-models').sales.Promo;
-    var PromoCriteria = require('bateeq-models').sales.PromoCriteria;
-    var PromoReward = require('bateeq-models').sales.PromoReward;
-    var PromoCriteriaPackage = require('bateeq-models').sales.PromoCriteriaPackage;
-    var PromoRewardSpecialPrice = require('bateeq-models').sales.PromoRewardSpecialPrice;
+    var Promo = require('mm-models').sales.Promo;
+    var PromoCriteria = require('mm-models').sales.PromoCriteria;
+    var PromoReward = require('mm-models').sales.PromoReward;
+    var PromoCriteriaPackage = require('mm-models').sales.PromoCriteriaPackage;
+    var PromoRewardSpecialPrice = require('mm-models').sales.PromoRewardSpecialPrice;
     
     var promo = new Promo();
     var code = generateCode('UnitTest');

@@ -4,9 +4,9 @@ var ObjectId = require("mongodb").ObjectId;
 
 require("mongodb-toolkit");
 
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
-var Budget = BateeqModels.master.Budget;
+var MmModels = require('mm-models');
+var map = MmModels.map;
+var Budget = MmModels.master.Budget;
 var BaseManager = require('module-toolkit').BaseManager;
 var i18n = require('dl-i18n');
 

@@ -1,6 +1,6 @@
 var should = require("should");
 var helper = require("../../../helper");
-var validate = require("bateeq-models").validator.master.finishedGoods;
+var validate = require("mm-models").validator.master.finishedGoods;
 var FinishedGoods = require("../../../data-util/master/finished-goods-data-util");
 var FinishedGoodsManager = require("../../../../src/managers/master/finished-goods-manager");
 var instanceManager = null;

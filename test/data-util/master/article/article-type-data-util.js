@@ -13,7 +13,7 @@ class ArticleTypeDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.article.ArticleType;
+        var Model = require('mm-models').master.article.ArticleType;
         var data = new Model();
         var code = generateCode();
         data.code = code;

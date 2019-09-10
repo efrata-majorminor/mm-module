@@ -1,7 +1,7 @@
 var helper = require("../../../helper");
 var Material = require("../../../data-util/master/material-manager-data-util");
 var MaterialManager = require("../../../../src/managers/master/material-manager");
-var validate = require("bateeq-models").validator.master.material;
+var validate = require("mm-models").validator.master.material;
 var instanceManager = null;
 var should = require("should");
 

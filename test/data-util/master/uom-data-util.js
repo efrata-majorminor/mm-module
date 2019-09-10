@@ -13,7 +13,7 @@ class UomDataUtil {
     }
 
     getNewData() {
-        var Model = require("bateeq-models").master.Uom;
+        var Model = require("mm-models").master.Uom;
         var data = new Model();
 
         var code = generateCode();

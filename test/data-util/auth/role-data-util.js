@@ -16,7 +16,7 @@ class RoleDataUtil {
     getNewData() {
         return Unit.getTestData()
             .then((unit) => {
-                var Model = require("bateeq-models").auth.Role;
+                var Model = require("mm-models").auth.Role;
                 var data = new Model();
 
                 var code = generateCode();

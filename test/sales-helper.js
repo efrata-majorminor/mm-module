@@ -47,9 +47,9 @@ var newSales = function () {
                         var cardType = testData.cardTypes["CT-VISA"];           //CARD, MASTERCARD, VISA
                         var variant = testData.finishedGoods["UT-FG2"];
                     
-                        var Sales = require('bateeq-models').sales.Sales;
-                        var SalesItem = require('bateeq-models').sales.SalesItem;
-                        var SalesDetail = require('bateeq-models').sales.SalesDetail;
+                        var Sales = require('mm-models').sales.Sales;
+                        var SalesItem = require('mm-models').sales.SalesItem;
+                        var SalesDetail = require('mm-models').sales.SalesDetail;
                         var sales = new Sales();
 
                         var now = new Date();

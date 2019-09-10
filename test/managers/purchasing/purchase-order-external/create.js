@@ -2,13 +2,13 @@ require("should");
 var helper = require("../../../helper");
 
 var purchaseOrderDataUtil = require("../../../data-util/purchasing/purchase-order-data-util");
-var validatePR = require("bateeq-models").validator.purchasing.purchaseOrder;
+var validatePR = require("mm-models").validator.purchasing.purchaseOrder;
 var PurchaseOrderManager = require("../../../../src/managers/purchasing/purchase-order-manager");
 var purchaseOrderManager = null;
 var purchaseOrders;
 
 var purchaseOrderExternalDataUtil = require("../../../data-util/purchasing/purchase-order-external-data-util");
-var validatePO = require("bateeq-models").validator.purchasing.purchaseOrderExternal;
+var validatePO = require("mm-models").validator.purchasing.purchaseOrderExternal;
 var PurchaseOrderExternalManager = require("../../../../src/managers/purchasing/purchase-order-external-manager");
 var purchaseOrderExternalManager = null;
 var purchaseOrderExternal;

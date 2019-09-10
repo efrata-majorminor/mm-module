@@ -13,7 +13,7 @@ class ArticleMotifDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.article.ArticleMotif;
+        var Model = require('mm-models').master.article.ArticleMotif;
         var data = new Model();
         var code = generateCode();
         data.code = code;

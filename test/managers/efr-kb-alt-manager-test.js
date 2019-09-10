@@ -1,6 +1,6 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.inventory;
+var validate = require('mm-models').validator.inventory;
 var generateCode = require('../../src/utils/code-generator');
 
 var transferInManager;
@@ -15,8 +15,8 @@ function generateBJR(){
     var variant = testData.items["UT-AV1"];
 
 
-    var TransferInDoc = require('bateeq-models').inventory.TransferInDoc;
-    var TransferInItem = require('bateeq-models').inventory.TransferInItem;
+    var TransferInDoc = require('mm-models').inventory.TransferInDoc;
+    var TransferInItem = require('mm-models').inventory.TransferInItem;
     var transferInDoc = new TransferInDoc();
 
     var now = new Date();
@@ -47,8 +47,8 @@ function generateALT(ref){
     var variant = testData.items["UT-AV1"];
 
 
-    var TransferOutDoc = require('bateeq-models').inventory.TransferOutDoc;
-    var TransferOutItem = require('bateeq-models').inventory.TransferOutItem;
+    var TransferOutDoc = require('mm-models').inventory.TransferOutDoc;
+    var TransferOutItem = require('mm-models').inventory.TransferOutItem;
     var transferOutDoc = new TransferOutDoc();
 
     var now = new Date();
@@ -166,7 +166,7 @@ it('#04. should error when create data with invalid reference', function(done) {
 
 it('#05. should error when items quantity larger than items reference quantity', function(done) {
     var data = generateALT(createdRef);
-    var TransferInItem = require('bateeq-models').inventory.TransferInItem;
+    var TransferInItem = require('mm-models').inventory.TransferInItem;
     var variant = testData.items["UT-AV1"];
     data.items = [];
     data.items.push(new TransferInItem({

@@ -1,18 +1,18 @@
 'use strict'
 var ObjectId = require("mongodb").ObjectId;
-const moduleId = "EFR-RB/UPO";
+const moduleId = "MM-RB/UPO";
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var assert = require('assert');
-var map = BateeqModels.map;
+var map = MmModels.map;
 var i18n = require('dl-i18n');
-var UnitPaymentOrder = BateeqModels.purchasing.UnitPaymentOrder;
-var UnitReceiptNote = BateeqModels.purchasing.UnitReceiptNote;
+var UnitPaymentOrder = MmModels.purchasing.UnitPaymentOrder;
+var UnitReceiptNote = MmModels.purchasing.UnitReceiptNote;
 var PurchaseOrderManager = require('./purchase-order-manager');
 var UnitReceiptNoteManager = require('./unit-receipt-note-manager');
 var BaseManager = require('module-toolkit').BaseManager;
 var generateCode = require('../../utils/code-generator');
-var poStatusEnum = BateeqModels.purchasing.enum.PurchaseOrderStatus;
+var poStatusEnum = MmModels.purchasing.enum.PurchaseOrderStatus;
 
 module.exports = class UnitPaymentOrderManager extends BaseManager {
 

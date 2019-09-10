@@ -5,14 +5,14 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
 
-var SPKDoc = BateeqModels.merchandiser.SPK;
-var SPKItem = BateeqModels.merchandiser.SPKItem;
+var SPKDoc = MmModels.merchandiser.SPK;
+var SPKItem = MmModels.merchandiser.SPKItem;
 
-var moduleId = "EFR-PK/PBR";
+var moduleId = "MM-PK/PBR";
 
 module.exports = class SPKBarangJadiReturManager {
     constructor(db, user) {
@@ -150,7 +150,7 @@ module.exports = class SPKBarangJadiReturManager {
             this._validate(spkDoc)
                 .then(validSpkDoc => {
                     validSpkDoc.code = generateCode(moduleId);
-                    validSpkDoc.packingList = generateCode('EFR-KB/PBR');
+                    validSpkDoc.packingList = generateCode('MM-KB/PBR');
                     var date = new Date();
                     var password = (generateCode(("0" + date.getDate()).slice(-2))).split('/').join('');
                     validSpkDoc.password = password;

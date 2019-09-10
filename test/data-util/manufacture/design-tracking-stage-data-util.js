@@ -8,7 +8,7 @@ class DesignTrackingStageDataUtil {
     getNewData() {
         return designTrackingBoard.getTestData()
             .then((result) => {
-                const Model = require('bateeq-models').manufacture.DesignTrackingBoard;
+                const Model = require('mm-models').manufacture.DesignTrackingBoard;
                 let data = new Model();
 
                 let code = generateCode("EFR-DTS");

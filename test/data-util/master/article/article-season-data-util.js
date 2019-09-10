@@ -13,7 +13,7 @@ class ArticleSeasonDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.article.ArticleSeason;
+        var Model = require('mm-models').master.article.ArticleSeason;
         var data = new Model();
         var code = generateCode();
         data.code = code;

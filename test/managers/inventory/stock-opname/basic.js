@@ -1,6 +1,6 @@
 var should = require("should");
 var helper = require("../../../helper");
-var validate = require("bateeq-models").validator.inventory.adjustmentDoc;
+var validate = require("mm-models").validator.inventory.adjustmentDoc;
 var StockManager = require("../../../../src/managers/inventory/stock-opname-doc-manager");
 var instanceManager = null;
 

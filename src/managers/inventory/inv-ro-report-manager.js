@@ -2,8 +2,8 @@
 
 var ObjectId = require('mongodb').ObjectId;
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
 module.exports = class InventoryROReportManager extends BaseManager {
 

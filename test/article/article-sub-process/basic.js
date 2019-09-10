@@ -1,8 +1,8 @@
 var options = {
     manager: require("../../../src/managers/master/article/article-sub-process-manager"),
-    model: require("bateeq-models").master.article.ArticleSubProcess,
+    model: require("mm-models").master.article.ArticleSubProcess,
     util: require("../../data-util/master/article/article-sub-process-data-util"),
-    validator: require("bateeq-models").validator.master.article.articleSubProcess,
+    validator: require("mm-models").validator.master.article.articleSubProcess,
     createDuplicate: true,
     keys: ["code"]
 };

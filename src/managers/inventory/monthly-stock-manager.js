@@ -4,8 +4,8 @@
 const ObjectId = require('mongodb').ObjectId;
 require('mongodb-toolkit');
 // Internal dependency
-const BateeqModels = require('bateeq-models');
-const map = BateeqModels.map;
+const MmModels = require('mm-models');
+const map = MmModels.map;
 // External dependency
 const BaseManager = require('module-toolkit').BaseManager;
 const moment = require('moment');

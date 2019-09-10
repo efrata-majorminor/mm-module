@@ -13,7 +13,7 @@ class ArticleSubCollectionDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.article.ArticleSubCollection;
+        var Model = require('mm-models').master.article.ArticleSubCollection;
         var data = new Model();
         var code = generateCode();
         data.code = code;

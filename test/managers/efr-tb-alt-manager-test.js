@@ -1,6 +1,6 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.inventory;
+var validate = require('mm-models').validator.inventory;
 var generateCode = require('../../src/utils/code-generator');
 
 var transferInManager;
@@ -16,8 +16,8 @@ function generateBJR(){
     var variant = testData.items["UT-AV1"];
 
 
-    var TransferInDoc = require('bateeq-models').inventory.TransferInDoc;
-    var TransferInItem = require('bateeq-models').inventory.TransferInItem;
+    var TransferInDoc = require('mm-models').inventory.TransferInDoc;
+    var TransferInItem = require('mm-models').inventory.TransferInItem;
     var transferInDoc = new TransferInDoc();
 
     var now = new Date();
@@ -48,8 +48,8 @@ function generateALTIn(ref){
     var variant = testData.items["UT-AV1"];
 
 
-    var TransferOutDoc = require('bateeq-models').inventory.TransferOutDoc;
-    var TransferOutItem = require('bateeq-models').inventory.TransferOutItem;
+    var TransferOutDoc = require('mm-models').inventory.TransferOutDoc;
+    var TransferOutItem = require('mm-models').inventory.TransferOutItem;
     var transferOutDoc = new TransferOutDoc();
 
     var now = new Date();
@@ -81,8 +81,8 @@ function generateALTOut(ref){
     var variant = testData.items["UT-AV1"];
 
 
-    var TransferInDoc = require('bateeq-models').inventory.TransferInDoc;
-    var TransferInItem = require('bateeq-models').inventory.TransferInItem;
+    var TransferInDoc = require('mm-models').inventory.TransferInDoc;
+    var TransferInItem = require('mm-models').inventory.TransferInItem;
     var transferInDoc = new TransferInDoc();
 
     var now = new Date();

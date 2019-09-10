@@ -5,26 +5,26 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var ArticleApproval = BateeqModels.master.article.ArticleApproval;
-var ArticleBrand = BateeqModels.master.article.ArticleBrand;
-var ArticleCategory = BateeqModels.master.article.ArticleCategory;
-var ArticleColor = BateeqModels.master.article.ArticleColor;
-var ArticleCostCalculationDetail = BateeqModels.master.article.ArticleCostCalculationDetail;
-var ArticleCostCalculation = BateeqModels.master.article.ArticleCostCalculation;
-var ArticleCounter = BateeqModels.master.article.ArticleCounter;
-var ArticleMaterial = BateeqModels.master.article.ArticleMaterial;
-var ArticleMotif = BateeqModels.master.article.ArticleMotif;
-var ArticleOrigin = BateeqModels.master.article.ArticleOrigin;
-var ArticleSeason = BateeqModels.master.article.ArticleSeason;
-var ArticleSize = BateeqModels.master.article.ArticleSize;
-var ArticleSubCounter = BateeqModels.master.article.ArticleSubCounter;
-var ArticleTheme = BateeqModels.master.article.ArticleTheme;
-var ArticleType = BateeqModels.master.article.ArticleType;
-var ArticleVariant = BateeqModels.master.article.ArticleVariant;
-var Article = BateeqModels.master.article.Article;
+var ArticleApproval = MmModels.master.article.ArticleApproval;
+var ArticleBrand = MmModels.master.article.ArticleBrand;
+var ArticleCategory = MmModels.master.article.ArticleCategory;
+var ArticleColor = MmModels.master.article.ArticleColor;
+var ArticleCostCalculationDetail = MmModels.master.article.ArticleCostCalculationDetail;
+var ArticleCostCalculation = MmModels.master.article.ArticleCostCalculation;
+var ArticleCounter = MmModels.master.article.ArticleCounter;
+var ArticleMaterial = MmModels.master.article.ArticleMaterial;
+var ArticleMotif = MmModels.master.article.ArticleMotif;
+var ArticleOrigin = MmModels.master.article.ArticleOrigin;
+var ArticleSeason = MmModels.master.article.ArticleSeason;
+var ArticleSize = MmModels.master.article.ArticleSize;
+var ArticleSubCounter = MmModels.master.article.ArticleSubCounter;
+var ArticleTheme = MmModels.master.article.ArticleTheme;
+var ArticleType = MmModels.master.article.ArticleType;
+var ArticleVariant = MmModels.master.article.ArticleVariant;
+var Article = MmModels.master.article.Article;
 
 module.exports = class ArticleBrandManager {
     constructor(db, user) {

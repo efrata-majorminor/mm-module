@@ -6,10 +6,10 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var Storage = BateeqModels.master.Storage;
+var Storage = MmModels.master.Storage;
 
 
 module.exports = class StorageManager extends BaseManager {

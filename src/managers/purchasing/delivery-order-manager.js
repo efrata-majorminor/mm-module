@@ -3,19 +3,19 @@
 // external deps 
 var ObjectId = require("mongodb").ObjectId;
 var BaseManager = require('module-toolkit').BaseManager;
-const moduleId = "EFR-RB/DO"; 
+const moduleId = "MM-RB/DO"; 
 // internal deps 
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
-var DeliveryOrder = BateeqModels.purchasing.DeliveryOrder;
+var MmModels = require('mm-models');
+var map = MmModels.map;
+var DeliveryOrder = MmModels.purchasing.DeliveryOrder;
 var PurchaseOrderManager = require('./purchase-order-manager');
 var PurchaseOrderExternalManager = require('./purchase-order-external-manager');
 var PurchaseRequestManager = require('./purchase-request-manager');
 var i18n = require('dl-i18n');
 var SupplierManager = require('../master/supplier-manager');
-var prStatusEnum = BateeqModels.purchasing.enum.PurchaseRequestStatus;
-var poStatusEnum = BateeqModels.purchasing.enum.PurchaseOrderStatus;
+var prStatusEnum = MmModels.purchasing.enum.PurchaseRequestStatus;
+var poStatusEnum = MmModels.purchasing.enum.PurchaseOrderStatus;
 var generateCode = require('../../utils/code-generator');
 
 module.exports = class DeliveryOrderManager extends BaseManager {

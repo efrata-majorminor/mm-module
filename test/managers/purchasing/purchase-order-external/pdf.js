@@ -1,7 +1,7 @@
 require("should");
 var POExternal = require("../../../data-util/purchasing/purchase-order-external-data-util");
 var helper = require("../../../helper");
-var validate = require("bateeq-models").purchasing.PurchaseOrderExternal;
+var validate = require("mm-models").purchasing.PurchaseOrderExternal;
 var moment = require('moment');
 
 var POExternalManager = require("../../../../src/managers/purchasing/purchase-order-external-manager");

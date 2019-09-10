@@ -13,7 +13,7 @@ class BudgetDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.Budget;
+        var Model = require('mm-models').master.Budget;
         var data = new Model();
 
         var code = generateCode();

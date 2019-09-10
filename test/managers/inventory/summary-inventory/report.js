@@ -1,13 +1,13 @@
 require("should");
 var SummaryInventory = require("../../../data-util/inventory/summary-inventory-data-util");
 var helper = require("../../../helper");
-var validate = require("bateeq-models").validator.inventory.summaryInventory;
+var validate = require("mm-models").validator.inventory.summaryInventory;
 
 var summaryInventoryManager = require("../../../../src/managers/inventory/summary-inventory-manager");
 var summaryInventoryManager = null;
 
 //delete unitest data
-var BtModels = require('bateeq-models');
+var BtModels = require('mm-models');
 var map = BtModels.map;
 var MachineType = BtModels.master.MachineType;
 

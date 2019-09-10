@@ -8,9 +8,9 @@ var assert = require('assert');
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
-var Product = BateeqModels.master.Product;
+var MmModels = require('mm-models');
+var map = MmModels.map;
+var Product = MmModels.master.Product;
 var CurrencyManager = require('./currency-manager');
 
 var UomManager = require('./uom-manager');

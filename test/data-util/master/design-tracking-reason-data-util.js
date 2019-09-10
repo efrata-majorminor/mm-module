@@ -5,7 +5,7 @@ const generateCode = require('../../../src/utils/code-generator');
 
 class DesignTrackingReasonDataUtil {
     getNewData() {
-        const Model = require('bateeq-models').master.DesignTrackingReason;
+        const Model = require('mm-models').master.DesignTrackingReason;
         let data = new Model();
 
         let code = generateCode("EFR-DTR");

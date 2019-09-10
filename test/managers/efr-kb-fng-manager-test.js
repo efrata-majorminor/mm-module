@@ -1,6 +1,6 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.inventory;
+var validate = require('mm-models').validator.inventory;
 var generateCode = require('../../src/utils/code-generator');
 var manager;
 var manager2;
@@ -11,8 +11,8 @@ function getData() {
     var destination = testData.storages["UT-BJB"];
     var variant = testData.items["UT-AV1"];
 
-    var TransferOutDoc = require('bateeq-models').inventory.TransferOutDoc;
-    var TransferOutItem = require('bateeq-models').inventory.TransferOutItem;
+    var TransferOutDoc = require('mm-models').inventory.TransferOutDoc;
+    var TransferOutItem = require('mm-models').inventory.TransferOutItem;
     var transferOutDoc = new TransferOutDoc();
 
     var now = new Date();
@@ -148,7 +148,7 @@ it(`#04. should success when get created data with id`, function (done) {
 
 it(`#05. should success when update created data`, function (done) { 
     createdData.remark += '[updated]';
-    var TransferOutItem = require('bateeq-models').inventory.TransferOutItem;
+    var TransferOutItem = require('mm-models').inventory.TransferOutItem;
     manager.update(createdData)
         .then(id => {
             createdId.toString().should.equal(id.toString());

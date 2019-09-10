@@ -5,21 +5,21 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var generateCode = require('../../utils/code-generator');
-var map = BateeqModels.map;
+var map = MmModels.map;
 var BaseManager = require('module-toolkit').BaseManager;
-var ExpeditionDoc = BateeqModels.inventory.ExpeditionDoc;
-var TransferOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransferOutItem = BateeqModels.inventory.TransferOutItem;
-var TransferInDoc = BateeqModels.inventory.TransferInDoc;
-var TransferInItem = BateeqModels.inventory.TransferInItem;
-var SPKDoc = BateeqModels.merchandiser.SPK;
-var SPKItem = BateeqModels.merchandiser.SPKItem;
+var ExpeditionDoc = MmModels.inventory.ExpeditionDoc;
+var TransferOutDoc = MmModels.inventory.TransferOutDoc;
+var TransferOutItem = MmModels.inventory.TransferOutItem;
+var TransferInDoc = MmModels.inventory.TransferInDoc;
+var TransferInItem = MmModels.inventory.TransferInItem;
+var SPKDoc = MmModels.merchandiser.SPK;
+var SPKItem = MmModels.merchandiser.SPKItem;
 
 
-const moduleId = "EFR-KB/RTT";
-const modulePackingList = "EFR-KB/PLR";
+const moduleId = "MM-KB/RTT";
+const modulePackingList = "MM-KB/PLR";
 module.exports = class TokoTransferStokManager extends BaseManager {
     constructor(db, user) {
         super(db, user);
@@ -111,7 +111,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                 .then(validTransferOutDoc => {
                     validTransferOutDoc.code = generateCode(moduleId);
                     var getData = [];
-                    getData.push(this.storageManager.getByCode("GDG.01"));
+                    getData.push(this.storageManager.getByCode("GDG.05"));
                     getData.push(this.expeditionServiceManager.getSingleByQuery({
                         "code": "Dikirim Sendiri"
                     }));
@@ -120,7 +120,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                         var storage = results[0];
                         var expedition = results[1];
                         var transferOutDoc1 = {};
-                        transferOutDoc1.code = generateCode("EFR-KB/RTT");
+                        transferOutDoc1.code = generateCode("MM-KB/RTT");
                         transferOutDoc1.destination = validTransferOutDoc.destination;
                         transferOutDoc1.destinationId = validTransferOutDoc.destinationId;
                         transferOutDoc1.items = validTransferOutDoc.items;
@@ -134,7 +134,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                                         var spkDocGdg = {};
                                         var validspkDocGdg;
                                         var packingList1;
-                                        spkDocGdg.code = generateCode("EFR-PK/PBJ");
+                                        spkDocGdg.code = generateCode("MM-PK/PBJ");
                                         spkDocGdg.source = validTransferOutDoc.source;
                                         spkDocGdg.sourceId = validTransferOutDoc.source._id;
                                         spkDocGdg.destination = storage[0];
@@ -158,7 +158,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                                         validspkDocGdg.stamp(this.user.profile.firstname, 'manager');
 
                                         var transferinDoc = {};
-                                        transferinDoc.code = generateCode("EFR-TB/BRT");
+                                        transferinDoc.code = generateCode("MM-TB/BRT");
                                         transferinDoc.source = validTransferOutDoc.source;
                                         transferinDoc.sourceId = validTransferOutDoc.source._id;
                                         transferinDoc.destination = storage[0];
@@ -169,7 +169,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                                         var PlSPK;
                                         var spkDoc = {};
                                         var validspkDoc;
-                                        spkDoc.code = generateCode("EFR-PK/PBJ");
+                                        spkDoc.code = generateCode("MM-PK/PBJ");
                                         spkDoc.source = storage[0];
                                         spkDoc.sourceId = storage[0]._id;
                                         spkDoc.destination = validTransferOutDoc.destination;
@@ -178,7 +178,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                                         for (var item of spkDoc.items) {
                                             item.sendQuantity = parseInt(item.quantity || 0);
                                         }
-                                        spkDoc.packingList = generateCode("EFR-KB/PLB");
+                                        spkDoc.packingList = generateCode("MM-KB/PLB");
                                         PlSPK = spkDoc.packingList;
                                         spkDoc.isDraft = false;
                                         spkDoc.isReceived = false;
@@ -206,7 +206,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                                                                 var ekspedisiDoc = {};
                                                                 var eksCode;
                                                                 var validEkspedisiDoc;
-                                                                ekspedisiDoc.code = generateCode("EFR-KB/EXP");
+                                                                ekspedisiDoc.code = generateCode("MM-KB/EXP");
                                                                 eksCode = ekspedisiDoc.code;
                                                                 ekspedisiDoc.expedition = expedition;
                                                                 validEkspedisiDoc = ekspedisiDoc;

@@ -13,7 +13,7 @@ class CardTypeDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.CardType;
+        var Model = require('mm-models').master.CardType;
         var data = new Model();
         
         // var now = new Date();

@@ -7,7 +7,7 @@ var uomDataUtil = require('../master/uom-data-util');
 
 var codeGenerator = require('../../../src/utils/code-generator');
 
-var Models = require("bateeq-models");
+var Models = require("mm-models");
 var Map = Models.map;
 var SummaryInventoryModel = Models.inventory.SummaryInventory;
 

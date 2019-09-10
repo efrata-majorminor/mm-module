@@ -13,7 +13,7 @@ class StorageDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.Storage;
+        var Model = require('mm-models').master.Storage;
         var data = new Model();
 
         var code = generateCode();
