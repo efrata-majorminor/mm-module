@@ -8,7 +8,7 @@ var ProductManager = require('../master/product-manager');
 var StorageManager = require('../master/storage-manager');
 var UomManager = require('../master/uom-manager');
 
-var Models = require("bateeq-models");
+var Models = require("mm-models");
 var Map = Models.map;
 var InventorySummaryModel = Models.inventory.InventorySummary;
 var InventoryMovementModel = Models.inventory.InventoryMovement;

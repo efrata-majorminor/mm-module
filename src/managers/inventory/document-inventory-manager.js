@@ -10,7 +10,7 @@ var UomManager = require('../master/uom-manager');
 var SummaryInventoryManager = require('./summary-inventory-manager');
 var MovementInventoryManager = require('./movement-inventory-manager');
 
-var Models = require("bateeq-models");
+var Models = require("MM-models");
 var Map = Models.map;
 var DocumentInventoryModel = Models.inventory.DocumentInventory;
 

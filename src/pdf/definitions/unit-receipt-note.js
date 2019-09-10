@@ -22,7 +22,7 @@ module.exports = function (unitReceiptNote, offset) {
                     columns: [{
                         width: '*',
                         stack: [{
-                            text: 'PT EFRATA RETAILINDO',
+                            text: 'PT. MAJORMINOR',
                             style: ['size15', 'bold']
                         }, {
                                 text: 'BANARAN, GROGOL, SUKOHARJO',

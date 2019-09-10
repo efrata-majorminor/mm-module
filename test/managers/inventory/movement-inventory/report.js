@@ -2,7 +2,7 @@ require("should");
 var MovementInventory = require("../../../data-util/inventory/movement-inventory-data-util");
 var helper = require("../../../helper");
 var moment = require("moment");
-var validate = require("bateeq-models").validator.inventory.movementInventory;
+var validate = require("mm-models").validator.inventory.movementInventory;
 
 var MovementInventoryManager = require("../../../../src/managers/inventory/movement-inventory-manager");
 var MovementinventoryManager = null;

@@ -8,12 +8,12 @@ require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
 var ComponentHelper = require('./component-helper');
 
-var BateeqModels = require('bateeq-models');
-var Item = BateeqModels.master.Item;
-var FinishedGoods = BateeqModels.master.FinishedGoods;
-var Material = BateeqModels.master.Material;
-// var Sales = BateeqModels.sales.Sales;
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var Item = MmModels.master.Item;
+var FinishedGoods = MmModels.master.FinishedGoods;
+var Material = MmModels.master.Material;
+// var Sales = MmModels.sales.Sales;
+var map = MmModels.map;
 
 
 module.exports = class ItemManager extends BaseManager {

@@ -71,7 +71,7 @@ module.exports = function (unitPaymentCorrection, offset) {
                 style: ['size09']
             }, {
                 width: '*',
-                text: 'PT EFRATA RETAILINDO',
+                text: 'PT. MAJORMINOR',
                 style: ['size09']
             }]
         },

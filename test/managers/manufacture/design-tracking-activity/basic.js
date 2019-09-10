@@ -2,9 +2,9 @@
 
 let options = {
     manager: require("../../../../src/managers/manufacture/design-tracking-activity-manager"),
-    model: require("bateeq-models").manufacture.DesignTrackingActivity,
+    model: require("mm-models").manufacture.DesignTrackingActivity,
     util: require("../../../data-util/manufacture/design-tracking-activity-data-util"),
-    validator: require("bateeq-models").validator.manufacture.designTrackingActivity,
+    validator: require("mm-models").validator.manufacture.designTrackingActivity,
     createDuplicate: false,
     keys: []
 };

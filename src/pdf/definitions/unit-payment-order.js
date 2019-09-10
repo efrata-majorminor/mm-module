@@ -56,7 +56,7 @@ module.exports = function (unitPaymentOrder, offset) {
             {
                 width: '40%',
                 stack: [{
-                    text: 'PT EFRATA RETAILINDO',
+                    text: 'PT. MAJORMINOR',
                     style: ['size20', 'bold']
                 }, {
                     text: 'BANARAN, GROGOL, SUKOHARJO',

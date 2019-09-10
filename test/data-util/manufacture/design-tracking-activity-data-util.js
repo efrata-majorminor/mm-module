@@ -10,7 +10,7 @@ class DesignTrackingActivityDataUtil {
     getNewData() {
         return designTrackingDesign.getTestData()
             .then((result) => {
-                const Model = require('bateeq-models').manufacture.DesignTrackingActivity;
+                const Model = require('mm-models').manufacture.DesignTrackingActivity;
                 let data = new Model();
 
                 let code = generateCode("EFR-DTA");

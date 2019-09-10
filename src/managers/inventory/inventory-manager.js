@@ -5,11 +5,11 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var BaseManager = require('module-toolkit').BaseManager;
-var Inventory = BateeqModels.inventory.Inventory;
-var InventoryMovement = BateeqModels.inventory.InventoryMovement;
+var Inventory = MmModels.inventory.Inventory;
+var InventoryMovement = MmModels.inventory.InventoryMovement;
 
 module.exports = class InventoryManager extends BaseManager {
     constructor(db, user) {

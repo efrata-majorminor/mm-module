@@ -6,9 +6,9 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var RangeDiscProduct = BateeqModels.master.RangeDiscProduct;
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var RangeDiscProduct = MmModels.master.RangeDiscProduct;
+var map = MmModels.map;
 
 module.exports = class RangeDiscProductManager extends BaseManager{
     constructor(db, user){

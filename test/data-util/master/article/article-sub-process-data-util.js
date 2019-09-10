@@ -13,7 +13,7 @@ class ArticleSubProcessDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.article.ArticleSubProcess;
+        var Model = require('mm-models').master.article.ArticleSubProcess;
         var data = new Model();
         var code = generateCode();
         data.code = code;

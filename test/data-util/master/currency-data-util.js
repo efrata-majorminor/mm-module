@@ -13,7 +13,7 @@ class CurrencyDataUtil {
     }
 
     getNewData() {
-        var Model = require("bateeq-models").master.Currency;
+        var Model = require("mm-models").master.Currency;
         var data = new Model();
 
         var code = generateCode();

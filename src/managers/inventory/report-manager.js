@@ -1,10 +1,10 @@
 'use strict';
 
 var ObjectId = require('mongodb').ObjectId;
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var InventoryManager = require('./inventory-manager');
 var ExpeditionManager = null;
-var map = BateeqModels.map;
+var map = MmModels.map;
 
 var SalesManager = require('../sales/sales-manager');
 

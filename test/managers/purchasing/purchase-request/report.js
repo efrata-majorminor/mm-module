@@ -1,7 +1,7 @@
 require("should");
 var PurchaseRequest = require("../../../data-util/purchasing/purchase-request-data-util");
 var helper = require("../../../helper");
-var validate = require("bateeq-models").validator.purchasing.purchaseRequest;
+var validate = require("mm-models").validator.purchasing.purchaseRequest;
 var PurchaseRequestManager = require("../../../../src/managers/purchasing/purchase-request-manager");
 var purchaseRequestManager = null;
 

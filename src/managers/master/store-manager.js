@@ -7,10 +7,10 @@ var ObjectId = require('mongodb').ObjectId;
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
 var StorageManager = require('../master/storage-manager');
-var BateeqModels = require('bateeq-models');
-var Store = BateeqModels.master.Store;
-var Storage = BateeqModels.master.Storage;
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var Store = MmModels.master.Store;
+var Storage = MmModels.master.Storage;
+var map = MmModels.map;
 //var generateCode = require('../../utils/code-generator');
 
 module.exports = class StoreManager extends BaseManager {

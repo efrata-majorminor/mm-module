@@ -5,10 +5,10 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var ItemManager = require('./item-manager');
-var FinishedGoods = BateeqModels.master.FinishedGoods;
+var FinishedGoods = MmModels.master.FinishedGoods;
 // var ArticleMotifManager = require('./article/article-motif-manager');
 var ArticleColorManager = require('./article/article-color-manager');
 

@@ -6,7 +6,7 @@ var storageDataUtil = require('../../../data-util/master/storage-data-util');
 var uomDataUtil = require('../../../data-util/master/uom-data-util');
 
 var helper = require("../../../helper");
-var validate = require("bateeq-models").validator.inventory.summaryInventory;
+var validate = require("mm-models").validator.inventory.summaryInventory;
 var moment = require('moment');
 
 var SummaryInventoryManager = require("../../../../src/managers/inventory/summary-inventory-manager");

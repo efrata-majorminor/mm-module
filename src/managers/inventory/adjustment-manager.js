@@ -6,13 +6,13 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var AdjustmentDoc = BateeqModels.inventory.AdjusmentDoc;
+var AdjustmentDoc = MmModels.inventory.AdjusmentDoc;
 var generateCode = require('../../utils/code-generator');
 
-const moduleId = "EFR-ADJ/INT";
+const moduleId = "MM-ADJ/INT";
 module.exports = class AdjustmentStockManager extends BaseManager {
     constructor(db, user) {
         super(db, user);
@@ -44,7 +44,7 @@ module.exports = class AdjustmentStockManager extends BaseManager {
         var regex1 = new RegExp("", "i");
         var filterAdj={
             'code': {
-                '$regex': /EFR-ADJ/
+                '$regex': /MM-ADJ/
             }
         }
         var query = {};
@@ -96,7 +96,7 @@ module.exports = class AdjustmentStockManager extends BaseManager {
 
                     var transferOutDoc = {};
                     if (itemOut.length > 0) {
-                        transferOutDoc.code = generateCode("EFR-KB/ADJ");
+                        transferOutDoc.code = generateCode("MM-KB/ADJ");
                         transferOutDoc.destination = validAdjusmentDoc.storage;
                         transferOutDoc.destinationId = validAdjusmentDoc.storageId;
                         transferOutDoc.items = itemOut;
@@ -109,7 +109,7 @@ module.exports = class AdjustmentStockManager extends BaseManager {
 
                     var transferinDoc = {};
                     if (itemIn.length > 0) {
-                        transferinDoc.code = generateCode("EFR-TB/ADJ");
+                        transferinDoc.code = generateCode("MM-TB/ADJ");
                         transferinDoc.source = validAdjusmentDoc.storage;
                         transferinDoc.sourceId = validAdjusmentDoc.storageId;
                         transferinDoc.destination = validAdjusmentDoc.storage;

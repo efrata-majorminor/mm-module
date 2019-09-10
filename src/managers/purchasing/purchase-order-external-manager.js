@@ -1,13 +1,13 @@
 // external deps 
 var ObjectId = require("mongodb").ObjectId;
-const moduleId = "EFR-RB/PO-EX"; 
+const moduleId = "MM-RB/PO-EX"; 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
-var PurchaseOrderExternal = BateeqModels.purchasing.PurchaseOrderExternal;
-var PurchaseOrder = BateeqModels.purchasing.PurchaseOrder;
-var uom = BateeqModels.master.Uom;
+var MmModels = require('mm-models');
+var map = MmModels.map;
+var PurchaseOrderExternal = MmModels.purchasing.PurchaseOrderExternal;
+var PurchaseOrder = MmModels.purchasing.PurchaseOrder;
+var uom = MmModels.master.Uom;
 var PurchaseOrderManager = require('./purchase-order-manager');
 var PurchaseRequestManager = require('./purchase-request-manager');
 var CurrencyManager = require('../master/currency-manager');
@@ -17,8 +17,8 @@ var ProductManager = require("../master/product-manager");
 var BaseManager = require('module-toolkit').BaseManager;
 var generateCode = require('../../utils/code-generator');
 var i18n = require('dl-i18n');
-var poStatusEnum = BateeqModels.purchasing.enum.PurchaseOrderStatus;
-var prStatusEnum = BateeqModels.purchasing.enum.PurchaseRequestStatus;
+var poStatusEnum = MmModels.purchasing.enum.PurchaseOrderStatus;
+var prStatusEnum = MmModels.purchasing.enum.PurchaseRequestStatus;
 var moment = require('moment');
 
 module.exports = class PurchaseOrderExternalManager extends BaseManager {

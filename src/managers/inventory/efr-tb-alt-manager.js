@@ -5,14 +5,14 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
 
-var TransferOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransferOutItem = BateeqModels.inventory.TransferOutItem;
+var TransferOutDoc = MmModels.inventory.TransferOutDoc;
+var TransferOutItem = MmModels.inventory.TransferOutItem;
 
-const moduleId = "EFR-TB/ALT";
+const moduleId = "MM-TB/ALT";
 
 module.exports = class AlterationInManager {
     constructor(db, user){

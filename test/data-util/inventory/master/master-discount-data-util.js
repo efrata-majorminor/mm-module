@@ -1,8 +1,8 @@
 "use strict";
 var helper = require("./../../../helper");
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var store = require("../../master/store-manager-data-util");
 var item = require("../../master/item-data-util");
 var codeGenerator = require("../../../../src/utils/code-generator");

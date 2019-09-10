@@ -4,8 +4,8 @@
 var ObjectId = require('mongodb').ObjectId;
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
 var moment = require('moment');
 var moduleId = "opname-balance-history";

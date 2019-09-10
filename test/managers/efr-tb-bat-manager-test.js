@@ -1,6 +1,6 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.inventory;
+var validate = require('mm-models').validator.inventory;
 var generateCode = require('../../src/utils/code-generator');
 var manager;
 var manager2;
@@ -13,8 +13,8 @@ function getData(refNo) {
     var destination = testData.storages["UT-ST1"];
     var variant = testData.items["UT-AV1"];
 
-    var TransferInDoc = require('bateeq-models').inventory.TransferInDoc;
-    var TransferInItem = require('bateeq-models').inventory.TransferInItem;
+    var TransferInDoc = require('mm-models').inventory.TransferInDoc;
+    var TransferInItem = require('mm-models').inventory.TransferInItem;
     var transferInDoc = new TransferInDoc();
 
     var now = new Date();
@@ -40,8 +40,8 @@ function getDataSPK() {
     var destination = testData.storages["UT-ST1"];
     var variant = testData.items["UT-AV1"];
 
-    var SpkDoc = require('bateeq-models').merchandiser.SPK;
-    var SpkItem = require('bateeq-models').merchandiser.SPKItem;
+    var SpkDoc = require('mm-models').merchandiser.SPK;
+    var SpkItem = require('mm-models').merchandiser.SPKItem;
     var spkDoc = new SpkDoc();
     var now = new Date();
     spkDoc.date = now;
@@ -153,7 +153,7 @@ it(`#04. should success when get created data with id`, function (done) {
 it(`#05. should error when update created data`, function (done) {
     createdData.remark += '[updated]';
     createdData.password = dataSPK.password;
-    var TransferInItem = require('bateeq-models').inventory.TransferInItem;
+    var TransferInItem = require('mm-models').inventory.TransferInItem;
     manager.update(createdData)
         .then(id => {
             createdId.toString().should.equal(id.toString());

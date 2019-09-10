@@ -17,7 +17,7 @@ module.exports = function (purchaseRequest, offset) {
             columns: [{
                 width: '*',
                 stack: [{
-                    text: 'PT EFRATA RETAILINDO',
+                    text: 'PT MAJORMINOR',
                     style: ['size15'],
                     alignment: "center"
                 }, {

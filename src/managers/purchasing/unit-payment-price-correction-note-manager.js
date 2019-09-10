@@ -1,12 +1,12 @@
 'use strict'
 var ObjectId = require("mongodb").ObjectId;
 require('mongodb-toolkit');
-var bateeqModels = require('bateeq-models');
-var map = bateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var i18n = require('dl-i18n');
 var PurchaseOrderManager = require('./purchase-order-manager');
-var UnitPaymentCorrectionNote = bateeqModels.purchasing.UnitPaymentCorrectionNote;
-var UnitPaymentOrder = bateeqModels.purchasing.UnitPaymentOrder;
+var UnitPaymentCorrectionNote = MmModels.purchasing.UnitPaymentCorrectionNote;
+var UnitPaymentOrder = MmModels.purchasing.UnitPaymentOrder;
 var UnitPaymentOrderManager = require('./unit-payment-order-manager');
 var BaseManager = require('module-toolkit').BaseManager;
 var generateCode = require('../../utils/code-generator');

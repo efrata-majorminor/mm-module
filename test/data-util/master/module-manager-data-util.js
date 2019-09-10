@@ -14,7 +14,7 @@ class ModuleManagerDataUtil {
 
     getNewData() {
 
-        var Models = require("bateeq-models").master.Module;
+        var Models = require("mm-models").master.Module;
         var module = new Models();
 
         var now = new Date();

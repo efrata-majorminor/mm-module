@@ -1,19 +1,19 @@
 'use strict'
-const moduleId = "EFR-RB/PO"; 
+const moduleId = "MM-RB/PO"; 
 var ObjectId = require("mongodb").ObjectId;
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var assert = require('assert');
-var map = BateeqModels.map;
-var PurchaseOrder = BateeqModels.purchasing.PurchaseOrder;
-var PurchaseRequest = BateeqModels.purchasing.PurchaseRequest;
-var PurchaseOrderItem = BateeqModels.purchasing.PurchaseOrderItem;
+var map = MmModels.map;
+var PurchaseOrder = MmModels.purchasing.PurchaseOrder;
+var PurchaseRequest = MmModels.purchasing.PurchaseRequest;
+var PurchaseOrderItem = MmModels.purchasing.PurchaseOrderItem;
 var PurchaseRequestManager = require('./purchase-request-manager');
 var generateCode = require('../../utils/code-generator');
 var BaseManager = require('module-toolkit').BaseManager;
 var i18n = require('dl-i18n');
-var prStatusEnum = BateeqModels.purchasing.enum.PurchaseRequestStatus;
-var poStatusEnum = BateeqModels.purchasing.enum.PurchaseOrderStatus;
+var prStatusEnum = MmModels.purchasing.enum.PurchaseRequestStatus;
+var poStatusEnum = MmModels.purchasing.enum.PurchaseOrderStatus;
 var moment = require('moment');
 
 module.exports = class PurchaseOrderManager extends BaseManager {

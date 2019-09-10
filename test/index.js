@@ -5,7 +5,7 @@ function test(name, path) {
 }
 
 
-describe('#bateeq-module', function (done) {
+describe('#mm-module', function (done) {
     this.timeout(2 * 60000);
     //auth
     test('@AUTH/ACCOUNT-MANAGER', './auth/account-manager-test');

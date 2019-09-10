@@ -72,7 +72,7 @@ module.exports = class DimTime {
 
                         var request = this.sql.transactionRequest(transaction);
 
-                        request.execute("BTQ_INSERT_DIMTIME").then((execResult) => {
+                        request.execute("MM_INSERT_DIMTIME").then((execResult) => {
                             transaction.commit((err) => {
                                 if (err)
                                     reject(err);

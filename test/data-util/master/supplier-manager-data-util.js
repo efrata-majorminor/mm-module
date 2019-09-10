@@ -13,7 +13,7 @@ class SupplierManagerDataUtil {
     }
 
     getNewData() {
-        var Models = require("bateeq-models").master.Supplier;
+        var Models = require("mm-models").master.Supplier;
         var supplier = new Models();
 
         var now = new Date();

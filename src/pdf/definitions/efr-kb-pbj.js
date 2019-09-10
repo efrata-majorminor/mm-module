@@ -74,7 +74,7 @@ module.exports = function (spkDocs) {
             {
                 width: "50%",
                 stack: [
-                    { text: "PT EFRATA RETAILINDO", style: ['size08', 'bold'] },
+                    { text: "PT MAJORMINOR", style: ['size08', 'bold'] },
                     {
                         text: "Kel. Banaran, Kec. Grogol, Kab.Sukoharjo 57193 Jawa Tengah, Indonesia",
                         style: ['size08']

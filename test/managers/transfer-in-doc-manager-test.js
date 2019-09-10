@@ -1,6 +1,6 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.inventory;
+var validate = require('mm-models').validator.inventory;
 var generateCode = require('../../src/utils/code-generator');
 var manager;
 var testData;
@@ -11,8 +11,8 @@ function getData() {
     var variant = testData.items["UT-AV1"];
     var variant2 = testData.finishedGoods["UT-FG2"];
 
-    var TransferInDoc = require('bateeq-models').inventory.TransferInDoc;
-    var TransferInItem = require('bateeq-models').inventory.TransferInItem;
+    var TransferInDoc = require('mm-models').inventory.TransferInDoc;
+    var TransferInItem = require('mm-models').inventory.TransferInItem;
     var transferInDoc = new TransferInDoc();
 
     var now = new Date();
@@ -103,7 +103,7 @@ it(`#03. should success when update created data`, function(done) {
     createdData.reference += '[updated]';
     createdData.remark += '[updated]';
 
-    var TransferInItem = require('bateeq-models').inventory.TransferInItem;
+    var TransferInItem = require('mm-models').inventory.TransferInItem;
     // createdData.items.push(new TransferInItem());
 
     manager.update(createdData)

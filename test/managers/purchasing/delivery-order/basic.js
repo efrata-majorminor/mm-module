@@ -1,8 +1,8 @@
 var options = {
     manager: require("../../../../src/managers/purchasing/delivery-order-manager"),
-    model: require("bateeq-models").purchasing.DeliveryOrder,
+    model: require("mm-models").purchasing.DeliveryOrder,
     util: require("../../../data-util/purchasing/delivery-order-data-util"),
-    validator: require("bateeq-models").validator.purchasing.deliveryOrder,
+    validator: require("mm-models").validator.purchasing.deliveryOrder,
     createDuplicate: false,
     keys: []
 };

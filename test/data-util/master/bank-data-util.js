@@ -13,7 +13,7 @@ class BankDataUtil {
     }
 
     getNewData() {
-        var Model = require("bateeq-models").master.Bank;
+        var Model = require("mm-models").master.Bank;
         var data = new Model();
         
         // var now = new Date();

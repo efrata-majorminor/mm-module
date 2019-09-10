@@ -13,7 +13,7 @@ class DivisionDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.Division;
+        var Model = require('mm-models').master.Division;
         var data = new Model();
 
         var code = generateCode();
