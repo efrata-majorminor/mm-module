@@ -56,7 +56,7 @@ module.exports = function (unitPaymentOrder, offset) {
             {
                 width: '40%',
                 stack: [{
-                    text: 'PT. MAJORMINOR',
+                    text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                     style: ['size20', 'bold']
                 }, {
                     text: 'BANARAN, GROGOL, SUKOHARJO',

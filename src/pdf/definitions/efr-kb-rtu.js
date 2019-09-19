@@ -50,7 +50,7 @@ module.exports = function (rtu, spkDoc) {
             {
                 width: "50%",
                 stack: [
-                    { text: "PT MAJORMINOR", style: ['size12', 'bold'] },
+                    { text: "PT. MAJOR MINOR KREASI NUSANTARA", style: ['size12', 'bold'] },
                     {
                         text: "Kel. Banaran, Kec. Grogol, Kab.Sukoharjo 57193 Jawa Tengah, Indonesia",
                         style: ['size12']

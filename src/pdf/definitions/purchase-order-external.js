@@ -70,7 +70,7 @@ module.exports = function (pox, offset) {
     moment.locale(locale.name);
 
     var header = [{
-        text: 'PT MAJORMINOR',
+        text: 'PT. MAJOR MINOR KREASI NUSANTARA',
         style: 'bold'
     }, {
         columns: [{
@@ -148,7 +148,7 @@ module.exports = function (pox, offset) {
             }, {
                 text: 'Yang bertanda tangan di bawah ini, '
             }, {
-                text: 'PT. MAJORMINOR',
+                text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                 style: ['bold']
             }, {
                 text: ' (selanjutnya disebut sebagai pihak Pembeli) dan '

@@ -111,7 +111,7 @@ module.exports = class TokoTransferStokManager extends BaseManager {
                 .then(validTransferOutDoc => {
                     validTransferOutDoc.code = generateCode(moduleId);
                     var getData = [];
-                    getData.push(this.storageManager.getByCode("GDG.05"));
+                    getData.push(this.storageManager.getByCode("GTM.01"));
                     getData.push(this.expeditionServiceManager.getSingleByQuery({
                         "code": "Dikirim Sendiri"
                     }));
