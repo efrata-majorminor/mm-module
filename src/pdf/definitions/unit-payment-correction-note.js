@@ -37,7 +37,7 @@ module.exports = function (unitPaymentCorrection, offset) {
             columns: [
                 {
                     width: '40%',
-                    text: 'PT MAJORMINOR',
+                    text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                     style: ['size15', 'bold', 'left']
                 }, {
                     width: '60%',

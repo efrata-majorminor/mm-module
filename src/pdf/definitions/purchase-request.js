@@ -17,7 +17,7 @@ module.exports = function (purchaseRequest, offset) {
             columns: [{
                 width: '*',
                 stack: [{
-                    text: 'PT MAJORMINOR',
+                    text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                     style: ['size15'],
                     alignment: "center"
                 }, {

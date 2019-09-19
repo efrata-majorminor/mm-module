@@ -220,7 +220,9 @@ module.exports = class MonthlyStockManager extends BaseManager {
             { $sort: { date: -1 } },
             {
                 $group: {
-                    _id: { itemCode: "$item.code" },
+                   // _id: { itemCode: "$item.code" },
+                   _id: { storageCode: "$storage.code", itemCode: "$item.code" },
+                    storageName: { $first: "$storage.name" },
                     itemName: { $first: "$item.name" },
                     quantity: { $first: "$after" },
                     hpp: { $first: { $cond: { if: { $ne: ["$item.domesticCOGS", 0] }, then: "$item.domesticCOGS", else: "$item.internationalCOGS" } } },
@@ -229,6 +231,8 @@ module.exports = class MonthlyStockManager extends BaseManager {
             },
             {
                 $project: {
+                    _id: { storageCode: "$_id.storageCode" },
+                    storageName: "$storageName",
                     itemCode: "$_id.itemCode",
                     itemName: "$itemName",
                     quantity: "$quantity",

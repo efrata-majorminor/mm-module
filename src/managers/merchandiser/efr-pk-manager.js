@@ -234,7 +234,7 @@ module.exports = class SPKBarangManager extends BaseManager {
                 // isReceived: false,
                 // isDraft: false,
                 reference: filter.reference,
-                "source.code": "GDG.01"
+                "source.code": "GTM.01"
             };
             var _select = ["code", "packingList",
                 "password"];

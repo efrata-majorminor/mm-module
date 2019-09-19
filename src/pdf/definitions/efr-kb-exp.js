@@ -50,7 +50,7 @@ module.exports = function (expeditions) {
             {
                 width: "50%",
                 stack: [
-                    { text: "PT MAJORMINOR", style: ['size08', 'bold'] },
+                    { text: "PT. MAJOR MINOR KREASI NUSANTARA", style: ['size08', 'bold'] },
                     {
                         text: "Kel. Banaran, Kec. Grogol, Kab.Sukoharjo 57193 Jawa Tengah, Indonesia",
                         style: ['size08']

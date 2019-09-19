@@ -71,7 +71,7 @@ module.exports = function (unitPaymentCorrection, offset) {
                 style: ['size09']
             }, {
                 width: '*',
-                text: 'PT. MAJORMINOR',
+                text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                 style: ['size09']
             }]
         },
