@@ -59,7 +59,7 @@ module.exports = function (unitPaymentOrder, offset) {
                     text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                     style: ['size20', 'bold']
                 }, {
-                    text: 'BANARAN, GROGOL, SUKOHARJO',
+                    text: 'Equity Tower 15th Floor Suite C, SCBD Lot 9, Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190',
                     style: ['size08']
                 }]
             }, {

@@ -25,7 +25,7 @@ module.exports = function (unitReceiptNote, offset) {
                             text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                             style: ['size15', 'bold']
                         }, {
-                                text: 'BANARAN, GROGOL, SUKOHARJO',
+                                text: 'Equity Tower 15th Floor Suite C, SCBD Lot 9, Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190',
                                 style: ['size09']
                             }]
                     }]
@@ -183,7 +183,7 @@ module.exports = function (unitReceiptNote, offset) {
     var footer = [
         '\n', {
             stack: [{
-                text: `Sukoharjo, ${moment(unitReceiptNote.date).add(offset,'h').format(locale.date.format)}`,
+                text: `Jakarta, ${moment(unitReceiptNote.date).add(offset,'h').format(locale.date.format)}`,
                 alignment: "right"
             }, {
                     columns: [{
