@@ -86,7 +86,7 @@ module.exports = function (unitPaymentCorrection, offset) {
                 style: ['size09']
             }, {
                 width: '*',
-                text: 'Banaran, Grogol, Sukoharjo',
+                text: 'Equity Tower 15th Floor Suite C, SCBD Lot 9, Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190',
                 style: ['size09']
             }]
         },
@@ -264,7 +264,7 @@ module.exports = function (unitPaymentCorrection, offset) {
         [{
             stack: [
                 '\n',
-                `Sukoharjo, ${moment(unitPaymentCorrection.date).format(locale.date.format)}`,
+                `Jakarta, ${moment(unitPaymentCorrection.date).format(locale.date.format)}`,
                 '\n\n\n\n',
                 '_____________________________',
                 '\n'
