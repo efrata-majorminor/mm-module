@@ -20,13 +20,16 @@ module.exports = function (unitReceiptNote, offset) {
             columns: [
                 {
                     columns: [{
-                        width: '*',
+                        width: '120%',
                         stack: [{
                             text: 'PT. MAJOR MINOR KREASI NUSANTARA',
-                            style: ['size15', 'bold']
+                            style: ['size10', 'bold']
                         }, {
-                                text: 'Equity Tower 15th Floor Suite C, SCBD Lot 9, Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190',
-                                style: ['size09']
+                                text: 'Equity Tower 15th Floor Suite C, SCBD Lot 9, ',
+                                style: ['size08']
+                            }, {
+                                text: 'Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190',
+                                style: ['size08']
                             }]
                     }]
 
