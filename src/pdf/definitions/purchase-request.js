@@ -25,7 +25,7 @@ module.exports = function (purchaseRequest, offset) {
                     style: ['size09'],
                     alignment: "center"
                 }, {
-                    text: 'Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190, Indonesia ',
+                    text: 'Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190, Indonesia',
                     style: ['size06'],
                     alignment: "center"
                 }]
