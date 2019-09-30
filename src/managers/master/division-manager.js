@@ -4,7 +4,7 @@ var ObjectId = require("mongodb").ObjectId;
 
 require("mongodb-toolkit");
 
-var DLModels = require("bateeq-models");
+var DLModels = require("mm-models");
 var map = DLModels.map;
 var Division = DLModels.master.Division;
 var BaseManager = require("module-toolkit").BaseManager; 

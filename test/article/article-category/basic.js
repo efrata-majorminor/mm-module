@@ -1,8 +1,8 @@
 var options = {
     manager: require("../../../src/managers/master/article/article-category-manager"),
-    model: require("bateeq-models").master.article.ArticleMaterial,
+    model: require("mm-models").master.article.ArticleMaterial,
     util: require("../../data-util/master/article/article-category-data-util"),
-    validator: require("bateeq-models").validator.master.article.articleMaterial,
+    validator: require("mm-models").validator.master.article.articleMaterial,
     createDuplicate: true,
     keys: ["code"]
 };

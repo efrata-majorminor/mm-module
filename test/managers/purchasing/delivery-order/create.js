@@ -8,7 +8,7 @@ var deliveryOrderManager = null;
 var unitPaymentQuantityCorrectionManager = null;
 var deliveryOrderDataUtil = require("../../../data-util/purchasing/delivery-order-data-util");
 var unitPaymentQuantityCorrectionDataUtil = require("../../../data-util/purchasing/unit-payment-quantity-correction-note-data-util");
-var validate = require("bateeq-models").validator.purchasing.deliveryOrder;
+var validate = require("mm-models").validator.purchasing.deliveryOrder;
 
 before('#00. connect db', function (done) {
     helper.getDb()

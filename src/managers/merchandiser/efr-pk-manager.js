@@ -6,13 +6,13 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var SPKDoc = BateeqModels.merchandiser.SPK;
-var SPKItem = BateeqModels.merchandiser.SPKItem;
+var SPKDoc = MmModels.merchandiser.SPK;
+var SPKItem = MmModels.merchandiser.SPKItem;
 
-var moduleId = "EFR-PK/PBA";
+var moduleId = "MM-PK/PBA";
 
 module.exports = class SPKBarangManager extends BaseManager {
     constructor(db, user) {
@@ -234,7 +234,7 @@ module.exports = class SPKBarangManager extends BaseManager {
                 // isReceived: false,
                 // isDraft: false,
                 reference: filter.reference,
-                "source.code": "GDG.01"
+                "source.code": "GTM.01"
             };
             var _select = ["code", "packingList",
                 "password"];

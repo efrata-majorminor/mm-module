@@ -1,6 +1,6 @@
 var should = require("should");
 var helper = require("../../../helper");
-var validate = require("bateeq-models").validator.master.cardType;
+var validate = require("mm-models").validator.master.cardType;
 var CardType = require("../../../data-util/master/card-type-data-util");
 var CardTypeManager = require("../../../../src/managers/master/card-type-manager");
 var instanceManager = null;

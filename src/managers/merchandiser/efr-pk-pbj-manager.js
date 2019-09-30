@@ -6,15 +6,15 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
 
-var SPKDoc = BateeqModels.merchandiser.SPK;
-var SPKItem = BateeqModels.merchandiser.SPKItem;
-var FinishedGoods = BateeqModels.master.FinishedGoods;
+var SPKDoc = MmModels.merchandiser.SPK;
+var SPKItem = MmModels.merchandiser.SPKItem;
+var FinishedGoods = MmModels.master.FinishedGoods;
 
-var moduleId = "EFR-PK/PBJ";
+var moduleId = "MM-PK/PBJ";
 
 module.exports = class SPKBarangJadiManager extends BaseManager {
     constructor(db, user) {
@@ -222,7 +222,7 @@ module.exports = class SPKBarangJadiManager extends BaseManager {
             this._validate(spkDoc)
                 .then(validSpkDoc => {
                     validSpkDoc.code = generateCode(moduleId);
-                    validSpkDoc.packingList = generateCode('EFR-KB/PLB');
+                    validSpkDoc.packingList = generateCode('MM-KB/PLB');
                     var date = new Date();
                     var password = (generateCode(("0" + date.getDate()).slice(-2))).split('/').join('');
                     validSpkDoc.password = password;
@@ -322,7 +322,7 @@ module.exports = class SPKBarangJadiManager extends BaseManager {
         var errors = {};
         return new Promise((resolve, reject) => {
             var valid = spkDoc;
-            this.moduleManager.getByCode("EFR-PK/PLB")
+            this.moduleManager.getByCode("MM-PK/PLB")
                 .then(module => {
                     // 1. begin: Declare promises.
                     var getSPKDoc = this.collection.singleOrDefault({

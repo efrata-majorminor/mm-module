@@ -5,12 +5,12 @@ require("mongodb-toolkit");
 const moment = require("moment");
 const ObjectId = require("mongodb").ObjectId;
 const BaseManager = require("module-toolkit").BaseManager;
-const BateeqModels = require('bateeq-models');
+const MmModels = require('mm-models');
 
 // internal dependencies
-const map = BateeqModels.map;
+const map = MmModels.map;
 const generateCode = require("../../utils/code-generator");
-const DesignTrackingDesign = BateeqModels.manufacture.DesignTrackingDesign;
+const DesignTrackingDesign = MmModels.manufacture.DesignTrackingDesign;
 const DesignerManager = require('../auth/account-manager');
 const ArticleCategoryManager = require("../master/article/article-category-manager");
 const ArticleCounterManager = require("../master/article/article-counter-manager");
@@ -20,7 +20,7 @@ const ArticleSubCounterManager = require("../master/article/article-sub-counter-
 const ArticleMaterialManager = require("../master/article/article-material-manager");
 const DesignTrackingStageManager = require('./design-tracking-stage-manager');
 const DesignTrackingActivityManager = require('./design-tracking-activity-manager');
-const moduleId = "EFR-DTD";
+const moduleId = "MM-DTD";
 
 module.exports = class DesignTrackingDesignManager extends BaseManager {
     constructor(db, user) {

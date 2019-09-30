@@ -1,6 +1,6 @@
 var should = require("should");
 var helper = require("../../../helper");
-var validate = require("bateeq-models").validator.master.item;
+var validate = require("mm-models").validator.master.item;
 var Item = require("../../../data-util/master/item-data-util");
 var ItemManager = require("../../../../src/managers/master/item-manager");
 var instanceManager = null;

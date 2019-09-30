@@ -201,7 +201,7 @@ module.exports = class DimBranch {
 
                         for (var item of data) {
                             if (item) {
-                                var queryString = `INSERT INTO [BTQ_DimBranch_Temp] ([store_code],[store_name],[store_city],[store_open_date],[store_close_date],[store_area],[store_status],[store_wide],[store_offline_online],[store_sales_category],[store_monthly_total_cost],[store_category],[store_montly_omzet_target]) values(${item.store_code},${item.store_name},${item.store_city},${item.store_open_date},${item.store_close_date},${item.store_area},${item.store_status},${item.store_wide},${item.store_offline_online},${item.store_sales_category},${item.store_monthly_total_cost},${item.store_category},${item.store_montly_omzet_target})\n`;
+                                var queryString = `INSERT INTO [MM_DimBranch_Temp] ([store_code],[store_name],[store_city],[store_open_date],[store_close_date],[store_area],[store_status],[store_wide],[store_offline_online],[store_sales_category],[store_monthly_total_cost],[store_category],[store_montly_omzet_target]) values(${item.store_code},${item.store_name},${item.store_city},${item.store_open_date},${item.store_close_date},${item.store_area},${item.store_status},${item.store_wide},${item.store_offline_online},${item.store_sales_category},${item.store_monthly_total_cost},${item.store_category},${item.store_montly_omzet_target})\n`;
                                 sqlQuery = sqlQuery.concat(queryString);
                                 if (count % 1000 == 0) {
                                     command.push(this.insertQuery(request, sqlQuery));
@@ -238,7 +238,7 @@ module.exports = class DimBranch {
                                             reject(results);
                                     });
                                 } else {
-                                    request.execute("BTQ_Upsert_DimBranch").then((execResult) => {
+                                    request.execute("MM_Upsert_DimBranch").then((execResult) => {
                                         transaction.commit((err) => {
                                             if (err)
                                                 reject(err);

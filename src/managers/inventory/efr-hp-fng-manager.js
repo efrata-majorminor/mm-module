@@ -5,20 +5,20 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var FinishedGoodsDoc = BateeqModels.inventory.FinishedGoodsDoc;
-var TransferInDoc = BateeqModels.inventory.TransferInDoc;
-var TransferInItem = BateeqModels.inventory.TransferInItem;
-var TransferOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransferOutItem = BateeqModels.inventory.TransferOutItem;
-var Item = BateeqModels.master.Item;
+var FinishedGoodsDoc = MmModels.inventory.FinishedGoodsDoc;
+var TransferInDoc = MmModels.inventory.TransferInDoc;
+var TransferInItem = MmModels.inventory.TransferInItem;
+var TransferOutDoc = MmModels.inventory.TransferOutDoc;
+var TransferOutItem = MmModels.inventory.TransferOutItem;
+var Item = MmModels.master.Item;
 var generateCode = require('../../utils/code-generator');
 
-const moduleId = "EFR-HP/FNG";
-const moduleIdIn = "EFR-TB/FNG";
-const moduleIdOut = "EFR-KB/SAB";
+const moduleId = "MM-HP/FNG";
+const moduleIdIn = "MM-TB/FNG";
+const moduleIdOut = "MM-KB/SAB";
 module.exports = class FinishedGoodsManager {
     constructor(db, user) {
         this.db = db;

@@ -1,8 +1,8 @@
 "use strict";
 var helper = require("./../../helper");
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var ItemManager = require("../../../src/managers/master/item-manager");
 var FinishGoodManager = require("../../../src/managers/master/finished-goods-manager");
 var InventoryManager = require("../../../src/managers/inventory/inventory-manager");
@@ -38,11 +38,11 @@ class ReportManagerDataUtil extends BaseManager {
                             var finishGoodManager = new FinishGoodManager(db, 'unit-test');
                             var itemManager = new ItemManager(db, 'unit-test');
                             var inventoryManager = new InventoryManager(db, 'unit-test');
-                            var Inventory = require('bateeq-models').inventory.Inventory;
+                            var Inventory = require('mm-models').inventory.Inventory;
                             var storage = result.storages["UT-ST1"];
                             var item = result.items["UT-AV2"];
                             var quantity = 10;
-                            var FinishedItem = require('bateeq-models').master.FinishedGoods;
+                            var FinishedItem = require('mm-models').master.FinishedGoods;
                             var finishedItem = null;
 
                             inventoryManager.getByStorageIdAndItemId(storage._id, result._id)

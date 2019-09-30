@@ -1,12 +1,12 @@
 var helper = require("../helper");
 var AccountManager = require("../../src/managers/auth/account-manager");
-var validateAccount = require('bateeq-models').validator.auth.account;
+var validateAccount = require('mm-models').validator.auth.account;
 var instanceManager = null;
 var generateCode = require('../../src/utils/code-generator');
 require("should");
 
 function getData() {
-    var Account = require('bateeq-models').auth.Account;
+    var Account = require('mm-models').auth.Account;
     var account = new Account();
 
     var code = generateCode('UnitTest');

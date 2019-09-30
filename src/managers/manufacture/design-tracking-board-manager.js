@@ -4,13 +4,13 @@
 require("mongodb-toolkit");
 const ObjectId = require("mongodb").ObjectId;
 const BaseManager = require("module-toolkit").BaseManager;
-const BateeqModels = require('bateeq-models');
+const MmModels = require('mm-models');
 
 // internal dependencies
-const map = BateeqModels.map;
+const map = MmModels.map;
 const generateCode = require("../../utils/code-generator");
-const DesignTrackingBoard = BateeqModels.manufacture.DesignTrackingBoard;
-const moduleId = "EFR-DTB";
+const DesignTrackingBoard = MmModels.manufacture.DesignTrackingBoard;
+const moduleId = "MM-DTB";
 
 module.exports = class DesignTrackingBoardManager extends BaseManager {
     constructor(db, user) {

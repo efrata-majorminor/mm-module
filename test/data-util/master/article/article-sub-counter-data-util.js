@@ -13,7 +13,7 @@ class ArticleSubCounterDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.article.ArticleSubCounter;
+        var Model = require('mm-models').master.article.ArticleSubCounter;
         var data = new Model();
         var code = generateCode();
         data.code = code;

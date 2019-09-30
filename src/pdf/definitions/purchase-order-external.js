@@ -70,19 +70,16 @@ module.exports = function (pox, offset) {
     moment.locale(locale.name);
 
     var header = [{
-        text: 'PT EFRATA RETAILINDO',
+        text: 'PT. MAJOR MINOR KREASI NUSANTARA',
         style: 'bold'
     }, {
         columns: [{
             width: '50%',
             stack: [
                 'Head Office   : ',
-                'Kelurahan Banaran',
-                'Kecamatan Grogol',
-                'Sukoharjo 57193 - INDONESIA',
-                'PO.BOX 166 Solo 57100',
-                'Telp. (0271) 740888, 714400',
-                'Fax. (0271) 735222, 740777'
+                'Equity Tower 15th Floor Suite C',
+                'SCBD Lot 9',
+                'Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190'
             ],
             style: ['size07', 'bold']
         }, {
@@ -119,7 +116,7 @@ module.exports = function (pox, offset) {
         }, {
             width: '35%',
             stack: [
-                `Sukoharjo, ${moment(pox.date).add(offset, 'h').add(offset, 'h').format(locale.date.format)} `, {
+                `Jakarta, ${moment(pox.date).add(offset, 'h').add(offset, 'h').format(locale.date.format)} `, {
                     text: [
                         'Mohon', {
                             text: ' di-fax kembali',
@@ -148,7 +145,7 @@ module.exports = function (pox, offset) {
             }, {
                 text: 'Yang bertanda tangan di bawah ini, '
             }, {
-                text: 'PT. EFRATA RETAILINDO',
+                text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                 style: ['bold']
             }, {
                 text: ' (selanjutnya disebut sebagai pihak Pembeli) dan '

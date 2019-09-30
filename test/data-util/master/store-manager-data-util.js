@@ -13,7 +13,7 @@ class StoreManagerDataUtil {
     }
 
     getNewData() {
-        var Models = require("bateeq-models").master.Store;
+        var Models = require("mm-models").master.Store;
         var store = new Models();
 
         var now = new Date();

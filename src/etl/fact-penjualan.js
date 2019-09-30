@@ -365,12 +365,12 @@ module.exports = class FactPenjualan {
     }
 
     replaceUrl(path, id) {
-        var templatePath = "https://bateeq-core-api.azurewebsites.net/v1/master/items/finished-goods/image";
+        var templatePath = "https://mm-core-api.azurewebsites.net/v1/master/items/finished-goods/image";
         return path.replace(path, templatePath + "/" + id);
     }
 
     replaceMotif(path, id) {
-        var templatePath = "https://bateeq-core-api.azurewebsites.net/v1/master/items/finished-goods/motif-image";
+        var templatePath = "https://mm-core-api.azurewebsites.net/v1/master/items/finished-goods/motif-image";
         return path.replace(path, templatePath + "/" + id);
     }
 
@@ -531,7 +531,7 @@ module.exports = class FactPenjualan {
                                 count++;
                                 // [dt_motif_name],[dt_counter_name],[dt_subcounter_name],[dt_material_name],[dt_size_name],
                                 //   ${item.dt_motif_name}, ${item.dt_counter_name}, ${item.dt_subcounter_name}, ${item.dt_material_name}, ${item.dt_size_name}, 
-                                var queryString = `INSERT INTO [BTQ_FactPenjualan_Temp] ([timekey],[countdays],[store_code],[hd_transaction_number],[hd_shift],[hd_subtotal],[hd_sales_discount_percentage],[hd_grandtotal],[hd_payment_type],[hd_card],[hd_card_type],[hd_bank_name],[hd_card_number],[hd_voucher_amount],[hd_cash_amount],[hd_card_amount],
+                                var queryString = `INSERT INTO [MM_FactPenjualan_Temp] ([timekey],[countdays],[store_code],[hd_transaction_number],[hd_shift],[hd_subtotal],[hd_sales_discount_percentage],[hd_grandtotal],[hd_payment_type],[hd_card],[hd_card_type],[hd_bank_name],[hd_card_number],[hd_voucher_amount],[hd_cash_amount],[hd_card_amount],
                                 
                                 [hd_promo_type1],[hd_promo_type2], [dt_ro_number],[dt_image_path],[dt_counter_name],[dt_subcounter_name],[dt_size_name],[dt_process_name],[dt_material_name],[dt_material_composition_name],[dt_color_code],[dt_color_name],[dt_collection_name],[dt_season_name],[dt_items_total_discounts_percentage],[dt_price_per_pcs_before_margin],[dt_total_price_per_product_before_margin],
                                 
@@ -584,7 +584,7 @@ module.exports = class FactPenjualan {
                                             reject(results);
                                     });
                                 } else {
-                                    request.execute("BTQ_Upsert_FactPenjualan").then((execResult) => {
+                                    request.execute("MM_Upsert_FactPenjualan").then((execResult) => {
                                         transaction.commit((err) => {
                                             if (err)
                                                 reject(err);

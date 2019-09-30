@@ -5,15 +5,15 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var TransferInDoc = BateeqModels.inventory.TransferInDoc;
-var TransferInItem = BateeqModels.inventory.TransferInItem;
-var Item = BateeqModels.master.Item;
+var TransferInDoc = MmModels.inventory.TransferInDoc;
+var TransferInItem = MmModels.inventory.TransferInItem;
+var Item = MmModels.master.Item;
 var generateCode = require('../../utils/code-generator');
 
-const moduleId = "EFR-TB/SAB";
+const moduleId = "MM-TB/SAB";
 module.exports = class FinishingTerimaKomponenManager {
     constructor(db, user) {
         this.db = db;

@@ -5,10 +5,10 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var ArticleColor = BateeqModels.master.article.ArticleColor;
+var ArticleColor = MmModels.master.article.ArticleColor;
 
 module.exports = class ArticleColorManager {
     constructor(db, user) {

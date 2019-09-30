@@ -2,7 +2,7 @@ var should = require("should");
 var helper = require("../../../helper");
 var Supplier = require("../../../data-util/master/supplier-manager-data-util");
 var SupplierManager = require("../../../../src/managers/master/supplier-manager");
-var validate = require("bateeq-models").validator.master.supplier;
+var validate = require("mm-models").validator.master.supplier;
 var instanceManager = null;
 
 

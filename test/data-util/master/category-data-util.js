@@ -13,7 +13,7 @@ class CategoryDataUtil {
     }
 
     getNewData() {
-        var Model = require("bateeq-models").master.Category;
+        var Model = require("mm-models").master.Category;
         var data = new Model();
 
         var code = generateCode();

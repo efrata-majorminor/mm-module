@@ -6,15 +6,15 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
 
-var SPKDoc = BateeqModels.merchandiser.SPK;
-var SPKItem = BateeqModels.merchandiser.SPKItem;
-var FinishedGoods = BateeqModels.master.FinishedGoods;
+var SPKDoc = MmModels.merchandiser.SPK;
+var SPKItem = MmModels.merchandiser.SPKItem;
+var FinishedGoods = MmModels.master.FinishedGoods;
 
-var moduleId = "EFR-PK/PBA";
+var moduleId = "MM-PK/PBA";
 
 module.exports = class SPKBarangEmbalaseManager extends BaseManager {
     constructor(db, user) {
@@ -125,7 +125,7 @@ module.exports = class SPKBarangEmbalaseManager extends BaseManager {
             this._validate(spkDoc)
                 .then(validSpkDoc => {
                     validSpkDoc.code = generateCode(moduleId);
-                    validSpkDoc.packingList = generateCode('EFR-KB/PBA');
+                    validSpkDoc.packingList = generateCode('MM-KB/PBA');
                     var date = new Date();
                     var password = (generateCode(("0" + date.getDate()).slice(-2))).split('/').join('');
                     validSpkDoc.password = password;

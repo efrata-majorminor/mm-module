@@ -13,7 +13,7 @@ class DivisionManagerDataUtil {
     }
 
     getNewData() { 
-        var Models = require('bateeq-models').master.Division;
+        var Models = require('mm-models').master.Division;
         var module = new Models();
 
         var now = new Date();

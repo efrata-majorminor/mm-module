@@ -13,7 +13,7 @@ class ArticleCategoryDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.article.ArticleCategory;
+        var Model = require('mm-models').master.article.ArticleCategory;
         var data = new Model();
         var code = generateCode();
         data.code = code;

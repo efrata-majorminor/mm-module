@@ -6,17 +6,17 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
 var BaseManager = require('module-toolkit').BaseManager;
-var ExpeditionDoc = BateeqModels.inventory.ExpeditionDoc;
-var TransferOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransferOutItem = BateeqModels.inventory.TransferOutItem;
-var SPK = BateeqModels.merchandiser.SPK;
+var ExpeditionDoc = MmModels.inventory.ExpeditionDoc;
+var TransferOutDoc = MmModels.inventory.TransferOutDoc;
+var TransferOutItem = MmModels.inventory.TransferOutItem;
+var SPK = MmModels.merchandiser.SPK;
 var generateCode = require('../../utils/code-generator');
 
-const moduleId = "EFR-KB/EXP";
+const moduleId = "MM-KB/EXP";
 module.exports = class PusatBarangBaruKirimBarangJadiAksesorisManager extends BaseManager {
     constructor(db, user) {
         super(db, user);
@@ -128,9 +128,9 @@ module.exports = class PusatBarangBaruKirimBarangJadiAksesorisManager extends Ba
                 .then(pkList => {
                     var transaksi = "";
                     if (filter.transaction == 0) {
-                        transaksi = "EFR-KB/PLB";
+                        transaksi = "MM-KB/PLB";
                     } else if (filter.transaction == 1) {
-                        transaksi = "EFR-KB/PLR";
+                        transaksi = "MM-KB/PLR";
                     }
                     var query;
                     if (filter.storageId == "" || filter.storageId == undefined || filter.storageId == "undefined") {
@@ -434,9 +434,9 @@ module.exports = class PusatBarangBaruKirimBarangJadiAksesorisManager extends Ba
     getReport(filter) {
         var transaksi = "";
         if (filter.transaction == 0) {
-            transaksi = new RegExp("^[A-Z0-9]+\/EFR-KB/PLB\/[0-9]{2}\/[0-9]{4}$", "i");
+            transaksi = new RegExp("^[A-Z0-9]+\/MM-KB/PLB\/[0-9]{2}\/[0-9]{4}$", "i");
         } else if (filter.transaction == 1) {
-            transaksi = new RegExp("^[A-Z0-9]+\/EFR-KB/PLR\/[0-9]{2}\/[0-9]{4}$", "i");
+            transaksi = new RegExp("^[A-Z0-9]+\/MM-KB/PLR\/[0-9]{2}\/[0-9]{4}$", "i");
         }
 
         var query = {

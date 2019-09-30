@@ -13,7 +13,7 @@ class RangeDiscProductDataUtil {
     }
 
     getNewData() {
-        var Model = require("bateeq-models").master.RangeDiscProduct;
+        var Model = require("mm-models").master.RangeDiscProduct;
         var data = new Model();
         
         // var now = new Date();

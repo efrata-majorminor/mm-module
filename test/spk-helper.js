@@ -47,8 +47,8 @@ var newSpkPba = function () {
                         var destination = testData.storages["UT-ST1"];
                         var variant = testData.variants["UT-AV1"];
 
-                        var SpkDoc = require('bateeq-models').merchandiser.SPK;
-                        var SpkItem = require('bateeq-models').merchandiser.SPKItem;
+                        var SpkDoc = require('mm-models').merchandiser.SPK;
+                        var SpkItem = require('mm-models').merchandiser.SPKItem;
                         var spkDoc = new SpkDoc();
                         var now = new Date();
                         spkDoc.date = now;

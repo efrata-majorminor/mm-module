@@ -1,6 +1,6 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.merchandiser;
+var validate = require('mm-models').validator.merchandiser;
 var manager;
 var testData;
 
@@ -10,8 +10,8 @@ function getData() {
     var destination = testData.storages["UT-ST1"];
     var variant = testData.items["UT-AV1"];
 
-    var SpkDoc = require('bateeq-models').merchandiser.SPK;
-    var SpkItem = require('bateeq-models').merchandiser.SPKItem;
+    var SpkDoc = require('mm-models').merchandiser.SPK;
+    var SpkItem = require('mm-models').merchandiser.SPKItem;
     var spkDoc = new SpkDoc();
     var now = new Date();
     spkDoc.date = now;

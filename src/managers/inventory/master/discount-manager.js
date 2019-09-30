@@ -3,11 +3,11 @@ const moduleId = "EFR-DC";
 const moment = require('moment');
 var ObjectId = require("mongodb").ObjectId;
 require("mongodb-toolkit");
-var BateeqModels = require("bateeq-models");
-var map = BateeqModels.map;
+var MmModels = require("mm-models");
+var map = MmModels.map;
 var generateCode = require('../../../utils/code-generator');
 var BaseManager = require('module-toolkit').BaseManager;
-var Discount = BateeqModels.inventory.master.Discount;
+var Discount = MmModels.inventory.master.Discount;
 var StoreManager = require('../../master/store-manager');
 
 module.exports = class DiscountManager extends BaseManager {

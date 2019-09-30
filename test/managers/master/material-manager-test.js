@@ -1,12 +1,12 @@
 var should = require('should');
 var helper = require('../../helper');
-var validate = require('bateeq-models').validator.master;
+var validate = require('mm-models').validator.master;
 var generateCode = require('../../../src/utils/code-generator');
 var manager;
 
 function getData() {
-    var Material = require('bateeq-models').master.Material;
-    var Component = require('bateeq-models').master.Component;
+    var Material = require('mm-models').master.Material;
+    var Component = require('mm-models').master.Component;
     var material = new Material();
 
     var code = generateCode('UnitTest');

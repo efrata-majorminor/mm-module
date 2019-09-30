@@ -5,15 +5,15 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var generateCode = require('../../utils/code-generator');
 
-var map = BateeqModels.map;
+var map = MmModels.map;
 
-var TransferInDoc = BateeqModels.inventory.TransferInDoc;
-var TransferInItem = BateeqModels.inventory.TransferInItem;
+var TransferInDoc = MmModels.inventory.TransferInDoc;
+var TransferInItem = MmModels.inventory.TransferInItem;
 
-const moduleId = "EFR-TB/BJB";
+const moduleId = "MM-TB/BJB";
 
 module.exports = class PusatBarangBaruTerimaBarangBaruManager {
     constructor(db, user) {

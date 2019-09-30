@@ -26,7 +26,7 @@ class DesignTrackingDesignDataUtil {
                 let _articleMaterial = results[6];
                 let _designTrackingStage = results[7];
 
-                let Model = require('bateeq-models').manufacture.DesignTrackingDesign;
+                let Model = require('mm-models').manufacture.DesignTrackingDesign;
                 let data = new Model();
 
                 let code = generateCode("EFR-DTD");

@@ -5,10 +5,10 @@ const moment = require("moment");
 var ObjectId = require('mongodb').ObjectId;
 
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var Sales = BateeqModels.sales.Sales;
+var MmModels = require('mm-models');
+var Sales = MmModels.sales.Sales;
 
-var map = BateeqModels.map;
+var map = MmModels.map;
 
 module.exports = class ReportManager extends BaseManager {
     constructor(db, user) {

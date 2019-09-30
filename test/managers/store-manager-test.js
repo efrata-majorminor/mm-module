@@ -1,11 +1,11 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.master;
+var validate = require('mm-models').validator.master;
 var generateCode = require('../../src/utils/code-generator');
 var manager;
 
 function getData() {
-    var Store = require('bateeq-models').master.Store;
+    var Store = require('mm-models').master.Store;
     var store = new Store();
 
     var code = generateCode('UnitTest');
