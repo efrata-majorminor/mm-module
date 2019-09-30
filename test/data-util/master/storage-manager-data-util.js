@@ -14,7 +14,7 @@ class StorageManagerDataUtil {
 
     getNewData() {
 
-        var Models = require("bateeq-models").master.Storage;
+        var Models = require("mm-models").master.Storage;
         var storage = new Models();
 
         var now = new Date();

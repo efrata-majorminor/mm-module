@@ -4,7 +4,7 @@ var helper = require("../../../helper");
 var Manager = require("../../../../src/managers/inventory/movement-inventory-manager");
 var manager = null;
 var dataUtil = require("../../../data-util/inventory/movement-inventory-data-util");
-var validate = require("bateeq-models").validator.inventory.movementInventory;
+var validate = require("mm-models").validator.inventory.movementInventory;
 
 before('#00. connect db', function (done) {
     helper.getDb()

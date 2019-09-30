@@ -1,5 +1,5 @@
 'use strict'
-var DLModels = require('bateeq-models');
+var DLModels = require('mm-models');
 var map = DLModels.map;
 var ObjectId = require('mongodb').ObjectId;
 var sqlConnect = require('./sqlConnect');

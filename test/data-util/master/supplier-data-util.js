@@ -13,7 +13,7 @@ class SupplierDataUtil {
     }
 
     getNewData() {
-        var Model = require('bateeq-models').master.Supplier;
+        var Model = require('mm-models').master.Supplier;
         var data = new Model();
 
         var code = generateCode();

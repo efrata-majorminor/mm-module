@@ -6,10 +6,10 @@
     // internal deps
     require('mongodb-toolkit');
     var lodash_ = require('lodash'); // _ is already used by underscore.js
-    var BateeqModels = require('bateeq-models');
-    var map = BateeqModels.map;
+    var MmModels = require('mm-models');
+    var map = MmModels.map;
     var BaseManager = require('module-toolkit').BaseManager;
-    var Storage = BateeqModels.master.storage
+    var Storage = MmModels.master.storage
     var dateFormat = require('dateformat');
 
     module.exports = class StockAvailabilityManager extends BaseManager {

@@ -13,9 +13,9 @@ class FinishedGoodsDataUtil {
     }
 
     getNewData() {
-    var FinishedGoods = require('bateeq-models').master.FinishedGoods;
-    var Material = require('bateeq-models').master.Material;
-    var Component = require('bateeq-models').master.Component;
+    var FinishedGoods = require('mm-models').master.FinishedGoods;
+    var Material = require('mm-models').master.Material;
+    var Component = require('mm-models').master.Component;
     var finishedGoods = new FinishedGoods();
 
     var code = generateCode('UnitTest');

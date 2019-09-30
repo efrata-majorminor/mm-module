@@ -1,10 +1,10 @@
 "use strict";
-const moduleId = "EFR-RB/PR"; 
+const moduleId = "MM-RB/PR"; 
 var ObjectId = require("mongodb").ObjectId;
 require("mongodb-toolkit");
-var BateeqModels = require("bateeq-models");
-var map = BateeqModels.map;
-var PurchaseRequest = BateeqModels.purchasing.PurchaseRequest;
+var MmModels = require("mm-models");
+var map = MmModels.map;
+var PurchaseRequest = MmModels.purchasing.PurchaseRequest;
 var generateCode = require("../../utils/code-generator");
 var BaseManager = require("module-toolkit").BaseManager;
 var i18n = require("dl-i18n");
@@ -12,7 +12,7 @@ var UnitManager = require("../master/unit-manager");
 var BudgetManager = require("../master/budget-manager");
 var CategoryManager = require("../master/category-manager");
 var ProductManager = require("../master/product-manager");
-var prStatusEnum = BateeqModels.purchasing.enum.PurchaseRequestStatus;
+var prStatusEnum = MmModels.purchasing.enum.PurchaseRequestStatus;
 
 module.exports = class PurchaseRequestManager extends BaseManager {
     constructor(db, user) {

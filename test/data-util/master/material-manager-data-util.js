@@ -13,8 +13,8 @@ class MaterialManagerDataUtil {
     }
 
     getNewData() {
-        var Material = require('bateeq-models').master.Material;
-        var Component = require('bateeq-models').master.Component;
+        var Material = require('mm-models').master.Material;
+        var Component = require('mm-models').master.Component;
         var material = new Material();
 
         var now = new Date();

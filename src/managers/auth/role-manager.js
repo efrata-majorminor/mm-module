@@ -2,9 +2,9 @@
 
 var ObjectId = require("mongodb").ObjectId;
 require("mongodb-toolkit");
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
-var Role = BateeqModels.auth.Role;
+var MmModels = require('mm-models');
+var map = MmModels.map;
+var Role = MmModels.auth.Role;
 var BaseManager = require('module-toolkit').BaseManager;
 
 module.exports = class RoleManager extends BaseManager {

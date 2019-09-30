@@ -1,7 +1,7 @@
 var helper = require("../../../helper");
 var Store = require("../../../data-util/master/store-manager-data-util");
 var StoreManager = require("../../../../src/managers/master/store-manager");
-var validate = require("bateeq-models").validator.master.store;
+var validate = require("mm-models").validator.master.store;
 var instanceManager = null;
 var should = require("should");
 

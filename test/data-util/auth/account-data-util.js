@@ -29,7 +29,7 @@ class AccountDataUtil {
 
         return Promise.all([getRole, getStore])
             .then(results => {
-                var Model = require("bateeq-models").auth.Account;
+                var Model = require("mm-models").auth.Account;
                 var data = new Model();
 
                 var code = generateCode();

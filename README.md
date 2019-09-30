@@ -1,9 +1,9 @@
 
-[![Build Status](https://travis-ci.org/danliris/bateeq-module.svg?branch=dev)](https://travis-ci.org/danliris/bateeq-module)
+[![Build Status](https://travis-ci.org/efrata-majorminor/mm-module-module.svg?branch=dev)](https://travis-ci.org/efrata-majorminor/mm-module)
 
-[![Coverage Status](https://coveralls.io/repos/github/danliris/bateeq-module/badge.svg?branch=dev)](https://coveralls.io/github/danliris/bateeq-module?branch=dev) 
+[![Coverage Status](https://coveralls.io/repos/github/efrata-majorminor/mm-module/badge.svg?branch=dev)](https://coveralls.io/github/efrata-majorminor/mm-module?branch=dev) 
 
 
 
-# bateeq-module
-bateeq module
+# mm-module
+major minor module

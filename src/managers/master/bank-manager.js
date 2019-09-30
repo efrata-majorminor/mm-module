@@ -6,9 +6,9 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var Bank = BateeqModels.master.Bank;
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var Bank = MmModels.master.Bank;
+var map = MmModels.map;
 //var generateCode = require('../../utils/code-generator');
 
 module.exports = class BankManager extends BaseManager {

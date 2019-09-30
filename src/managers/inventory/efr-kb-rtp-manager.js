@@ -5,17 +5,17 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var generateCode = require('../../utils/code-generator');
-var map = BateeqModels.map;
+var map = MmModels.map;
 var BaseManager = require('module-toolkit').BaseManager;
-var TransferOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransferOutItem = BateeqModels.inventory.TransferOutItem;
-var ExpeditionDoc = BateeqModels.inventory.ExpeditionDoc;
-var SPKDoc = BateeqModels.merchandiser.SPK;
+var TransferOutDoc = MmModels.inventory.TransferOutDoc;
+var TransferOutItem = MmModels.inventory.TransferOutItem;
+var ExpeditionDoc = MmModels.inventory.ExpeditionDoc;
+var SPKDoc = MmModels.merchandiser.SPK;
 
-var moduleId = "EFR-KB/RTP";
-const modulePackingList = "EFR-KB/PLR";
+var moduleId = "MM-KB/RTP";
+const modulePackingList = "MM-KB/PLR";
 
 module.exports = class TokoKirimBarangReturnManager extends BaseManager {
     constructor(db, user) {
@@ -75,7 +75,7 @@ module.exports = class TokoKirimBarangReturnManager extends BaseManager {
                             var spkDoc = {};
                             var validspkDoc;
                             var PlSPK;
-                            spkDoc.code = generateCode("EFR-PK/PBJ");
+                            spkDoc.code = generateCode("MM-PK/PBJ");
                             spkDoc.source = validTransferOutDoc.source;
                             spkDoc.sourceId = validTransferOutDoc.source._id;
                             spkDoc.destination = validTransferOutDoc.destination;
@@ -103,7 +103,7 @@ module.exports = class TokoKirimBarangReturnManager extends BaseManager {
                                             var ekspedisiDoc = {};
                                             var eksCode;
                                             var validEkspedisiDoc;
-                                            ekspedisiDoc.code = generateCode("EFR-KB/EXP");
+                                            ekspedisiDoc.code = generateCode("MM-KB/EXP");
                                             eksCode = ekspedisiDoc.code;
                                             ekspedisiDoc.expedition = transferOutDoc.expedition;
                                             validEkspedisiDoc = ekspedisiDoc;

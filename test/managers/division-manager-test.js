@@ -1,11 +1,11 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.master;
+var validate = require('mm-models').validator.master;
 var generateCode = require('../../src/utils/code-generator');
 var manager;
 
 function getData() {
-    var Division = require('bateeq-models').master.Division;
+    var Division = require('mm-models').master.Division;
     var division = new Division();
 
     var code = generateCode('UnitTest');

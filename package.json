@@ -1,7 +1,7 @@
 {
-  "name": "bateeq-module",
+  "name": "mm-module",
   "version": "1.0.0",
-  "description": "bateeq module",
+  "description": "major minor module",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/index.js",
@@ -11,16 +11,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danliris/bateeq-module.git"
+    "url": "git+https://github.com/efrata-majorminor/mm-module.git"
   },
   "author": "Tris Setiawan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/danliris/bateeq-module/issues"
+    "url": "https://github.com/efrata-majorminor/mm-module/issues"
   },
-  "homepage": "https://github.com/danliris/bateeq-module#readme",
+  "homepage": "https://github.com/efrata-majorminor/mm-module#readme",
   "dependencies": {
-    "bateeq-models": "git+https://git@github.com/danliris/bateeq-models.git",
+    "mm-models": "git+https://git@github.com/efrata-majorminor/mm-models.git",
     "dateformat": "^2.0.0",
     "hashids": "^1.1.0",
     "js-toolkit": "git+https://github.com/pinkgorilla/js-toolkit.git",

@@ -1,10 +1,10 @@
 'use strict';
 
-var Item = require('bateeq-models').master.Item;
-var Material = require('bateeq-models').master.Material;
-var FinishedGoods = require('bateeq-models').master.FinishedGoods;
+var Item = require('mm-models').master.Item;
+var Material = require('mm-models').master.Material;
+var FinishedGoods = require('mm-models').master.FinishedGoods;
 
-var Component = require('bateeq-models').master.Component;
+var Component = require('mm-models').master.Component;
 
 var ObjectId = require('mongodb').ObjectId;
 var Hashids = require("hashids");

@@ -1,6 +1,6 @@
 var should = require('should');
 var helper = require('../helper');
-var validate = require('bateeq-models').validator.merchandiser;
+var validate = require('mm-models').validator.merchandiser;
 var manager;
 var testData;
 

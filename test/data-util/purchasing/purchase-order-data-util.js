@@ -7,10 +7,10 @@ var vat = require('../master/vat-data-util');
 var category = require('../master/category-data-util');
 var PurchaseRequest = require('./purchase-request-data-util');
 var product = require('../master/product-data-util');
-var BateeqModels = require('bateeq-models');
-var Currency = BateeqModels.master.Currency;
-var Buyer = BateeqModels.master.Buyer;
-var Supplier = BateeqModels.master.Supplier;
+var MmModels = require('mm-models');
+var Currency = MmModels.master.Currency;
+var Buyer = MmModels.master.Buyer;
+var Supplier = MmModels.master.Supplier;
 
 class PurchaseOrderDataUtil {
     getNewData(pr) { 

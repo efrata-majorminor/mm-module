@@ -1,7 +1,7 @@
 var helper = require("../../../helper");
 var Division = require("../../../data-util/master/division-manager-data-util");
 var DivisionManager = require("../../../../src/managers/master/division-manager");
-var validate = require("bateeq-models").validator.master.Division;
+var validate = require("mm-models").validator.master.Division;
 var instanceManager = null;
 var should = require("should");
 

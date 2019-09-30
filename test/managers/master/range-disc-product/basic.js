@@ -1,6 +1,6 @@
 var should = require("should");
 var helper = require("../../../helper");
-var validate = require("bateeq-models").validator.master.rangeDiscProduct;
+var validate = require("mm-models").validator.master.rangeDiscProduct;
 var RangeDiscProduct = require("../../../data-util/master/range-disc-product-data-util");
 var RangeDiscProductManager = require("../../../../src/managers/master/range-disc-product-manager");
 var instanceManager = null;

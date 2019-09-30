@@ -6,15 +6,15 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var Promo = BateeqModels.sales.Promo;
-var PromoCriteria = BateeqModels.sales.PromoCriteria;
-var PromoReward = BateeqModels.sales.PromoReward;
-var PromoCriteriaSelectedProduct = BateeqModels.sales.PromoCriteriaSelectedProduct;
-var PromoRewardDiscountProduct = BateeqModels.sales.PromoRewardDiscountProduct;
-var PromoCriteriaPackage = BateeqModels.sales.PromoCriteriaPackage;
-var PromoRewardSpecialPrice = BateeqModels.sales.PromoRewardSpecialPrice;
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var Promo = MmModels.sales.Promo;
+var PromoCriteria = MmModels.sales.PromoCriteria;
+var PromoReward = MmModels.sales.PromoReward;
+var PromoCriteriaSelectedProduct = MmModels.sales.PromoCriteriaSelectedProduct;
+var PromoRewardDiscountProduct = MmModels.sales.PromoRewardDiscountProduct;
+var PromoCriteriaPackage = MmModels.sales.PromoCriteriaPackage;
+var PromoRewardSpecialPrice = MmModels.sales.PromoRewardSpecialPrice;
+var map = MmModels.map;
 //var generateCode = require('../../utils/code-generator');
 
 module.exports = class PromoManager extends BaseManager {

@@ -7,11 +7,11 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var Sales = BateeqModels.sales.Sales;
-var TransferOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransferInDoc = BateeqModels.inventory.TransferInDoc;
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var Sales = MmModels.sales.Sales;
+var TransferOutDoc = MmModels.inventory.TransferOutDoc;
+var TransferInDoc = MmModels.inventory.TransferInDoc;
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
 
 // constant

@@ -1,19 +1,19 @@
 'use strict'
-const moduleId = "EFR-RB/URN";
+const moduleId = "MM-RB/URN";
 var ObjectId = require("mongodb").ObjectId;
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
+var MmModels = require('mm-models');
 var assert = require('assert');
-var map = BateeqModels.map;
+var map = MmModels.map;
 var i18n = require('dl-i18n');
-var UnitReceiptNote = BateeqModels.purchasing.UnitReceiptNote;
+var UnitReceiptNote = MmModels.purchasing.UnitReceiptNote;
 var PurchaseOrderManager = require('./purchase-order-manager');
 var DeliveryOrderManager = require('./delivery-order-manager');
 var UnitManager = require('../master/unit-manager');
 var SupplierManager = require('../master/supplier-manager');
 var BaseManager = require('module-toolkit').BaseManager;
 var generateCode = require('../../utils/code-generator');
-var poStatusEnum = BateeqModels.purchasing.enum.PurchaseOrderStatus;
+var poStatusEnum = MmModels.purchasing.enum.PurchaseOrderStatus;
 var StorageManager = require('../master/storage-manager');
 var TextileInventoryDocumentManager = require('../inventory/inventory-document-manager');
 

@@ -1,5 +1,5 @@
 'use strict'
-var DLModels = require('bateeq-models');
+var DLModels = require('mm-models');
 var map = DLModels.map;
 var fs = require("fs");
 var BaseManager = require('module-toolkit').BaseManager;

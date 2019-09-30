@@ -6,14 +6,14 @@ var ObjectId = require('mongodb').ObjectId;
 // internal deps
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
 
-var TransferInDoc = BateeqModels.inventory.TransferInDoc;
-var TransferInItem = BateeqModels.inventory.TransferInItem;
+var TransferInDoc = MmModels.inventory.TransferInDoc;
+var TransferInItem = MmModels.inventory.TransferInItem;
 
-const moduleId = "EFR-TB/BAT";
+const moduleId = "MM-TB/BAT";
 
 module.exports = class TokoTerimaAksesorisManager extends BaseManager {
     constructor(db, user) {
@@ -53,7 +53,7 @@ module.exports = class TokoTerimaAksesorisManager extends BaseManager {
                 _deleted: false
             };
 
-            var regex = new RegExp("EFR\-PK/\PBA", "i");
+            var regex = new RegExp("MM\-PK/\PBA", "i");
             var filterCode = {
                 'code': {
                     '$regex': regex

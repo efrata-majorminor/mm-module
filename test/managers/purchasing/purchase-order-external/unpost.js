@@ -2,7 +2,7 @@ require("should");
 var helper = require("../../../helper");
 
 var purchaseOrderDataUtil = require("../../../data-util/purchasing/purchase-order-data-util");
-var validatePR = require("bateeq-models").validator.purchasing.purchaseOrder;
+var validatePR = require("mm-models").validator.purchasing.purchaseOrder;
 var PurchaseOrderManager = require("../../../../src/managers/purchasing/purchase-order-manager");
 var purchaseOrderManager = null;
 var purchaseOrders;
@@ -12,13 +12,13 @@ var purchaseRequestManager = null;
 var purchaseRequests;
 
 var purchaseOrderExternalDataUtil = require("../../../data-util/purchasing/purchase-order-external-data-util");
-var validatePO = require("bateeq-models").validator.purchasing.purchaseOrderExternal;
+var validatePO = require("mm-models").validator.purchasing.purchaseOrderExternal;
 var PurchaseOrderExternalManager = require("../../../../src/managers/purchasing/purchase-order-external-manager");
 var purchaseOrderExternalManager = null;
 var purchaseOrderExternal;
 
-var poStatusEnum = require("bateeq-models").purchasing.enum.PurchaseOrderStatus;
-var prStatusEnum = require("bateeq-models").purchasing.enum.PurchaseRequestStatus;
+var poStatusEnum = require("mm-models").purchasing.enum.PurchaseOrderStatus;
+var prStatusEnum = require("mm-models").purchasing.enum.PurchaseRequestStatus;
 
 before('#00. connect db', function (done) {
     helper.getDb()

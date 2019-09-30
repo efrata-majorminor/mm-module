@@ -54,12 +54,12 @@ module.exports = function (unitPaymentOrder, offset) {
     var header = [{
         columns: [
             {
-                width: '40%',
+                width: '45%',
                 stack: [{
-                    text: 'PT EFRATA RETAILINDO',
+                    text: 'PT. MAJOR MINOR KREASI NUSANTARA',
                     style: ['size20', 'bold']
                 }, {
-                    text: 'BANARAN, GROGOL, SUKOHARJO',
+                    text: 'Equity Tower 15th Floor Suite C, SCBD Lot 9, Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190',
                     style: ['size08']
                 }]
             }, {
@@ -84,7 +84,7 @@ module.exports = function (unitPaymentOrder, offset) {
                         style: ['size08']
                     }, {
                         alignment: "left",
-                        text: 'SUKOHARJO, ' + `${moment(unitPaymentOrder.date).add(offset, 'h').format(locale.date.format)}`,
+                        text: 'JAKARTA, ' + `${moment(unitPaymentOrder.date).add(offset, 'h').format(locale.date.format)}`,
                         style: ['size08']
                     }, {
                         alignment: "left",

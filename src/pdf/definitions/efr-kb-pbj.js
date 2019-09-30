@@ -74,9 +74,9 @@ module.exports = function (spkDocs) {
             {
                 width: "50%",
                 stack: [
-                    { text: "PT EFRATA RETAILINDO", style: ['size08', 'bold'] },
+                    { text: "PT. MAJOR MINOR KREASI NUSANTARA", style: ['size08', 'bold'] },
                     {
-                        text: "Kel. Banaran, Kec. Grogol, Kab.Sukoharjo 57193 Jawa Tengah, Indonesia",
+                        text: "Equity Tower 15th Floor Suite C, SCBD Lot 9, Jl. Jenderal Sudirman Kav 52-53 Jakarta 12190, Indonesia",
                         style: ['size08']
                     }
                 ]

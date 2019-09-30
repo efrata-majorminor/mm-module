@@ -5,9 +5,9 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
-var ArticleSubProcess = BateeqModels.master.article.ArticleSubProcess;
+var MmModels = require('mm-models');
+var map = MmModels.map;
+var ArticleSubProcess = MmModels.master.article.ArticleSubProcess;
 var BaseManager = require('module-toolkit').BaseManager;
 
 module.exports = class ArticleSubProcessManager extends BaseManager {

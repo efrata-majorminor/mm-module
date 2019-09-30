@@ -4,7 +4,7 @@ var helper = require("../../../helper");
 var DocumentInventoryManager = require("../../../../src/managers/inventory/document-inventory-manager");
 var DocumentInventoryManager = null;
 var DocumentInventoryDataUtil = require("../../../data-util/inventory/document-inventory-data-util");
-var validate = require("bateeq-models").validator.inventory.documentInventory;
+var validate = require("mm-models").validator.inventory.documentInventory;
 
 before('#00. connect db', function (done) {
     helper.getDb()

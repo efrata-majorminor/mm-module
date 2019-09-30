@@ -5,11 +5,11 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var BaseManager = require('module-toolkit').BaseManager;
-var Inventory = BateeqModels.inventory.Inventory;
-var InventoryMovement = BateeqModels.inventory.InventoryMovement;
+var Inventory = MmModels.inventory.Inventory;
+var InventoryMovement = MmModels.inventory.InventoryMovement;
 
 module.exports = class InventoryManager extends BaseManager {
     constructor(db, user) {
@@ -96,15 +96,24 @@ module.exports = class InventoryManager extends BaseManager {
                         '$regex': regex
                     }
                 };
+                var filterArticle = {
+                    'item.article.realizationorder': {
+                        '$regex': regex
+                    }
+                };
+                var filterDomesticSale = {
+                    'item.domesticsale': {
+                        '$regex': regex
+                    }
+                };
                 var $or = {
-                    '$or': [filterCode, filterName]
+                    '$or': [filterCode, filterName, filterArticle, filterDomesticSale]
                 };
 
                 query['$and'].push($or);
             }
 
-            var _select = ["storageId", "itemId", "item.code", "item.name", "quantity"];
-
+            var _select = ["storageId", "itemId", "item.code", "item.name", "item.article.realizationOrder", "quantity", "item.domesticSale"];
 
             this.collection
                 .where(query)

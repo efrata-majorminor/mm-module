@@ -4,20 +4,20 @@
 var ObjectId = require('mongodb').ObjectId;
 require('mongodb-toolkit');
 var BaseManager = require('module-toolkit').BaseManager;
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 var generateCode = require('../../utils/code-generator');
-var SODoc = BateeqModels.inventory.StockOpnameDoc;
-var SODocItem = BateeqModels.inventory.StockOpnameDocItem;
-var TransInDoc = BateeqModels.inventory.TransferInDoc;
-var TransInItem = BateeqModels.inventory.TransferInItem;
-var TransOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransOutItem = BateeqModels.inventory.TransferOutItem;
-var StockOpnameBalance = BateeqModels.inventory.StockOpnameBalance;
-var OpnameProduct = BateeqModels.inventory.StockOpnameProductRecord;
+var SODoc = MmModels.inventory.StockOpnameDoc;
+var SODocItem = MmModels.inventory.StockOpnameDocItem;
+var TransInDoc = MmModels.inventory.TransferInDoc;
+var TransInItem = MmModels.inventory.TransferInItem;
+var TransOutDoc = MmModels.inventory.TransferOutDoc;
+var TransOutItem = MmModels.inventory.TransferOutItem;
+var StockOpnameBalance = MmModels.inventory.StockOpnameBalance;
+var OpnameProduct = MmModels.inventory.StockOpnameProductRecord;
 var moment = require('moment');
 
-var moduleId = "EFR-SO/INT";
+var moduleId = "MM-SO/INT";
 
 module.exports = class StockOpnameDocManager extends BaseManager {
     constructor(db, user) {
@@ -510,7 +510,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                         var inDoc = new TransInDoc();
                         var outDoc = new TransOutDoc();
                         if (dataIn.length > 0) {
-                            inDoc.code = generateCode("EFR-TB/SO");
+                            inDoc.code = generateCode("MM-TB/SO");
                             inDoc.source = result.storage;
                             inDoc.sourceId = new ObjectId(result.storageId);
                             inDoc.destination = result.storage;
@@ -523,7 +523,7 @@ module.exports = class StockOpnameDocManager extends BaseManager {
                             inDoc.stamp(this.user.username, 'manager');
                         }
                         if (dataOut.length > 0) {
-                            outDoc.code = generateCode("EFR-KB/SO");
+                            outDoc.code = generateCode("MM-KB/SO");
                             outDoc.source = result.storage;
                             outDoc.sourceId = new ObjectId(result.storageId);
                             outDoc.destination = result.storage;

@@ -1,8 +1,8 @@
 const options = {
     manager: require('../../../../src/managers/manufacture/design-tracking-board-manager'),
-    model: require('bateeq-models').manufacture.DesignTrackingBoard,
+    model: require('mm-models').manufacture.DesignTrackingBoard,
     util: require('../../../data-util/manufacture/design-tracking-board-data-util'),
-    validator: require('bateeq-models').validator.manufacture.designTrackingBoard,
+    validator: require('mm-models').validator.manufacture.designTrackingBoard,
     createDuplicate: false,
     keys: []
 };

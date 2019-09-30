@@ -6,16 +6,16 @@ var ObjectId = require('mongodb').ObjectId;
 
 // internal deps
 require('mongodb-toolkit');
-var BateeqModels = require('bateeq-models');
-var map = BateeqModels.map;
+var MmModels = require('mm-models');
+var map = MmModels.map;
 
-var ExpeditionDoc = BateeqModels.inventory.ExpeditionDoc;
-var TransferOutDoc = BateeqModels.inventory.TransferOutDoc;
-var TransferOutItem = BateeqModels.inventory.TransferOutItem;
-var SPK = BateeqModels.merchandiser.SPK;
+var ExpeditionDoc = MmModels.inventory.ExpeditionDoc;
+var TransferOutDoc = MmModels.inventory.TransferOutDoc;
+var TransferOutItem = MmModels.inventory.TransferOutItem;
+var SPK = MmModels.merchandiser.SPK;
 var generateCode = require('../../utils/code-generator');
 
-const moduleId = "EFR-KB/EXB";
+const moduleId = "MM-KB/EXB";
 module.exports = class PusatBarangBaruKirimBarangJadiAksesorisManager {
     constructor(db, user) {
         this.db = db;
