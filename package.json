@@ -26,7 +26,7 @@
     "js-toolkit": "git+https://github.com/pinkgorilla/js-toolkit.git",
     "lodash": "^4.17.4",
     "module-toolkit": "git+https://github.com/pinkgorilla/module-toolkit.git",
-    "moment": "2.17.1",
+    "moment": "2.24.0",
     "mongo-factory": "^1.0.0",
     "mongodb-toolkit": "git+https://github.com/pinkgorilla/mongodb-toolkit.git",
     "mssql": "^3.3.0",
