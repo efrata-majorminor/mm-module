@@ -589,6 +589,15 @@ module.exports = class InventoryManager extends BaseManager {
                     });
 
                     inventory.quantity += quantity;
+                
+                    if (inventory.storage.code == 'GTM.01' && inventory.quantity < 0) {
+                        movement.before = (originQuantity - quantity)
+                        movement.after = (movement.before + quantity)
+                        inventory.quantity = 0
+                    }
+                     else {
+                        movement.before = originQuantity
+                     }
 
                     var updateInventory = this.update(inventory);
                     var createMovement = this.inventoryMovementManager.create(movement);
